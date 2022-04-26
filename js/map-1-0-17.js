@@ -949,33 +949,33 @@ var SeaplApp = new Vue({
             GetRelax(get_relax);
         }
 
-                map.addEventListener('mapviewchange', function() {
+                map.addEventListener('mapviewchange', () => {
                     clearTimeout(update_timeout);
-                    update_timeout = setTimeout(SeaplApp.GetNewData(), 1000);
+                    update_timeout = setTimeout(() => this.GetNewData(), 1000);
 
                     $('#weather-widget').removeClass('weather-widget-hover');
                 });
 
-                SeaplApp.GetNewData();
+                this.GetNewData();
 
         $.ajax({
             url    : `/back/map_prepare.json`,
             type   : 'GET',
-            success: function(data) {
+            success: (data) => {
                 for (let i in data) {
                     prepare_demo_place_group.push({count: data[i].count,
                         coord: [data[i].latitude,
                         data[i].longitude]});
                 }
-                SeaplApp.prepare_places = data;
+                this.prepare_places = data;
             }
         });
 
         $.ajax({
             url    : "components/socialnets.json",
             type   : "GET",
-            success: function(data) {
-                SeaplApp.snd = data;
+            success: (data) => {
+                this.snd = data;
             }
         });
 
@@ -984,7 +984,7 @@ var SeaplApp = new Vue({
                 url    : "/back/get-user.php",
                 type   : "POST",
                 data   : {login: this.login, password: this.password},
-                success: function(data) {
+                success: (data) => {
                     data = JSON.parse(data);
 
                     let person = {};
@@ -1003,20 +1003,20 @@ var SeaplApp = new Vue({
                     person.city    = data.city;
                     person.social  = JSON.parse(data.social);
 
-                    SeaplApp.person = person;
+                    this.person = person;
                 }
             });
         }
     },
     methods: {
-        GetNewData: function() {
+        GetNewData() {
             if(map.getZoom() > 10) {
                 if(!old_places_updata || getDistance(old_places_updata, map.getCenter()) > 1500) {
                     old_places_updata = map.getCenter();
                     $.ajax({
                         url    : `/back/get-places-by-coord.php?latitude=${map.getCenter().lat}&longitude=${map.getCenter().lng}`,
                         type   : 'GET',
-                        success: function(data) {
+                        success: (data) => {
                             demo_place_group = [];
 
                             data = JSON.parse(data);
@@ -1028,9 +1028,9 @@ var SeaplApp = new Vue({
                                 data[i].social       = JSON.parse(data[i].social);
                                 demo_place_group.push({place: data[i], index: i})
                             }
-                            SeaplApp.places = data;
+                            this.places = data;
 
-                            SeaplApp.DrawMap();
+                            this.DrawMap();
                         }
                     });
                 }
@@ -1046,18 +1046,18 @@ var SeaplApp = new Vue({
 
                         geocoder.reverseGeocode(
                             geocodingParameters,
-                            function(result) {
+                            (result) => {
                                 if (!!result.Response.View[0]) {
                                     var location = result.Response.View[0].Result[0];
 
                                     let city = location.Location.Address.City;
-                                    if(old_city_updata != city) {
+                                    if(old_city_updata !== city) {
                                         old_city_updata = city;
                                         fetch(`/api/event/vk?city=${city}`).then(res => {
                                             return res.json();
                                         }).then(events => {
-                                            SeaplApp.events_data = events;
-                                            SeaplApp.DrawMap();
+                                            this.events_data = events;
+                                            this.DrawMap();
                                         });
                                     }
                                 }
@@ -1071,7 +1071,7 @@ var SeaplApp = new Vue({
                     $.ajax({
                         url    : `/back/get-map-groups.php?latitude=${map.getCenter().lat}&longitude=${map.getCenter().lng}`,
                         type   : 'GET',
-                        success: function(data) {
+                        success: (data) => {
                             data = JSON.parse(data);
 
                             prepare_demo_groups_group = [];
@@ -1082,17 +1082,17 @@ var SeaplApp = new Vue({
                                     data[i].longitude]});
                             }
 
-                            SeaplApp.groups = data;
+                            this.groups = data;
 
-                            SeaplApp.DrawMap();
+                            this.DrawMap();
                         }
                     });
                 }
             } else if(old_zoom_update != map.getZoom() || map.getZoom() <= 10) {
-                SeaplApp.DrawMap();
+                this.DrawMap();
             }
         },
-        DrawMap: function() {
+        DrawMap() {
             let prepear_place_data = [];
                 old_zoom_update    = map.getZoom();
 
@@ -1215,7 +1215,7 @@ var SeaplApp = new Vue({
 
             for(let pl of prepear_place_data) {
                 if(map.getZoom() > 10) {
-                    if(pl.count == 1) {
+                    if(pl.count === 1) {
                         addPlaceToMap(pl.data, pl.index);
                     } else {
                         addGroupPlaceToMap(pl.count, pl.coord);
@@ -1226,10 +1226,10 @@ var SeaplApp = new Vue({
             }
 
             prepare_demo_place_group = [];
-            for (let i in SeaplApp.prepare_places) {
-                prepare_demo_place_group.push({count: SeaplApp.prepare_places[i].count,
-                    coord: [SeaplApp.prepare_places[i].latitude,
-                    SeaplApp.prepare_places[i].longitude]});
+            for (let i in this.prepare_places) {
+                prepare_demo_place_group.push({count: this.prepare_places[i].count,
+                    coord: [this.prepare_places[i].latitude,
+                        this.prepare_places[i].longitude]});
             }
 
                 let cat                             = "";
@@ -1281,23 +1281,23 @@ var SeaplApp = new Vue({
                     data: {
                         url: `https://weather.api.here.com/weather/1.0/report.json?app_id=UdRH6PlISTlADYsW6mzl&app_code=lfrrTheP9nBedeJyy1NtIA&product=forecast_7days_simple&latitude=${map.getCenter().lat}&longitude=${map.getCenter().lng}&language=russian`
                     },
-                    success: function(data) {
-                        SeaplApp.choose_place_weather = JSON.parse(data);
+                    success: (data) => {
+                        this.choose_place_weather = JSON.parse(data);
                     }
                 });
             }
         },
-        Search: function() {
+        Search() {
             if(!!this.search_text) {
                 searched_group.removeAll();
 
                 $('.place-icon-block').css('display', 'block');
                 $('.searched-chip').css('display', 'block');
 
-                place_group.forEach(function(place) {
+                place_group.forEach((place) => {
                     let bool = false;
-                    for(let i in SeaplApp.FiltredPlaces) {
-                        if (SeaplApp.places[place.label].id == SeaplApp.FiltredPlaces[i].id) {
+                    for(let i in this.FiltredPlaces) {
+                        if (this.places[place.label].id === this.FiltredPlaces[i].id) {
                             bool = true;
                         }
                     }
@@ -1309,7 +1309,7 @@ var SeaplApp = new Vue({
                 geocode(platform, this.search_text);
             }
         },
-        ClearSearch: function() {
+        ClearSearch() {
             this.search_text = "";
 
             $('.place-icon-block').css('display', 'block');
@@ -1317,7 +1317,7 @@ var SeaplApp = new Vue({
 
             searched_group.removeAll();
         },
-        AddRating: function(event) {
+        AddRating(event) {
             if(this.choose_place.count_rating.indexOf(localStorage.getItem('user_id')) < 0) {
                 let new_rating               = Math.round((event.pageX - $(event.target).offset().left)/$(event.target).width()*5-0.5)+1;
                     this.choose_place.rating = (this.choose_place.rating * this.choose_place.count_rating.length + new_rating * 200000) /
@@ -1329,7 +1329,7 @@ var SeaplApp = new Vue({
                     type   : 'POST',
                     data   : {data: "rating", id: this.choose_place.id, rating: this.choose_place.rating, count_rating: this.choose_place.count_rating},
                     success: function(data) {
-                        if(data == "well") {
+                        if(data === "well") {
                             alert("Спасибо! Ваше мнение очень важно для всех :)");
                         }
                     }
@@ -1347,22 +1347,22 @@ var SeaplApp = new Vue({
                 group               = null;
             }
         },
-        Route: function() {
-            SeaplApp.CanselRoute();
-            SeaplApp.to_coord = this.choose_place.route[this.choose_place.route.length - 1];
+        Route() {
+            this.CanselRoute();
+            this.to_coord = this.choose_place.route[this.choose_place.route.length - 1];
             map.addEventListener('tap', ChooseFrom);
         },
-        OpenComment: function(place_id) {
+        OpenComment(place_id) {
             $.ajax({
                 url    : '/back/get_comment.php',
                 type   : 'POST',
                 data   : {place_id: place_id},
-                success: function(data) {
-                    SeaplApp.comments = JSON.parse(data);
+                success: (data) => {
+                    this.comments = JSON.parse(data);
                 }
             });
         },
-        SendComment: function() {
+        SendComment() {
             if(!!this.text_comment) {
                 let new_comment = {
                     place_id    : this.choose_place.id,
@@ -1409,7 +1409,7 @@ var SeaplApp = new Vue({
 
             M.toast({html: `Ссылка скопирована в буфер обмена`, classes: 'rounded'});
         },
-        ScrollWB: function(lr) {
+        ScrollWB(lr) {
             let el = document.getElementById("weather-block");
             if(lr == 0) {
                 $(el).animate({scrollLeft: el.scrollLeft - (el.scrollWidth / 7)}, 250);
@@ -1417,15 +1417,15 @@ var SeaplApp = new Vue({
                 $(el).animate({scrollLeft: el.scrollLeft + (el.scrollWidth / 7)}, 250);
             }
         },
-        CanselRelax: function() {
-            SeaplApp.get_relax_regime = false;
+        CanselRelax() {
+            this.get_relax_regime = false;
             map.removeObject(relax_area);
             this.here_cats.eat_drink     = false;
             this.here_cats.accommodation = false;
             this.here_cats.shopping      = false;
             localStorage.removeItem('get_relax')
         },
-        FromAtoBRelax: function() {
+        FromAtoBRelax() {
             this.is_from_a_to_b = 1;
 
             from_a_to_b_relax_points = [];
@@ -1436,16 +1436,16 @@ var SeaplApp = new Vue({
             );
             sidenav.close();
         },
-        FromAtoBRelaxClose: function() {
+        FromAtoBRelaxClose() {
             this.is_from_a_to_b      = 0;
             from_a_to_b_relax_points = [];
             from_a_to_b_relax_group.removeAll();
         }
     },
     computed: {
-        FiltredPlaces: function() {
-            return this.places.filter(function(el) {
-                let st   = SeaplApp.search_text.toLowerCase();
+        FiltredPlaces() {
+            return this.places.filter((el) => {
+                let st   = this.search_text.toLowerCase();
                 let bool = false;
                 for (let i in el.tags) {
                     if (el.tags[i].indexOf(st) > -1) bool = true;
@@ -1455,7 +1455,7 @@ var SeaplApp = new Vue({
         }
     },
     watch: {
-        type_route: function() {
+        type_route() {
             if(this.from_coord.length > 0) {
                 calculateRouteFromAtoB(platform);
             }
