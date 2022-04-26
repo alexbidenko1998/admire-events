@@ -10,11 +10,7 @@ if(isset($_GET['city'])) {
 }
 
 $accessToken = "b729cb0cb729cb0cb729cb0c58b7430695bb729b729cb0cebc224a2bec232fef2071045";
-$accessToken2 = "c7fbb6450b80d7cf1d2555dde37874260bcea9ea4bd49fe9bd58d7b234d9c42bdd1cd0d501d7311426fcb";
-
-
-echo file_get_contents("https://oauth.vk.com/access_token?client_id=6999449&client_secret=".$accessToken."&redirect_uri=https://events.admire.social/&code=a4145979a09ee56e9e");
-
+$accessToken2 = "4c5784217a08d6d24bb15a509379e54b7e26b5431d2913a3c9937d51fa11be4302a251896c905efd43c57";
 
 $VKCities = file_get_contents("https://api.vk.com/method/database.getCities?country_id=1&q=".$city
     ."&need_all=1&access_token=".$accessToken."&count=1&v=5.131");
