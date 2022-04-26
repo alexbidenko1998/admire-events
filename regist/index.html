@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Admire - Добро пожаловать к нам</title>
-    <link rel="shortcut icon" href="site-images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/site-images/favicon.ico" type="image/x-icon">
     <meta charset="utf-8">
     <meta name="keywords" content="Карта, интересные места, провести время, куда сходить, регистрация">
     <meta name="description" content="Сайт даст возможность и информацию для любого желающего узнать, куда можно сходить, как провести время и с кем провести время, регистрация на сайте">
@@ -14,14 +14,14 @@
     <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
+
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
-    
-    <link rel="stylesheet" href="css/regist.css">
+
+    <link rel="stylesheet" href="/css/regist.css">
     <style type="text/css">
         body {
             height: 100Vh;
@@ -51,10 +51,10 @@
     </style>
 </head>
 <body class="grey lighten-5">
-    
+
 <div id="SeaplApp">
 
-<div class="position-fixed d-inline z-depth-2" style="top: 0; left: 0; z-index: 100; 
+<div class="position-fixed d-inline z-depth-2" style="top: 0; left: 0; z-index: 100;
         border-bottom-right-radius: 16px; background: #666;">
     <a class="waves-effect waves-light btn-flat text-white" href="/">
         <i class="material-icons left">arrow_back</i><span class="d-none d-lg-inline">Главная</span>
@@ -62,7 +62,7 @@
 </div>
 
 <div class="container card-panel mx-auto grey lighten-5 p-0 z-depth-2 mt-5" style="border-radius: 16px;">
-    <div class="btn-group btn-group-toggle w-100 row m-0 pb-1" style="border-top-left-radius: 16px; 
+    <div class="btn-group btn-group-toggle w-100 row m-0 pb-1" style="border-top-left-radius: 16px;
         border-top-right-radius: 16px; overflow: hidden;" data-toggle="buttons">
         <label class="btn waves-effect waves-light white col s6" @click="form_regime=0"
             style="color: black;" :class="{'active': (form_regime==0)}">
@@ -202,25 +202,25 @@
         <button class="btn-flat waves-effect waves-light" @click="Sing">{{text_enter_button}}</button>
     </div>
 </div>
-    
+
 </div>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    
+
 <script type="text/javascript">
     $(document).ready(function(){
         $('.sidenav').sidenav();
     });
-        
+
     var SeaplApp = new Vue({
         el: '#SeaplApp',
         data: {
             form_regime: 0,
             text_enter_button: "Вход",
             text_message: "",
-    
+
             login: "",
             first_name: "",
             last_name: "",
@@ -233,7 +233,7 @@
             vk: "",
 
             vk_get_result: false,
-    
+
             login_enter: "",
             password_enter: ""
         },

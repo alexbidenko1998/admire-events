@@ -1,7 +1,8 @@
 <!doctype html>
-<html>
+<html lang="ru">
 <head>
     <title>Admire - С каждым местом мир лучше</title>
+    <meta charset="UTF-8">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138158685-1"></script>
     <script>
@@ -11,7 +12,7 @@
 
         gtag('config', 'UA-138158685-1');
     </script>
-    <link rel="shortcut icon" href="site-images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/site-images/favicon.ico" type="image/x-icon">
     <meta charset="utf-8">
     <meta name="keywords" content="Карта, интересные места, провести время, куда сходить, добавить место">
     <meta name="description" content="Сайт даст возможность и информацию для любого желающего узнать, куда можно сходить, как провести время и с кем провести время, добавляйте и свои места">
@@ -23,14 +24,14 @@
     <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
+
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
-    
-    <link rel="stylesheet" href="css/add-place.css">
+
+    <link rel="stylesheet" href="/css/add-place.css">
     <style type="text/css">
         nav a:hover {
             text-decoration: none;
@@ -47,7 +48,7 @@
             border-radius: 0;
             display: block;
         }
-        
+
     .img-thumbnail {
         transition-property: border, transform;
         transition-duration: 200ms;
@@ -60,7 +61,7 @@
         float:left;
     }
 
-    /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
+    /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t
     follow these rules. Every browser that supports :checked also supports :not(), so
     it doesn’t make the test unnecessarily selective */
     .rating:not(:checked) > input {
@@ -148,7 +149,7 @@
             border-bottom-color: #4527a0!important;
         }
         .delete-image {
-            background: transparent; 
+            background: transparent;
             z-index: 1;
             box-shadow: none;
 
@@ -170,7 +171,7 @@
             color: white;
         }
         delete-image-fore {
-            height: 100%; 
+            height: 100%;
             opacity: 0;
             margin-top: -50px;
 
@@ -228,10 +229,10 @@ Vue.component('placeimage', {
 </script>
 </head>
 <body>
-    
+
 <div id="SeaplApp">
-    
-<div class="position-fixed d-inline z-depth-2" style="top: 0; left: 0; z-index: 50; 
+
+<div class="position-fixed d-inline z-depth-2" style="top: 0; left: 0; z-index: 50;
         border-bottom-right-radius: 16px; background: #666;">
     <a class="waves-effect waves-light btn-flat text-white" href="/">
         <i class="material-icons left">arrow_back</i><span class="d-none d-lg-inline">Главная</span>
@@ -308,7 +309,7 @@ Vue.component('placeimage', {
             </div>
 
             <div class="row m-0">
-                <placeimage v-for="(image, index) in images" :key="image" :image="image" 
+                <placeimage v-for="(image, index) in images" :key="image" :image="image"
                     :isavatar="(image == avatar.substring(10))" @click="ChangeAvatar($event)"></placeimage>
             </div>
 
@@ -344,7 +345,7 @@ Vue.component('placeimage', {
     </div>
 </section>
 
-<div v-show="!!TextError" class="container alert mx-auto deep-purple darken-3 z-depth-2 position-fixed" 
+<div v-show="!!TextError" class="container alert mx-auto deep-purple darken-3 z-depth-2 position-fixed"
     style="border-radius: 16px; color: white; bottom: 24px; z-index: 40; left: 50%; transform: translate(-50%, 0);">
     {{TextError}}
 </div>
@@ -355,10 +356,10 @@ Vue.component('placeimage', {
     </button>
 </div>
 
-<div v-show="is_redact_route" class="d-none container alert mx-auto deep-purple darken-3 z-depth-2 position-fixed p-0 pl-4" 
+<div v-show="is_redact_route" class="d-none container alert mx-auto deep-purple darken-3 z-depth-2 position-fixed p-0 pl-4"
     style="border-radius: 16px; color: white; top: 40px; line-height: 34px; z-index: 30; left: 50%; transform: translate(-50%,0);">
     Режим редактирования маршрута
-    <a href="#" class="waves-effect waves-light btn inline col-auto deep-purple darken-3 right dropdown-trigger p-0 text-center" 
+    <a href="#" class="waves-effect waves-light btn inline col-auto deep-purple darken-3 right dropdown-trigger p-0 text-center"
             style="color: white; border-radius: 16px; width: 36px;" data-target='route-dropdown'>
         <i class="material-icons">more_vert</i>
     </a>
@@ -378,7 +379,7 @@ Vue.component('placeimage', {
         </a></li>
     </ul>
 </div>
-    
+
 </div>
 
 <div class="position-fixed" id="map-container" style="width: 100%; height: 100%;"></div>
@@ -386,14 +387,14 @@ Vue.component('placeimage', {
 <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script src="js/add-place-1-0-1.js"></script>
-   
+<script src="/js/add-place-1-0-1.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $('.modal').modal();
-        
+
         $('input#name-place').characterCounter();
-        
+
         M.textareaAutoResize($('#description'));
 
         $('body').css('height', 'calc(' + $('#input-card').height() + 'px + 85vh)');

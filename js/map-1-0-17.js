@@ -728,7 +728,7 @@ var find_position  = false;
             G.LocationMarker.setPosition(G.CurrentPosition);
         } else {
             let me_icon = `<div style="width: 1px; height: 1px;">
-                <img src="site-images/I.png" style="width: 40px; height: 40px; margin: -36px 0 0 -20px; z-index: 10;">
+                <img src="/site-images/I.png" style="width: 40px; height: 40px; margin: -36px 0 0 -20px; z-index: 10;">
             </div>`;
                 
             G.LocationMarker = new H.map.DomMarker(G.CurrentPosition, {icon: new H.map.DomIcon(me_icon)});

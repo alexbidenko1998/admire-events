@@ -1,7 +1,8 @@
 <!doctype html>
-<html>
+<html lang="ru">
 <head>
     <title>Admire - Одна карта - все места</title>
+    <meta charset="UTF-8">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138158685-1"></script>
     <script>
@@ -26,7 +27,7 @@
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/53240083" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
-    <link rel="shortcut icon" href="site-images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/site-images/favicon.ico" type="image/x-icon">
     <meta charset="utf-8">
     <meta name="keywords" content="Карта, интересные места, провести время, куда сходить">
     <meta name="description" content="Сайт даст возможность и информацию для любого желающего узнать, куда можно сходить, как провести время и с кем провести время">
@@ -39,14 +40,14 @@
     <script src="//js.api.here.com/v3/3.0/mapsjs-pano.js" type="text/javascript" charset="utf-8"></script>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
+
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    
+
     <script src="/js/jquery.js"></script>
     <script src="//cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
 
-    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="/css/map.css">
     <style type="text/css">
         body {
             height: 100vh;
@@ -65,7 +66,7 @@
         }
         .place-block {
             background: #333;
-            
+
             transition-property: border-radius, max-height;
             transition-duration: 500ms;
         }
@@ -76,7 +77,7 @@
         p.text-place {
             width: 100%;
             max-height: 24.5px;
-            
+
             transition-property: max-height;
             transition-duration: 500ms;
         }
@@ -86,7 +87,7 @@
         .text-more {
             width: calc(100% - 90px);
             max-height: 50px;
-            
+
             transition-property: max-height;
             transition-duration: 500ms;
         }
@@ -223,7 +224,7 @@
             margin-bottom: 0;
             max-height: 0;
             opacity: 0;
-            
+
             transition-property: transform, margin-bottom, opacity, max-height;
             transition-duration: .35s;
         }
@@ -272,17 +273,17 @@
     Vue.component('place-block', {
         props: ['place'],
         template: `
-            <div class="row valign-wrapper place-block hoverable" style="border-radius: 44px; padding: 7px 0; cursor: pointer;" 
+            <div class="row valign-wrapper place-block hoverable" style="border-radius: 44px; padding: 7px 0; cursor: pointer;"
                 onclick="More(this);">
                 <div class="col-auto left-col" style="padding: 0 7px;">
                     <a class="waves-effect waves-light modal-close mb-2 mx-auto col-auto;" @click="ToLocations">
                         <i class="material-icons text-white" style="height: 44px; line-height: 44px;">location_on</i>
                     </a>
 
-                    <div style="background: no-repeat center / cover; height: 50px; width: 50px" 
+                    <div style="background: no-repeat center / cover; height: 50px; width: 50px"
                         :style="src_image" class="circle responsive-img"></div>
 
-                    <a class="waves-effect waves-light modal-close mt-2 mx-auto col-auto;" 
+                    <a class="waves-effect waves-light modal-close mt-2 mx-auto col-auto;"
                         @click="Route">
                         <i class="material-icons text-white" style="height: 44px; line-height: 44px;">swap_calls</i>
                     </a>
@@ -306,7 +307,7 @@
                     lat: this.place.route[0][0],
                     lng: this.place.route[0][1]
                 };
-        
+
                 map.setCenter(position);
                 map.setZoom(15);
             },
@@ -324,7 +325,7 @@
             <div class="col-auto alert border mb-1 p-0" :class="{'ml-auto': comment.login == me}" style="background: #555;">
                 <div class="row m-0">
                     <div class="col-auto p-0">
-                        <div class="m-1" :style="'backgroundImage: url(' + avatar + ');'" style="background: no-repeat center / cover; 
+                        <div class="m-1" :style="'backgroundImage: url(' + avatar + ');'" style="background: no-repeat center / cover;
                             width: 50px; height: 50px; border-radius: 50%;"></div>
                     </div>
                     <div class="col-auto p-0 pt-1">
@@ -355,13 +356,13 @@
             }
         }
     });
-    
+
     Vue.component('sidenav-place-block', {
         props: ['place_data'],
         template: `<div class="card mt-0" @click="ChoosePlace" style="cursor: pointer;">
             <div class="card-image">
                 <img :src="place_data.avatar" style="height: 160px;">
-                <span class="card-title p-2 mb-0" style="line-height: 26px; 
+                <span class="card-title p-2 mb-0" style="line-height: 26px;
                     text-shadow: 1px 1px 1px black;">{{place_data.title}}</span>
             </div>
             <div class="card-content p-2">
@@ -393,7 +394,7 @@
             }
         }
     });
-    
+
     Vue.component('sidenav-event-block', {
         props: ['event_data'],
         template: `<div class="card mt-0" @click="ChooseEvent" style="cursor: pointer;">
@@ -417,9 +418,9 @@
 </script>
 </head>
 <body>
-    
+
 <div id="SeaplApp">
-    
+
 <div class="position-absolute d-inline-flex" style="top: 0; left: 0; z-index: 50;">
     <nav class="z-depth-2 d-inline-block" style="border-bottom-right-radius: 16px; background: #666; overflow: hidden;">
         <a class="waves-effect waves-light btn-flat text-white" href="/">
@@ -431,7 +432,7 @@
     </nav>
 
     <section class="pl-2">
-        <a href="#" class="waves-effect waves-light btn inline-block grey lighten-4 sidenav-trigger p-0 text-center" 
+        <a href="#" class="waves-effect waves-light btn inline-block grey lighten-4 sidenav-trigger p-0 text-center"
                 style="color: black; border-radius: 50%; width: 36px;" data-target='here-places-dropdown'>
             <i class="material-icons">menu</i>
         </a>
@@ -451,10 +452,10 @@
     <ul id='here-places-dropdown' class='sidenav'>
         <li>
             <div class="user-view">
-                <div class="background" style="background: no-repeat center / cover; 
-                    background-image: url(site-images/head-image.jpg);">
+                <div class="background" style="background: no-repeat center / cover;
+                    background-image: url(/site-images/head-image.jpg);">
                 </div>
-                <a class="waves-effect waves-light btn-floating text-white right sidenav-close" 
+                <a class="waves-effect waves-light btn-floating text-white right sidenav-close"
                         style="background: transparent; box-shadow: none; height: 40px;">
                     <i class="material-icons">arrow_back</i>
                 </a>
@@ -471,9 +472,9 @@
             </div>
         </li>
         <li>
-            <button class="btn-flat w-100 p-0 waves-effect waves-light" style="height: auto;" 
+            <button class="btn-flat w-100 p-0 waves-effect waves-light" style="height: auto;"
                     @click="FromAtoBRelax">
-                <img class="w-100" src="site-images/from_a_to_b_image.png">
+                <img class="w-100" src="/site-images/from_a_to_b_image.png">
             </button>
         </li>
         <li>
@@ -499,7 +500,7 @@
                 <input type="checkbox" v-model="here_cats.eat_drink" />
                 <span>Поесть</span>
             </label>
-            <a href="#" class="waves-effect waves-light btn-flat dropdown-trigger text-center right m-0" 
+            <a href="#" class="waves-effect waves-light btn-flat dropdown-trigger text-center right m-0"
                     style="color: black; width: 48px; padding: 0 12px 0 12px;" data-target='eat-drink-dropdown'>
                 <i class="material-icons m-0">arrow_drop_down</i>
             </a>
@@ -517,7 +518,7 @@
                 <input type="checkbox" v-model="here_cats.transport" />
                 <span>Транспорт</span>
             </label>
-            <a href="#" class="waves-effect waves-light btn-flat dropdown-trigger text-center right m-0" 
+            <a href="#" class="waves-effect waves-light btn-flat dropdown-trigger text-center right m-0"
                     style="color: black; width: 48px; padding: 0 12px 0 12px;" data-target='transport-dropdown'>
                 <i class="material-icons m-0">arrow_drop_down</i>
             </a>
@@ -559,7 +560,7 @@
     <ul id='events-sidenav' class='sidenav'>
         <li>
             <div style="height: 40px;">
-                <a class="waves-effect waves-light btn-floating text-white right sidenav-close m-0" 
+                <a class="waves-effect waves-light btn-floating text-white right sidenav-close m-0"
                         style="background: transparent; box-shadow: none; height: 40px;">
                     <i class="material-icons" style="color: black;">arrow_back</i>
                 </a>
@@ -574,7 +575,7 @@
     <ul id='from-group-places-sidenav' class='sidenav'>
         <li>
             <div style="height: 40px;">
-                <a class="waves-effect waves-light btn-floating text-white right sidenav-close m-0" 
+                <a class="waves-effect waves-light btn-floating text-white right sidenav-close m-0"
                         style="background: transparent; box-shadow: none; height: 40px;">
                     <i class="material-icons" style="color: black;">arrow_back</i>
                 </a>
@@ -614,14 +615,14 @@
                     <p>{{weather.weekday}}</p>
                     <img :src="weather.iconLink">
                     <p>{{weather.description}}</p>
-                    <p>от 
-                        <span class="weather-t-b rounded" 
-                            :style="'background: rgb(' + ((+weather.lowTemperature + 20) * 5) + ',' + 
-                            ((+weather.lowTemperature + 20) * 5) + ',' + 
-                            (-(+weather.lowTemperature - 20) * 5) + ')'">{{weather.lowTemperature}}</span> до 
+                    <p>от
                         <span class="weather-t-b rounded"
-                            :style="'background: rgb(' + ((+weather.highTemperature + 20) * 5) + ',' + 
-                            ((+weather.highTemperature + 20) * 5) + ',' + 
+                            :style="'background: rgb(' + ((+weather.lowTemperature + 20) * 5) + ',' +
+                            ((+weather.lowTemperature + 20) * 5) + ',' +
+                            (-(+weather.lowTemperature - 20) * 5) + ')'">{{weather.lowTemperature}}</span> до
+                        <span class="weather-t-b rounded"
+                            :style="'background: rgb(' + ((+weather.highTemperature + 20) * 5) + ',' +
+                            ((+weather.highTemperature + 20) * 5) + ',' +
                             (-(+weather.highTemperature - 20) * 5) + ')'">{{weather.highTemperature}}</span> °C
                     </p>
                 </div>
@@ -631,14 +632,14 @@
                     <p>{{weather.weekday}}</p>
                     <img :src="weather.iconLink">
                     <p>{{weather.description}}</p>
-                    <p>от 
-                        <span class="weather-t-b rounded" 
-                            :style="'background: rgb(' + ((+weather.lowTemperature + 20) * 5) + ',' + 
-                            ((+weather.lowTemperature + 20) * 5) + ',' + 
-                            (-(+weather.lowTemperature - 20) * 5) + ')'">{{weather.lowTemperature}}</span> до 
+                    <p>от
                         <span class="weather-t-b rounded"
-                            :style="'background: rgb(' + ((+weather.highTemperature + 20) * 5) + ',' + 
-                            ((+weather.highTemperature + 20) * 5) + ',' + 
+                            :style="'background: rgb(' + ((+weather.lowTemperature + 20) * 5) + ',' +
+                            ((+weather.lowTemperature + 20) * 5) + ',' +
+                            (-(+weather.lowTemperature - 20) * 5) + ')'">{{weather.lowTemperature}}</span> до
+                        <span class="weather-t-b rounded"
+                            :style="'background: rgb(' + ((+weather.highTemperature + 20) * 5) + ',' +
+                            ((+weather.highTemperature + 20) * 5) + ',' +
                             (-(+weather.highTemperature - 20) * 5) + ')'">{{weather.highTemperature}}</span> °C
                     </p>
                 </div>
@@ -650,11 +651,11 @@
     </a>
 </div>
 
-<div v-show="(to_coord.length > 0)" class="container alert mx-auto deep-purple darken-3 z-depth-2 position-fixed p-0 pl-4" 
+<div v-show="(to_coord.length > 0)" class="container alert mx-auto deep-purple darken-3 z-depth-2 position-fixed p-0 pl-4"
     style="border-radius: 16px; color: white; top: 40px; line-height: 34px; z-index: 30; left: 50%; transform: translate(-50%,0);">
     {{(!polyline_route) ? "Выберите, откуда проложить маршрут." : "Маршрут проложен."}}
 
-    <a href="#" class="waves-effect waves-light btn inline col-auto deep-purple darken-3 right dropdown-trigger p-0 text-center" 
+    <a href="#" class="waves-effect waves-light btn inline col-auto deep-purple darken-3 right dropdown-trigger p-0 text-center"
             style="color: white; border-radius: 16px; width: 36px;" data-target='route-dropdown'>
         <i class="material-icons">more_vert</i>
     </a>
@@ -679,11 +680,11 @@
     </ul>
 </div>
 
-<div v-show="(is_from_a_to_b != 0)" class="container alert mx-auto deep-purple darken-3 z-depth-2 position-fixed p-0 pl-4" 
+<div v-show="(is_from_a_to_b != 0)" class="container alert mx-auto deep-purple darken-3 z-depth-2 position-fixed p-0 pl-4"
     style="border-radius: 16px; color: white; top: 40px; line-height: 34px; z-index: 30; left: 50%; transform: translate(-50%,0);">
     {{(is_from_a_to_b == 1) ? "Укажите точки для прокладки маршрута." : "Приятного отдыха!"}}
 
-    <a href="#" class="waves-effect waves-light btn inline col-auto deep-purple darken-3 right p-0 text-center" 
+    <a href="#" class="waves-effect waves-light btn inline col-auto deep-purple darken-3 right p-0 text-center"
             style="color: white; border-radius: 16px; width: 36px;" @click="FromAtoBRelaxClose">
         <i class="material-icons">close</i>
     </a>
@@ -748,7 +749,7 @@
             </div>
             <div class="w-100 mb-4" v-if="(choose_place.social.length != 0)">
                 <p class="m-0 btn-flat p-0" style="color: white; cursor: initial;">Добавлено: </p>
-                <a v-for="(sn, index) in choose_place.social" :href="'link.php?i=' + sn.value + '&t=' + sn.type" target="_blank" 
+                <a v-for="(sn, index) in choose_place.social" :href="'link.php?i=' + sn.value + '&t=' + sn.type" target="_blank"
                     class="waves-effect waves-light btn-flat p-0 mx-3" style="color: white; font-size: 0;">
                     <img :src="snd[sn.type].src" style="width: 36px;">
                 </a>
@@ -760,7 +761,7 @@
         <div class="container-fluid p-0">
             <div class="row imglist">
                 <div v-for="(image, index) in choose_place.images" class="col-lg-3 col-md-4 col-sm-6 col-12 p-1">
-                    <div class="border rounded img-place-back" style="background: no-repeat center / cover; height: 200px; width: 100%;" 
+                    <div class="border rounded img-place-back" style="background: no-repeat center / cover; height: 200px; width: 100%;"
                             :style="'backgroundImage: url(' + image + ');'">
                         <div style="width: 400%; margin-left: -150%; height: 200px; text-align: center;">
                             <img :src="image" class="materialboxed" width="auto">
@@ -858,23 +859,23 @@
         </div>
         <hr class="white" />
         <div class="row m-0">
-            <a :href="'https://vk.com/' + choose_event.screen_name" 
+            <a :href="'https://vk.com/' + choose_event.screen_name"
                 class="waves-effect waves-light btn-flat ml-auto text-white">Узнать больше</a>
             <a class="modal-close waves-effect waves-light btn-flat">Закрыть</a>
         </div>
     </div>
 </div>
-    
+
 </div>
-    
+
 <div id="map-container" style="width: 100%; height: 100%"></div>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    
+
 <script src="components/device.js"></script>
-<script src="js/map-1-0-17.js"></script>
+<script src="/js/map-1-0-17.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     if(!localStorage.getItem('user_id')) {
@@ -907,14 +908,14 @@ document.addEventListener('DOMContentLoaded', function() {
     platform.configure(H.map.render.panorama.RenderEngine)
 
     setTimeout(SeaplApp.DrawMap, 1200);
-        
+
     setTimeout(function() {
         if (!!localStorage.getItem('coord_x')) {
             let position = {
                 lat: localStorage.getItem('coord_x'),
                 lng: localStorage.getItem('coord_y')
             };
-    
+
             map.setCenter(position);
             map.setZoom(15);
 
