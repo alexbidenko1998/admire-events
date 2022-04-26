@@ -15,12 +15,12 @@ $accessToken2 = "c7fbb6450b80d7cf1d2555dde37874260bcea9ea4bd49fe9bd58d7b234d9c42
 $VKCities = file_get_contents("https://api.vk.com/method/database.getCities?country_id=1&q=".$city
     ."&need_all=1&access_token=".$accessToken."&count=1&v=5.131");
 
-$VKCity = json_decode($VKCities)['response']['items'][0];
+$VKCity = json_decode($VKCities, true)['response']['items'][0];
 
 $events = file_get_contents("https://api.vk.com/method/groups.search?q=%20&type=event&future=1&city_id=".$VKCity->id
     ."&access_token=".$accessToken2."&count=20&v=5.131");
 echo $events;
-$events = json_decode($events)['response']['items'];
+$events = json_decode($events, true)['response']['items'];
 
 $result = $mysqli->query("SELECT * FROM admire_filter_words;");
 
@@ -52,7 +52,7 @@ $eventsAdvanced = file_get_contents("https://api.vk.com/method/groups.getById?gr
     ."&fields=city,country,place,description,start_date,finish_date,site,members_count&"
     ."&access_token=".$accessToken."&v=5.131");
 echo $eventsAdvanced;
-$eventsAdvanced = json_decode($eventsAdvanced)['response'];
+$eventsAdvanced = json_decode($eventsAdvanced, true)['response'];
 
 $response = array();
 foreach($eventsAdvanced as $eventAdvanced) {
