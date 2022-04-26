@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+    <title>Admire - Место для каждого</title>
+    <link rel="shortcut icon" href="site-images/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Карта, интересные места, провести время, куда сходить">
+    <meta name="description" content="Сайт даст возможность и информацию для любого желающего узнать, куда можно сходить, как провести время и с кем провести время">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, shrink-to-fit=no" />
+    <meta name="yandex-verification" content="7919b11398717df1" />
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
+
+    <link href="//fonts.googleapis.com/css?family=Montserrat:100,400,500,700" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;subset=cyrillic" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css">
+    
+    <script src="js/jquery.ckLine.js"></script>
+    
+    <link rel="stylesheet" href="css/index.css">
+    <style type="text/css">
+    </style>
+    
+<script type="text/javascript">
+</script>
+</head>
+<body>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+<script src="components/device.js"></script>
+<script type="text/javascript">
+
+var count = 158404;
+
+var ans = [];
+
+var i = 0;
+
+setInterval(function() {
+    if(i < count) {
+        $.ajax({
+            url    : "../back/get-weather.php",
+            type   : "POST",
+            data   : {url: `https://api.vk.com/method/database.getCities?access_token=b729cb0cb729cb0cb729cb0c58b7430695bb729b729cb0cebc224a2bec232fef2071045&v=5.95&country_id=1&need_all=true&offset=${i}&count=1000`},
+            success: function(data) {
+                data = JSON.parse(data).response.items;
+                for(let c in data) {
+                    ans.push({
+                        title: data[c].title,
+                        area: data[c].area,
+                        region: data[c].region
+                    });
+                }
+                console.log(i);
+            }
+        });
+        i += 1000;
+    }
+}, 300);
+
+</script>
+</body>
+</html>

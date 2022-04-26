@@ -1,0 +1,4 @@
+User-agent: *
+Allow: *
+Disallow: /back
+Sitemap: https://admire.social/Sitemap.xml

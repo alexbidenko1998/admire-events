@@ -1,0 +1,928 @@
+<!doctype html>
+<html>
+<head>
+    <title>Admire - Одна карта - все места</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138158685-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-138158685-1');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(53240083, "init", {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true,
+                webvisor:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/53240083" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+    <link rel="shortcut icon" href="site-images/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Карта, интересные места, провести время, куда сходить">
+    <meta name="description" content="Сайт даст возможность и информацию для любого желающего узнать, куда можно сходить, как провести время и с кем провести время">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, shrink-to-fit=no" />
+    <link rel="stylesheet" type="text/css" href="//js.api.here.com/v3/3.0/mapsjs-ui.css?dp-version=1549984893" />
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+    <script src="//js.api.here.com/v3/3.0/mapsjs-pano.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
+    <script src="/js/jquery.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
+
+    <link rel="stylesheet" href="css/map.css">
+    <style type="text/css">
+        body {
+            height: 100vh;
+        }
+        .col {
+            flex-basis: initial;
+        }
+        .text-place {
+            overflow: hidden;
+        }
+        #search-modal, #place-modal, #event-modal, #comment-modal {
+            background: transparent;
+            box-shadow: none;
+            max-height: 100%;
+            top: 0!important;
+        }
+        .place-block {
+            background: #333;
+            
+            transition-property: border-radius, max-height;
+            transition-duration: 500ms;
+        }
+        .place-block-more {
+            border-radius: 8px!important;
+            max-height: 500px;
+        }
+        p.text-place {
+            width: 100%;
+            max-height: 24.5px;
+            
+            transition-property: max-height;
+            transition-duration: 500ms;
+        }
+        .place-block-more p.text-place {
+            max-height: 500px;
+        }
+        .text-more {
+            width: calc(100% - 90px);
+            max-height: 50px;
+            
+            transition-property: max-height;
+            transition-duration: 500ms;
+        }
+        .place-block-more .text-more {
+            max-height: 500px;
+        }
+        .place-block a {
+            height: 0;
+            width: 44px;
+            text-align: center;
+            border-radius: 50%;
+            transform: scale(0);
+            opacity: 0;
+
+            transition-property: opacity, transform, height;
+            transition-duration: 500ms;
+        }
+        .place-block-more a {
+            height: 44px;
+            transform: scale(1);
+            opacity: 1;
+        }
+        .place-block .left-col {
+            height: 50px;
+        }
+        .place-block-more .left-col {
+            height: auto;
+        }
+        .place-block .left-col div {
+            margin-top: -20.6px;
+
+            transition-property: margin-top;
+            transition-duration: 500ms;
+        }
+        .place-block-more .left-col div {
+            margin-top: 0;
+        }
+        .place-icon {
+            border: 1px solid #666;
+            margin-top: -78px;
+            margin-left: -25px;
+            height: 50px;
+            width: 50px;
+        }
+        .place-global-icon {
+            border: 1px solid #666;
+            background: #333;
+            color: white;
+            text-align : center;
+            font-size  : 18px;
+        }
+        .place-icon-arrow {
+            border: 18px solid transparent;
+            border-top: 18px solid #444;
+            margin-left: -18px;
+            margin-top: -18px;
+            width: 0;
+        }
+        .material-placeholder {
+            height: 200px;
+            display: inline-block;
+            opacity: 0;
+        }
+        .materialboxed {
+            height: 200px;
+            transition: initial;
+        }
+        .img-place-back {
+            overflow: hidden;
+            height: 200px;
+        }
+        .btn-flat:hover {
+            text-decoration: none;
+        }
+        @media only screen and (max-width: 992px) {
+            .modal {
+                width: 90%;
+            }
+        }
+        .dropdown-content {
+            width: 180px!important;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .dropdown-content span {
+            width: 164px;
+            color: black;
+        }
+        .dropdown-content span::after {
+            background-color: #ff0!important;
+            border-color: #ff0!important;
+        }
+        .dropdown-content li {
+            min-height: initial;
+            padding: 8px;
+        }
+        textarea:focus, input.validate:focus, .chips.focus {
+            border-color: #ff0 !important;
+        }
+        textarea:focus+label, .character-counter, label.active, .prefix.active {
+            color: #ff0 !important;
+        }
+        #toast-container {
+            left: 50%!important;
+            transform: translate(-50%, 0)!important;
+            bottom: 7%!important;
+            top: initial!important;
+        }
+        #weather-widget::-webkit-scrollbar { width: 8px; }
+        #weather-widget::-webkit-scrollbar-thumb {
+            background: rgb(100, 100, 100);
+        }
+        .weather-t-b {
+            padding: 4px;
+        }
+        #weather-widget {
+            width: 83px;
+            height: 83px;
+            background: transparent;
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 10;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 30;
+            padding: 16px;
+
+            transition-property: background, padding, width, height;
+            transition-duration: .5s;
+        }
+        #weather-widget p {
+            transform: scale(0.33, 0);
+            margin-bottom: 0;
+            max-height: 0;
+            opacity: 0;
+            
+            transition-property: transform, margin-bottom, opacity, max-height;
+            transition-duration: .35s;
+        }
+        #weather-widget.weather-widget-hover {
+            background: rgba(200, 200, 200, .7);
+            width: 240px;
+            padding: 0;
+            height: 100%;
+        }
+        #weather-widget.weather-widget-hover .weather-more {
+            display: block!important;
+        }
+        #weather-widget.weather-widget-hover p {
+            transform: scale(1, 1);
+            margin-bottom: 8px;
+            max-height: 100px;
+            opacity: 1;
+        }
+        nav {
+            width: initial!important;
+            height: initial!important;
+            line-height: initial!important;
+        }
+        nav i {
+            height: initial!important;
+            line-height: inherit!important;
+            font-size: 1.3rem!important;
+        }
+    </style>
+
+<script type="text/javascript">
+    var More = (el) => {
+        $(el).toggleClass('place-block-more');
+    }
+
+    function ChooseFrom (event) {
+        let from_coord = map.screenToGeo(event.currentPointer.viewportX,
+            event.currentPointer.viewportY);
+        SeaplApp.from_coord = [from_coord.lat, from_coord.lng];
+
+        calculateRouteFromAtoB(platform);
+
+        map.removeEventListener('tap', ChooseFrom);
+    }
+
+    Vue.component('place-block', {
+        props: ['place'],
+        template: `
+            <div class="row valign-wrapper place-block hoverable" style="border-radius: 44px; padding: 7px 0; cursor: pointer;" 
+                onclick="More(this);">
+                <div class="col-auto left-col" style="padding: 0 7px;">
+                    <a class="waves-effect waves-light modal-close mb-2 mx-auto col-auto;" @click="ToLocations">
+                        <i class="material-icons text-white" style="height: 44px; line-height: 44px;">location_on</i>
+                    </a>
+
+                    <div style="background: no-repeat center / cover; height: 50px; width: 50px" 
+                        :style="src_image" class="circle responsive-img"></div>
+
+                    <a class="waves-effect waves-light modal-close mt-2 mx-auto col-auto;" 
+                        @click="Route">
+                        <i class="material-icons text-white" style="height: 44px; line-height: 44px;">swap_calls</i>
+                    </a>
+                </div>
+                <div class="col-auto white-text pr-0 text-more">
+                    <p class="m-0 text-place h5" style="width: 100%; height: 24.5px;">{{place.title}}</p>
+                    <hr class="white m-0" />
+                    <p class="text-place m-0">
+                        {{place.description}}
+                    </p>
+                </div>
+            </div>`,
+        computed: {
+            src_image: function() {
+                return {backgroundImage: `url(${this.place.avatar})`};
+            }
+        },
+        methods: {
+            ToLocations: function() {
+                position = {
+                    lat: this.place.route[0][0],
+                    lng: this.place.route[0][1]
+                };
+        
+                map.setCenter(position);
+                map.setZoom(15);
+            },
+            Route() {
+                SeaplApp.CanselRoute();
+                SeaplApp.to_coord = this.place.route[this.place.route.length - 1];
+                map.addEventListener('tap', ChooseFrom);
+            }
+        }
+    });
+
+    Vue.component('comment', {
+        props: ['comment'],
+        template: `<div class="w-100 row m-0">
+            <div class="col-auto alert border mb-1 p-0" :class="{'ml-auto': comment.login == me}" style="background: #555;">
+                <div class="row m-0">
+                    <div class="col-auto p-0">
+                        <div class="m-1" :style="'backgroundImage: url(' + avatar + ');'" style="background: no-repeat center / cover; 
+                            width: 50px; height: 50px; border-radius: 50%;"></div>
+                    </div>
+                    <div class="col-auto p-0 pt-1">
+                        <small class="pl-3" style="color: #ff0;">от {{comment.login}}</small>
+                        <small class="pr-3 right pt-1 ml-2">{{time_comment}}</small>
+                        <hr class="m-0 mt-1 white" />
+                        <pre class="m-0 px-3 pb-1" style="font-family: arial; color: white;">{{comment.message}}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>`,
+        computed: {
+            time_comment: function() {
+                let cash_date = new Date(+this.comment.time_comment);
+                return (cash_date.getDate()) + "." + (cash_date.getMonth() + 1) + "." + (cash_date.getFullYear())
+            },
+            me: function() {
+                return SeaplApp.login;
+            },
+            avatar: function() {
+                if(!this.comment.avatar && this.comment.sex == "male") {
+                    return "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1";
+                } else if(!this.comment.avatar && this.comment.sex == "famale") {
+                    return "https://iconfree.net/uploads/icon/2017/7/5/avatar-user-profile-icon-3763-512x512.png";
+                } else {
+                    return 'avatars/' + this.comment.avatar;
+                }
+            }
+        }
+    });
+    
+    Vue.component('sidenav-place-block', {
+        props: ['place_data'],
+        template: `<div class="card mt-0" @click="ChoosePlace" style="cursor: pointer;">
+            <div class="card-image">
+                <img :src="place_data.avatar" style="height: 160px;">
+                <span class="card-title p-2 mb-0" style="line-height: 26px; 
+                    text-shadow: 1px 1px 1px black;">{{place_data.title}}</span>
+            </div>
+            <div class="card-content p-2">
+                <p style="line-height: 16px;
+                    max-height: 96px;
+                    overflow-y: hidden;">{{place_data.description}}</p>
+            </div>
+        </div>`,
+        methods: {
+            ChoosePlace: function() {
+                let elem = document.getElementById('place-modal');
+                let instance = M.Modal.getInstance(elem);
+                SeaplApp.choose_place = this.place_data;
+
+                $('#place-modal').scrollTop(0);
+                $('#weather-block').scrollLeft(0);
+                instance.open();
+                setTimeout(function () {
+                    var elems     = document.querySelectorAll('.materialboxed');
+                    var instances = M.Materialbox.init(elems, {
+                        onOpenStart: function(el) {
+                            $(el).parent().css('opacity', 1);
+                        },
+                        onCloseEnd: function(el) {
+                            $(el).parent().css('opacity', 0);
+                        }
+                    });
+                }, 500);
+            }
+        }
+    });
+    
+    Vue.component('sidenav-event-block', {
+        props: ['event_data'],
+        template: `<div class="card mt-0" @click="ChooseEvent" style="cursor: pointer;">
+            <div class="card-image">
+                <img :src="event_data.photo_200" style="height: 160px;">
+                <span class="card-title p-2 mb-0" style="line-height: 26px;
+                    text-shadow: 1px 1px 1px black;">{{event_data.name}}</span>
+            </div>
+            <div class="card-content p-2">
+                <p style="line-height: 16px;
+                    max-height: 96px;
+                    overflow-y: hidden;">{{event_data.description}}</p>
+            </div>
+        </div>`,
+        methods: {
+            ChooseEvent: function() {
+                openEvent(this.event_data);
+            }
+        }
+    });
+</script>
+</head>
+<body>
+    
+<div id="SeaplApp">
+    
+<div class="position-absolute d-inline-flex" style="top: 0; left: 0; z-index: 50;">
+    <nav class="z-depth-2 d-inline-block" style="border-bottom-right-radius: 16px; background: #666; overflow: hidden;">
+        <a class="waves-effect waves-light btn-flat text-white" href="/">
+            <i class="material-icons left">arrow_back</i><span class="d-none d-lg-inline">Главная</span>
+        </a>
+        <a class="waves-effect waves-light btn-flat text-white modal-trigger" href="#search-modal">
+            <span class="d-none d-lg-inline">Найти место</span><i class="material-icons right">search</i>
+        </a>
+    </nav>
+
+    <section class="pl-2">
+        <a href="#" class="waves-effect waves-light btn inline-block grey lighten-4 sidenav-trigger p-0 text-center" 
+                style="color: black; border-radius: 50%; width: 36px;" data-target='here-places-dropdown'>
+            <i class="material-icons">menu</i>
+        </a>
+    </section>
+
+    <div class="chip searched-chip ml-4 mt-1 mb-0" style="display: none;">
+        {{search_text}}
+        <i class="close material-icons" @click="ClearSearch">close</i>
+    </div>
+
+    <div class="chip searched-chip ml-4 mt-1 mb-0" v-show="get_relax_regime" style="display: none;">
+        Отдых
+        <i class="close material-icons" @click="CanselRelax">close</i>
+    </div>
+</div>
+
+    <ul id='here-places-dropdown' class='sidenav'>
+        <li>
+            <div class="user-view">
+                <div class="background" style="background: no-repeat center / cover; 
+                    background-image: url(site-images/head-image.jpg);">
+                </div>
+                <a class="waves-effect waves-light btn-floating text-white right sidenav-close" 
+                        style="background: transparent; box-shadow: none; height: 40px;">
+                    <i class="material-icons">arrow_back</i>
+                </a>
+                <div v-if="!!login" style="height: 144px;">
+                    <a href="my-page"><img class="circle" :src="person.avatar"></a>
+                    <a><span class="white-text name">{{person.last_name + " " + person.first_name}}</span></a>
+                    <a><span class="white-text email">{{person.city}}</span></a>
+                </div>
+                <div v-if="!login">
+                    <a href="regist">
+                        <span class="white-text name pb-4" style="margin-top: 99px;">Вход / Регистрация</span>
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li>
+            <button class="btn-flat w-100 p-0 waves-effect waves-light" style="height: auto;" 
+                    @click="FromAtoBRelax">
+                <img class="w-100" src="site-images/from_a_to_b_image.png">
+            </button>
+        </li>
+        <li>
+            <a href="#" data-target="events-sidenav" class="sidenav-trigger" style="text-decoration: none;">
+                <i class="material-icons">event</i>
+                Мероприятия
+            </a>
+        </li>
+        <li><div class="divider"></div></li>
+        <li><a class="subheader">Объекты на карте</a></li>
+        <li><label class="m-0 w-100 pl-2">
+            <input type="checkbox" v-model="filter.monument" />
+            <span>Памятники</span>
+        </label></li>
+        <li><label class="m-0 w-100 pl-2">
+            <input type="checkbox" v-model="filter.people" />
+            <span>Люди</span>
+        </label></li>
+        <li><div class="divider"></div></li>
+        <li><a class="subheader">Дополнительно</a></li>
+        <li>
+            <label class="m-0 pl-2" style="width: calc(100% - 50px);">
+                <input type="checkbox" v-model="here_cats.eat_drink" />
+                <span>Поесть</span>
+            </label>
+            <a href="#" class="waves-effect waves-light btn-flat dropdown-trigger text-center right m-0" 
+                    style="color: black; width: 48px; padding: 0 12px 0 12px;" data-target='eat-drink-dropdown'>
+                <i class="material-icons m-0">arrow_drop_down</i>
+            </a>
+        </li>
+        <li><label class="m-0 w-100 pl-2">
+            <input type="checkbox" v-model="here_cats.going_out" />
+            <span>Отдохнуть</span>
+        </label></li>
+        <li><label class="m-0 w-100 pl-2">
+            <input type="checkbox" v-model="here_cats.sights_museums" />
+            <span>Музеи</span>
+        </label></li>
+        <li>
+            <label class="m-0 pl-2" style="width: calc(100% - 50px);">
+                <input type="checkbox" v-model="here_cats.transport" />
+                <span>Транспорт</span>
+            </label>
+            <a href="#" class="waves-effect waves-light btn-flat dropdown-trigger text-center right m-0" 
+                    style="color: black; width: 48px; padding: 0 12px 0 12px;" data-target='transport-dropdown'>
+                <i class="material-icons m-0">arrow_drop_down</i>
+            </a>
+        </li>
+        <li><label class="m-0 w-100 pl-2">
+            <input type="checkbox" v-model="here_cats.accommodation" />
+            <span>Ночлег</span>
+        </label></li>
+        <li><label class="m-0 w-100 pl-2">
+            <input type="checkbox" v-model="here_cats.shopping" />
+            <span>Шопинг</span>
+        </label></li>
+        <!--li><label class="m-0 w-100 pl-2">
+            <input type="checkbox" v-model="here_cats.administrative_areas_buildings" />
+            <span>Административные</span>
+        </label></li-->
+        <li><label class="m-0 w-100 pl-2">
+            <input type="checkbox" v-model="here_cats.natural_geographical" />
+            <span>Природные</span>
+        </label></li>
+        <li><label class="m-0 w-100 pl-2">
+            <input type="checkbox" v-model="here_cats.atm_bank_exchange" />
+            <span>Банкоматы</span>
+        </label></li>
+        <!--li><label class="m-0 w-100 pl-2">
+            <input type="checkbox" v-model="here_cats.petrol_station" />
+            <span>Заправочные</span>
+        </label></li-->
+        <!--li><label class="m-0 w-100 pl-2">
+            <input type="checkbox" v-model="here_cats.toilet_rest_area" />
+            <span>Туалеты</span>
+        </label></li-->
+        <!--li><label class="m-0 w-100 pl-2">
+            <input type="checkbox" v-model="here_cats.hospital_health_care_facility" />
+            <span>Медицина</span>
+        </label></li-->
+    </ul>
+
+    <ul id='events-sidenav' class='sidenav'>
+        <li>
+            <div style="height: 40px;">
+                <a class="waves-effect waves-light btn-floating text-white right sidenav-close m-0" 
+                        style="background: transparent; box-shadow: none; height: 40px;">
+                    <i class="material-icons" style="color: black;">arrow_back</i>
+                </a>
+            </div>
+        </li>
+        <li><div class="divider m-0"></div></li>
+        <li v-for="(event, index) in events_data" :key="index" v-if="(index < 20)">
+            <sidenav-event-block :event_data="event"></sidenav-event-block>
+        </li>
+    </ul>
+
+    <ul id='from-group-places-sidenav' class='sidenav'>
+        <li>
+            <div style="height: 40px;">
+                <a class="waves-effect waves-light btn-floating text-white right sidenav-close m-0" 
+                        style="background: transparent; box-shadow: none; height: 40px;">
+                    <i class="material-icons" style="color: black;">arrow_back</i>
+                </a>
+            </div>
+        </li>
+        <li><div class="divider m-0"></div></li>
+        <li v-for="(place, index) in places_by_group" :key="index" v-if="(index < 20)">
+            <sidenav-place-block :place_data="place"></sidenav-place-block>
+        </li>
+    </ul>
+
+        <ul id='eat-drink-dropdown' class='dropdown-content'>
+            <li class="p-0 m-0"><label class="m-0 pl-3">
+                <input type="checkbox" v-model="here_cats.restaurant" />
+                <span>Рестораны</span>
+            </label></li>
+            <li class="p-0 m-0"><label class="m-0 pl-3">
+                <input type="checkbox" v-model="here_cats.coffee_tea" />
+                <span>Кафе</span>
+            </label></li>
+            <li class="p-0 m-0"><label class="m-0 pl-3">
+                <input type="checkbox" v-model="here_cats.snacks_fast_food" />
+                <span>Фаст-фуд</span>
+            </label></li>
+        </ul>
+
+        <ul id='transport-dropdown' class='dropdown-content'>
+            <li class="p-0 m-0"><label class="m-0 pl-3">
+                <input type="checkbox" v-model="here_cats.airport" />
+                <span>Аэропорты</span>
+            </label></li>
+        </ul>
+
+            <div id="weather-widget">
+                <div class="text-center" v-for="(weather, index) in choose_place_weather.dailyForecasts.forecastLocation.forecast"
+                    v-if="(index == 0)">
+                    <p>{{weather.weekday}}</p>
+                    <img :src="weather.iconLink">
+                    <p>{{weather.description}}</p>
+                    <p>от 
+                        <span class="weather-t-b rounded" 
+                            :style="'background: rgb(' + ((+weather.lowTemperature + 20) * 5) + ',' + 
+                            ((+weather.lowTemperature + 20) * 5) + ',' + 
+                            (-(+weather.lowTemperature - 20) * 5) + ')'">{{weather.lowTemperature}}</span> до 
+                        <span class="weather-t-b rounded"
+                            :style="'background: rgb(' + ((+weather.highTemperature + 20) * 5) + ',' + 
+                            ((+weather.highTemperature + 20) * 5) + ',' + 
+                            (-(+weather.highTemperature - 20) * 5) + ')'">{{weather.highTemperature}}</span> °C
+                    </p>
+                </div>
+                <div class="text-center weather-more" v-for="(weather, index) in choose_place_weather.dailyForecasts.forecastLocation.forecast"
+                    v-if="(index > 0)" style="display: none;">
+                    <div class="w-100" style="height: 1px; background: black;"></div>
+                    <p>{{weather.weekday}}</p>
+                    <img :src="weather.iconLink">
+                    <p>{{weather.description}}</p>
+                    <p>от 
+                        <span class="weather-t-b rounded" 
+                            :style="'background: rgb(' + ((+weather.lowTemperature + 20) * 5) + ',' + 
+                            ((+weather.lowTemperature + 20) * 5) + ',' + 
+                            (-(+weather.lowTemperature - 20) * 5) + ')'">{{weather.lowTemperature}}</span> до 
+                        <span class="weather-t-b rounded"
+                            :style="'background: rgb(' + ((+weather.highTemperature + 20) * 5) + ',' + 
+                            ((+weather.highTemperature + 20) * 5) + ',' + 
+                            (-(+weather.highTemperature - 20) * 5) + ')'">{{weather.highTemperature}}</span> °C
+                    </p>
+                </div>
+            </div>
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px; z-index: 20;">
+    <a href="/add-place" class="btn-floating btn-large waves-effect waves-light deep-purple darken-3">
+        <i class="material-icons" style="color: white;">add</i>
+    </a>
+</div>
+
+<div v-show="(to_coord.length > 0)" class="container alert mx-auto deep-purple darken-3 z-depth-2 position-fixed p-0 pl-4" 
+    style="border-radius: 16px; color: white; top: 40px; line-height: 34px; z-index: 30; left: 50%; transform: translate(-50%,0);">
+    {{(!polyline_route) ? "Выберите, откуда проложить маршрут." : "Маршрут проложен."}}
+
+    <a href="#" class="waves-effect waves-light btn inline col-auto deep-purple darken-3 right dropdown-trigger p-0 text-center" 
+            style="color: white; border-radius: 16px; width: 36px;" data-target='route-dropdown'>
+        <i class="material-icons">more_vert</i>
+    </a>
+
+    <ul id='route-dropdown' class='dropdown-content grey lighten-5'>
+        <li><label class="m-0">
+            <input name="group1" type="radio" value="pedestrian" v-model="type_route" />
+            <span>Пешком<i class="material-icons right">directions_walk</i></span>
+        </label></li>
+        <li><label class="m-0">
+            <input name="group1" type="radio" value="car" v-model="type_route" />
+            <span>Автомобиль<i class="material-icons right">directions_car</i></span>
+        </label></li>
+        <li><label class="m-0">
+            <input name="group1" type="radio" value="publicTransport" v-model="type_route" />
+            <span>Автобус<i class="material-icons right">directions_bus</i></span>
+        </label></li>
+        <li class="p-0"><a @click="CanselRoute" style="padding: 8px;">
+            Отмена
+            <i class="material-icons right m-0">close</i>
+        </a></li>
+    </ul>
+</div>
+
+<div v-show="(is_from_a_to_b != 0)" class="container alert mx-auto deep-purple darken-3 z-depth-2 position-fixed p-0 pl-4" 
+    style="border-radius: 16px; color: white; top: 40px; line-height: 34px; z-index: 30; left: 50%; transform: translate(-50%,0);">
+    {{(is_from_a_to_b == 1) ? "Укажите точки для прокладки маршрута." : "Приятного отдыха!"}}
+
+    <a href="#" class="waves-effect waves-light btn inline col-auto deep-purple darken-3 right p-0 text-center" 
+            style="color: white; border-radius: 16px; width: 36px;" @click="FromAtoBRelaxClose">
+        <i class="material-icons">close</i>
+    </a>
+</div>
+
+<div class="modal fade" id="search-modal">
+    <div class="container-fluid">
+        <div class="row m-0 p-0 my-5">
+            <div class="col-auto p-0 text-left mr-4" style="border-radius: 44px; ovewflow: hidden; background: #333;">
+                <a class="waves-effect waves-light modal-close"
+                    style="height: 44px; width: 44px; text-align: center; border-radius: 50%; margin: 5px;">
+                    <i class="material-icons text-white" style="height: 44px; line-height: 44px;">arrow_back</i></a>
+            </div>
+            <div class="col row p-0 pl-4 m-0" style="flex-basis: 0; border-radius: 44px; ovewflow: hidden; background: #333;">
+                <div class="input-field col p-0 m-0" style="flex-basis: 0;">
+                    <input placeholder="Поиск места" id="search-place" type="text" class="validate text-white" v-model="search_text" style="border-bottom: 1px solid white;">
+                </div>
+                <div class="col-auto p-0 text-right">
+                    <a class="waves-effect waves-light modal-close" @click="Search"
+                        style="height: 44px; width: 44px; text-align: center; border-radius: 50%; margin: 5px;">
+                        <i class="material-icons text-white" style="height: 44px; line-height: 44px;">search</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <place-block v-for="(place, index) in FiltredPlaces" :key="index" :place="place"></place-block>
+    </div>
+</div>
+
+<div id="place-modal" class="modal">
+    <div class="container-fluid my-5 text-white py-3" style="border-radius: 8px; background: #333;">
+        <div class="row m-0">
+            <h4 class="col p-0 m-0" style="flex-basis: 0;">{{choose_place.title}}</h4>
+            <a class="waves-effect waves-light modal-close right col-auto p-0"
+                style="height: 44px; width: 44px; text-align: center; border-radius: 50%;">
+                <i class="material-icons text-white" style="height: 44px; line-height: 44px;">close</i>
+            </a>
+        </div>
+        <hr class="white" />
+        <div class="row m-0">
+            <div class="w-100 mb-4">
+                <div class="d-inline-block" style="max-width: 168px; cursor: pointer;" @click="AddRating($event)">
+                    <div style="font-size: 34px; line-height: 34px; height: 34px; color: white; letter-spacing: 2px; max-width: 168px;">★★★★★</div>
+                    <div style="font-size: 36px; line-height: 36px; height: 34px; margin-top: -34px; color: #666; max-width: 168px;">★★★★★</div>
+                    <div style="font-size: 34px; line-height: 34px; height: 34px; margin-top: -34px; letter-spacing: 2px; color: #ff0;
+                        overflow: hidden;" :style="'width: ' + (choose_place.rating / 1000000 * 154) + 'px;'">★★★★★</div>
+                </div>
+                <small class="d-inline-block">из {{choose_place.count_rating.length}}</small>
+                <a class="waves-effect waves-light modal-close right col-auto p-0" @click="Route"
+                    style="height: 44px; width: 44px; text-align: center; border-radius: 50%;">
+                    <i class="material-icons text-white" style="height: 44px; line-height: 44px;">swap_calls</i>
+                </a>
+                <a href="#comment-modal" class="waves-effect waves-light modal-close right col-auto p-0 modal-trigger"
+                    style="height: 44px; width: 44px; text-align: center; border-radius: 50%;" @click="OpenComment(choose_place.id)">
+                    <i class="material-icons text-white" style="height: 44px; line-height: 44px;">chat</i>
+                </a>
+                <a class="waves-effect waves-light right col-auto p-0"
+                    style="height: 44px; width: 44px; text-align: center; border-radius: 50%;"
+                    @click="CopyTextToClipboard">
+                    <i class="material-icons text-white" style="height: 44px; line-height: 44px;">share</i>
+                </a>
+            </div>
+            <div class="w-100 mb-4" v-if="(choose_place.social.length != 0)">
+                <p class="m-0 btn-flat p-0" style="color: white; cursor: initial;">Добавлено: </p>
+                <a v-for="(sn, index) in choose_place.social" :href="'link.php?i=' + sn.value + '&t=' + sn.type" target="_blank" 
+                    class="waves-effect waves-light btn-flat p-0 mx-3" style="color: white; font-size: 0;">
+                    <img :src="snd[sn.type].src" style="width: 36px;">
+                </a>
+            </div>
+            <div v-for="(tag, i) in choose_place.tags" class="chip yellow accent-2">{{tag}}</div>
+        </div>
+        <hr class="white" />
+        <p style="white-space: pre-wrap;">{{choose_place.description}}</p>
+        <div class="container-fluid p-0">
+            <div class="row imglist">
+                <div v-for="(image, index) in choose_place.images" class="col-lg-3 col-md-4 col-sm-6 col-12 p-1">
+                    <div class="border rounded img-place-back" style="background: no-repeat center / cover; height: 200px; width: 100%;" 
+                            :style="'backgroundImage: url(' + image + ');'">
+                        <div style="width: 400%; margin-left: -150%; height: 200px; text-align: center;">
+                            <img :src="image" class="materialboxed" width="auto">
+                        </div>
+                    </div>
+                </div>
+                <!--a v-for="(image, index) in choose_place.images" class="col-lg-3 col-md-4 col-sm-6 col-12 p-1" :href="image">
+                    <img :src="image" />
+                </a-->
+            </div>
+        </div>
+        <hr class="white" />
+        <div class="row m-0">
+            <a class="modal-close waves-effect waves-light btn-flat ml-auto">Закрыть</a>
+        </div>
+    </div>
+</div>
+
+<div id="comment-modal" class="modal">
+    <div class="container-fluid my-5 text-white p-0" style="border-radius: 8px; background: #333;">
+        <div class="row m-0 p-2">
+            <a href="#place-modal" class="waves-effect waves-light modal-close left col-auto p-0 modal-trigger"
+                style="height: 44px; width: 44px; text-align: center; border-radius: 50%;">
+                <i class="material-icons text-white" style="height: 44px; line-height: 44px;">arrow_back</i>
+            </a>
+            <h4 class="col p-0 pt-1 m-0" style="flex-basis: 0;">{{choose_place.title}} - Комментарии</h4>
+            <a class="waves-effect waves-light modal-close right col-auto p-0"
+                style="height: 44px; width: 44px; text-align: center; border-radius: 50%;">
+                <i class="material-icons text-white" style="height: 44px; line-height: 44px;">close</i>
+            </a>
+        </div>
+        <hr class="white mb-0" />
+        <div class="row m-0 p-4 grey lighten-4">
+            <comment v-if="(comments.length > 0)" v-for="(comment, index) in comments" :key="index" :comment="comment"></comment>
+            <p class="lead m-0" style="color: black;" v-if="(comments.length == 0)">Напишите комментарий к этому месту первым!</p>
+        </div>
+        <hr class="white mt-0" />
+        <div class="row m-0 p-4">
+            <div v-if="!login" class="row m-0">
+                <p class="lead col" style="width: calc(100% - 90px);">Комментировать можно только зарегистрированным пользователям.</p>
+                <a class="btn-flat right waves-effect waves-light col-auto" style="background: #ff0;" href="/regist">Войти</a>
+            </div>
+            <div v-else class="w-100 pt-1">
+                <div class="input-field col p-0 m-0" style="width: calc(100% - 50px);">
+                    <textarea id="description" class="materialize-textarea" style="color: white;" v-model="text_comment"></textarea>
+                    <label for="description text-white" style="left: 0;">Ваш комментарий</label>
+                </div>
+                <a class="waves-effect waves-light right prefix col-auto p-0" @click="SendComment"
+                    style="height: 44px; width: 44px; text-align: center; border-radius: 50%;">
+                    <i class="material-icons text-white" style="height: 44px; line-height: 44px; color: #ff0;">send</i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="event-modal" class="modal">
+    <div class="container-fluid my-5 text-white py-3" style="border-radius: 8px; background: #333;">
+        <div class="row m-0">
+            <h4 class="col p-0 m-0" style="flex-basis: 0;">{{choose_event.name}}</h4>
+            <a class="waves-effect waves-light modal-close right col-auto p-0"
+                style="height: 44px; width: 44px; text-align: center; border-radius: 50%;">
+                <i class="material-icons text-white" style="height: 44px; line-height: 44px;">close</i>
+            </a>
+        </div>
+        <hr class="white" />
+        <div class="row m-0">
+            <a :href="'https://vk.com/' + choose_event.screen_name" class="w-100 d-block">
+                <div class="w-100" :style="'background-image: url(' + choose_event.photo_200 + ')'"
+                        style="background: no-repeat center / cover; height: 300px;">
+                    <!--a class="waves-effect waves-light modal-close right col-auto p-0" @click="Route"
+                        style="height: 44px; width: 44px; text-align: center; border-radius: 50%;">
+                        <i class="material-icons text-white" style="height: 44px; line-height: 44px;">swap_calls</i>
+                    </a>
+                    <a href="#comment-modal" class="waves-effect waves-light modal-close right col-auto p-0 modal-trigger"
+                        style="height: 44px; width: 44px; text-align: center; border-radius: 50%;" @click="OpenComment(choose_place.id)">
+                        <i class="material-icons text-white" style="height: 44px; line-height: 44px;">chat</i>
+                    </a>
+                    <a class="waves-effect waves-light right col-auto p-0"
+                        style="height: 44px; width: 44px; text-align: center; border-radius: 50%;"
+                        @click="CopyTextToClipboard">
+                        <i class="material-icons text-white" style="height: 44px; line-height: 44px;">share</i>
+                    </a-->
+                </div>
+            </a>
+        </div>
+        <hr class="white" />
+        <div class="row m-0">
+            <p class="lead mb-2 pt-2 mr-4" id="modal-event-time"></p>
+            <a v-if="!!choose_event.site" :href="choose_event.site" class="btn-flat text-white right mt-1 ml-auto">Перейти на сайт</a>
+        </div>
+        <hr class="white" />
+        <p style="white-space: pre-wrap;">{{choose_event.description}}</p>
+        <div class="container-fluid p-0">
+        </div>
+        <hr class="white" />
+        <div class="row m-0">
+            <a :href="'https://vk.com/' + choose_event.screen_name" 
+                class="waves-effect waves-light btn-flat ml-auto text-white">Узнать больше</a>
+            <a class="modal-close waves-effect waves-light btn-flat">Закрыть</a>
+        </div>
+    </div>
+</div>
+    
+</div>
+    
+<div id="map-container" style="width: 100%; height: 100%"></div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+<script src="components/device.js"></script>
+<script src="js/map-1-0-17.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    if(!localStorage.getItem('user_id')) {
+        localStorage.setItem('user_id', ((new Date()).getTime() + "" + Math.round(Math.random() * (9999 - 1000) + 1000)).substring(6));
+    }
+    map.setZoom(3.7);
+
+    $('#weather-widget').on('mouseover hover tap', function(){
+        $('#weather-widget').addClass('weather-widget-hover');
+    });
+
+    $('#weather-widget').on('mouseout', function(){
+        $('#weather-widget').removeClass('weather-widget-hover');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    var dropdown_elems = document.querySelectorAll('.dropdown-trigger');
+    var instances = M.Dropdown.init(dropdown_elems, {
+        closeOnClick: false
+    });
+
+    var sidenav_elems = document.querySelectorAll('.sidenav');
+    var sidenav_instances = M.Sidenav.init(sidenav_elems, {});
+
+    $('.sidenav-overlay').remove();
+
+    M.textareaAutoResize($('#description'));
+
+    platform.configure(H.map.render.panorama.RenderEngine)
+
+    setTimeout(SeaplApp.DrawMap, 1200);
+        
+    setTimeout(function() {
+        if (!!localStorage.getItem('coord_x')) {
+            let position = {
+                lat: localStorage.getItem('coord_x'),
+                lng: localStorage.getItem('coord_y')
+            };
+    
+            map.setCenter(position);
+            map.setZoom(15);
+
+            localStorage.removeItem('coord_x');
+            localStorage.removeItem('coord_y');
+        }
+    }, 1000);
+});
+</script>
+</body>
+</html>

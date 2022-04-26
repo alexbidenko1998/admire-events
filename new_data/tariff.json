@@ -1,0 +1,7 @@
+[
+    { "id": 1, "price": "100$", "duration": "1 month" },
+    { "id": 2, "price": "200$", "duration": "3 month" },
+    { "id": 3, "price": "350$", "duration": "6 month" },
+    { "id": 4, "price": "1000$", "duration": "2 years" },
+    { "id": 5, "price": "6000$", "duration": "5 years" }
+]

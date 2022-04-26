@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  database:
+    restart: unless-stopped
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: admire_events
+      MYSQL_DATABASE: seapl_database
+      MYSQL_USER: seapl_database
+      MYSQL_PASSWORD: database_seapl
+    networks:
+      - app_network
+
+  web:
+    restart: unless-stopped
+    build: .
+    container_name: admire-events
+    depends_on:
+      - db
+    ports:
+      - "8000:80"
+    stdin_open: true
+    tty: true
+    networks:
+      - app_network
+      - server
+
+networks:
+  app_network:
+    driver: bridge
+  server:
+    external: true

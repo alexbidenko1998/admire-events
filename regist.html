@@ -1,0 +1,361 @@
+<!doctype html>
+<html>
+<head>
+    <title>Admire - Добро пожаловать к нам</title>
+    <link rel="shortcut icon" href="site-images/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Карта, интересные места, провести время, куда сходить, регистрация">
+    <meta name="description" content="Сайт даст возможность и информацию для любого желающего узнать, куда можно сходить, как провести время и с кем провести время, регистрация на сайте">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, shrink-to-fit=no" />
+    <link rel="stylesheet" type="text/css" href="//js.api.here.com/v3/3.0/mapsjs-ui.css?dp-version=1549984893" />
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
+    
+    <link rel="stylesheet" href="css/regist.css">
+    <style type="text/css">
+        body {
+            height: 100Vh;
+        }
+        .btn-flat:hover {
+            text-decoration: none;
+        }
+        .btn.active {
+            background-color: #4527a0!important;
+            color: white!important;
+        }
+        input, h2 {
+            /*color: white!important;*/
+        }
+        input.validate:focus, .chips.focus {
+            border-color: #424242 !important;
+        }
+        .character-counter, label.active, .prefix.active {
+            color: #424242 !important;
+        }
+        #toast-container {
+            left: 50%!important;
+            transform: translate(-50%, 0)!important;
+            bottom: 7%!important;
+            top: initial!important;
+        }
+    </style>
+</head>
+<body class="grey lighten-5">
+    
+<div id="SeaplApp">
+
+<div class="position-fixed d-inline z-depth-2" style="top: 0; left: 0; z-index: 100; 
+        border-bottom-right-radius: 16px; background: #666;">
+    <a class="waves-effect waves-light btn-flat text-white" href="/">
+        <i class="material-icons left">arrow_back</i><span class="d-none d-lg-inline">Главная</span>
+    </a>
+</div>
+
+<div class="container card-panel mx-auto grey lighten-5 p-0 z-depth-2 mt-5" style="border-radius: 16px;">
+    <div class="btn-group btn-group-toggle w-100 row m-0 pb-1" style="border-top-left-radius: 16px; 
+        border-top-right-radius: 16px; overflow: hidden;" data-toggle="buttons">
+        <label class="btn waves-effect waves-light white col s6" @click="form_regime=0"
+            style="color: black;" :class="{'active': (form_regime==0)}">
+            <input type="radio" name="options" autocomplete="off"> Вход
+        </label>
+        <label class="btn waves-effect waves-light white col s6" @click="form_regime=1"
+            style="color: black;" :class="{'active': (form_regime==1)}">
+            <input type="radio" name="options" autocomplete="off"> Регистрация
+        </label>
+        <!--label class="btn waves-effect waves-light white col s4" id="vk_regime_button" @click="form_regime=2"
+            style="color: black;" :class="{'active': (form_regime==2)}">
+            <input type="radio" name="options" autocomplete="off"> VK
+        </label-->
+    </div>
+    <div v-show="(form_regime == 1)" class="card-content w-100 p-4">
+        <form>
+            <div class="input-field">
+                <i class="material-icons prefix">account_circle</i>
+                <input id="icon_prefix" name="login" type="text" class="validate" v-model="login" required>
+                <label for="icon_prefix">Логин</label>
+            </div>
+            <div class="input-field">
+                <input id="icon_first_name" name="first_name" type="text" class="validate" v-model="first_name" required>
+                <label for="icon_first_name">Имя</label>
+            </div>
+            <div class="input-field">
+                <input id="icon_last_name" name="last_name" type="text" class="validate" v-model="last_name" required>
+                <label for="icon_last_name">Фамилия</label>
+            </div>
+            <div class="row m-0">
+                <label>
+                    <input name="sex" type="radio" value="famale" v-model="sex" required />
+                    <span>Девушка</span>
+                </label>
+                <label>
+                    <input name="sex" type="radio" value="male" v-model="sex" required />
+                    <span>Парень</span>
+                </label>
+            </div>
+            <div class="input-field">
+                <i class="material-icons prefix">email</i>
+                <input id="icon_email" name="email" type="email" class="validate" v-model="email" required>
+                <label for="icon_email">email</label>
+            </div>
+            <!--div class="input-field">
+                <i class="material-icons prefix black-text">account_balance</i>
+                <input id="icon_country" name="country" type="text" class="validate black-text" v-model="country" required>
+                <label for="icon_country">Страна</label>
+            </div-->
+            <div class="input-field">
+                <input id="icon_city" name="city" type="text" class="validate" v-model="city" required>
+                <label for="icon_city">Город</label>
+            </div>
+            <div class="input-field">
+                <i class="material-icons prefix">lock</i>
+                <input id="icon_password" name="password" type="password" class="validate" v-model="password" required>
+                <label for="icon_password">Пароль</label>
+            </div>
+            <div class="input-field">
+                <i class="material-icons prefix">lock_outline</i>
+                <input id="icon_pass_double" name="pass_double" type="password" class="validate" v-model="pass_double" required>
+                <label for="icon_pass_double">Повторите пароль</label>
+            </div>
+        </form>
+    </div>
+    <div v-show="(form_regime == 0)" class="card-content w-100 p-4">
+        <form>
+            <div class="input-field">
+                <i class="material-icons prefix">account_circle</i>
+                <input id="icon_login_enter" type="text" class="validate" v-model="login_enter" required>
+                <label for="icon_login_enter">Логин</label>
+            </div>
+            <div class="input-field">
+                <i class="material-icons prefix">lock</i>
+                <input id="icon_password_enter" type="password" class="validate" v-model="password_enter" required>
+                <label for="icon_password_enter">Пароль</label>
+            </div>
+        </form>
+    </div>
+    <div v-show="(form_regime == 2)" class="card-content w-100 p-4">
+        <form>
+            <div class="input-field">
+                <i class="material-icons prefix">account_circle</i>
+                <input id="icon_vk_login" name="login" type="text" class="validate" v-model="login" required>
+                <label for="icon_vk_login">Логин</label>
+            </div>
+            <div class="input-field">
+                <i class="material-icons prefix">lock</i>
+                <input id="icon_vk_password" name="password" type="password" class="validate" v-model="password" required>
+                <label for="icon_vk_password">Пароль</label>
+            </div>
+            <div class="input-field">
+                <i class="material-icons prefix">lock_outline</i>
+                <input id="icon_vk_pass_double" name="pass_double" type="password" class="validate" v-model="pass_double" required>
+                <label for="icon_vk_pass_double">Повторите пароль</label>
+            </div>
+            <div class="input-field">
+                <input id="icon_vk_vk" name="vk" type="text" class="validate" v-model="vk" required>
+                <label for="icon_vk_vk">Ваш VK</label>
+            </div>
+            <div v-if="vk_get_result">
+                <div class="input-field">
+                    <input id="icon_first_name" name="first_name" type="text" class="validate" v-model="first_name" required>
+                    <label for="icon_first_name">Имя</label>
+                </div>
+                <div class="input-field">
+                    <input id="icon_last_name" name="last_name" type="text" class="validate" v-model="last_name" required>
+                    <label for="icon_last_name">Фамилия</label>
+                </div>
+                <div class="row m-0">
+                    <label>
+                        <input name="sex" type="radio" value="famale" v-model="sex" required />
+                        <span>Девушка</span>
+                    </label>
+                    <label>
+                        <input name="sex" type="radio" value="male" v-model="sex" required />
+                        <span>Парень</span>
+                    </label>
+                </div>
+                <div class="input-field">
+                    <i class="material-icons prefix">email</i>
+                    <input id="icon_email" name="email" type="email" class="validate" v-model="email" required>
+                    <label for="icon_email">email</label>
+                </div>
+                <div class="input-field">
+                    <input id="icon_city" name="city" type="text" class="validate" v-model="city" required>
+                    <label for="icon_city">Город</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div v-if="(text_message!='')" class="container-fluid px-4">
+        <div class="alert alert-warning" role="alert">{{text_message}}</div>
+    </div>
+    <hr class="white m-0" />
+    <div class="w-100 p-4">
+        <button class="btn-flat waves-effect waves-light" @click="Sing">{{text_enter_button}}</button>
+    </div>
+</div>
+    
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.sidenav').sidenav();
+    });
+        
+    var SeaplApp = new Vue({
+        el: '#SeaplApp',
+        data: {
+            form_regime: 0,
+            text_enter_button: "Вход",
+            text_message: "",
+    
+            login: "",
+            first_name: "",
+            last_name: "",
+            sex: "",
+            email: "",
+            country: "Россия",
+            city: "",
+            password: "",
+            pass_double: "",
+            vk: "",
+
+            vk_get_result: false,
+    
+            login_enter: "",
+            password_enter: ""
+        },
+        created() {
+            if(localStorage.getItem('vk_enter') == 'true') {
+                localStorage.removeItem('vk_enter');
+                this.form_regime = 2;
+            }
+        },
+        methods: {
+            SaveRegion: function() {
+                localStorage.setItem('city', this.city);
+            },
+            Sing: function() {
+                this.text_message = "";
+
+                let ready = false;
+                if(this.form_regime == 0) ready = true;
+                else if(this.form_regime == 1) {
+                    if (this.login == "") M.toast({html: "Придумайте логин"});
+                    else if (this.first_name == "") M.toast({html: "Укажите имя"});
+                    else if (this.last_name == "") M.toast({html: "Укажите фамилию"});
+                    else if (this.sex == "") M.toast({html: "Укажите пол"});
+                    else if (this.email == "") M.toast({html: "Укажите email"});
+                    else if (this.city == "") M.toast({html: "Укажите город"});
+                    else if (this.password == "") M.toast({html: "Придумайте пароль"});
+                    else ready = true;
+                } else if (this.vk_get_result) {
+                    if (this.login == "") M.toast({html: "Придумайте логин"});
+                    else if (this.first_name == "") M.toast({html: "Укажите имя"});
+                    else if (this.last_name == "") M.toast({html: "Укажите фамилию"});
+                    else if (this.sex == "") M.toast({html: "Укажите пол"});
+                    else if (this.email == "") M.toast({html: "Укажите email"});
+                    else if (this.city == "") M.toast({html: "Укажите город"});
+                    else if (this.password == "") M.toast({html: "Придумайте пароль"});
+                    else ready = true;
+                }
+                if(ready) {
+                    $.ajax({
+                        url: this.form_regime == 0 ? "back/login.php" : "back/regist.php",
+                        type: "POST",
+                        data: this.$data,
+                        success: function(data) {
+                            if(data.substring(0, 4) == "well") {
+                                let user_data = JSON.parse(data.substring(4))
+                                localStorage.setItem('user_id', user_data['id']);
+                                localStorage.setItem('city', user_data['city']);
+                                if (SeaplApp.form_regime == 0) {
+                                    localStorage.setItem('login', SeaplApp.login_enter);
+                                    localStorage.setItem('password', SeaplApp.password_enter);
+                                } else {
+                                    localStorage.setItem('login', SeaplApp.login);
+                                    localStorage.setItem('password', SeaplApp.password);
+                                }
+                                if(localStorage.getItem('old_page')) {
+                                    let page = localStorage.getItem('old_page');
+                                    localStorage.removeItem('old_page');
+                                    location.href = page;
+                                } else {
+                                    location.href = "/my-page";
+                                }
+                            } else if (data == "no_login_or_pass") SeaplApp.text_message = "Неверный логин или пароль.";
+                            else if (data == "no_pass") SeaplApp.text_message = "Пароли не совпадают.";
+                            else if (data == "no_login") SeaplApp.text_message = "Выбрами Вами логин уже занят.";
+                            else if (data == "no_email") SeaplApp.text_message = "Выбрами Вами email уже зарегистрирован.";
+                        }
+                    });
+                }
+            }
+        },
+        watch: {
+            form_regime: function (val) {
+                if(val == 0) {
+                    this.text_enter_button = "Вход";
+                } else {
+                    this.text_enter_button = "Регистрация";
+                }
+            },
+            vk: function(val) {
+                let prev_id = val.split("/")[val.split("/").length - 1];
+                $.ajax({
+                    url: 'back/get-weather.php',
+                    type: "POST",
+                    data: {
+                        url: `https://api.vk.com/method/utils.resolveScreenName?screen_name=${prev_id}&v=5.95&access_token=cdea1de80818855c4b304deed782e4b470adac74377ae145788fe219b8fdffc1505f1012ea377b4213330`
+                    },
+                    success: function (data) {
+                        let ans = JSON.parse(data);
+                        let user_id = ans.response.object_id;
+
+                        $.ajax({
+                            url: 'back/get-weather.php',
+                            type: "POST",
+                            data: {
+                                url: `https://api.vk.com/method/users.get?user_ids=${user_id}&fields=sex,city&v=5.95&access_token=cdea1de80818855c4b304deed782e4b470adac74377ae145788fe219b8fdffc1505f1012ea377b4213330`
+                            },
+                            success: function (data) {
+                                console.log(JSON.parse(data));
+
+                                let user_ans = JSON.parse(data).response[0];
+
+                                SeaplApp.first_name = user_ans.first_name;
+                                SeaplApp.last_name = user_ans.last_name;
+                                if(user_ans.sex == 1) {
+                                    SeaplApp.sex = "famale";
+                                } else if(user_ans.sex == 2) {
+                                    SeaplApp.sex = "male";
+                                }
+                                SeaplApp.city = user_ans.city.title;
+
+                                SeaplApp.vk_get_result = true;
+
+                                SeaplApp.$nextTick(function() {
+                                    M.updateTextFields();
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

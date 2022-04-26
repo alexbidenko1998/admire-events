@@ -1,0 +1,1592 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <title>Admire - Место для каждого</title>
+    <meta charset="UTF-8">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138158685-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-138158685-1');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(53240083, "init", {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true,
+                webvisor:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/53240083" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-2998158216087954",
+            enable_page_level_ads: true
+        });
+    </script>
+    <link rel="shortcut icon" href="site-images/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Карта, интересные места, провести время, куда сходить">
+    <meta name="description" content="Сайт даст возможность и информацию для любого желающего узнать, куда можно сходить, как провести время и с кем провести время">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, shrink-to-fit=no" />
+    <meta name="yandex-verification" content="7919b11398717df1" />
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
+
+    <link href="//fonts.googleapis.com/css?family=Montserrat:100,400,500,700" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;subset=cyrillic" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css">
+
+    <script src="js/jquery.ckLine.js"></script>
+
+    <link rel="stylesheet" href="css/index.css">
+    <style type="text/css">
+        body {
+            width: 100%;
+        }
+        .modal {
+            bottom: initial;
+        }
+        .modal-content {
+            background-color: initial;
+            border: 0;
+            border-radius: 0;
+            display: block;
+        }
+        .col {
+            flex-basis: initial;
+        }
+        .text-place {
+            overflow: hidden;
+        }
+        .btn-flat:hover {
+            text-decoration: none;
+        }
+
+        .place-block {
+            background: #efefef;
+
+            transition-property: border-radius, max-height;
+            transition-duration: 500ms;
+        }
+        .place-block-more {
+            border-radius: 8px!important;
+            max-height: 1000px;
+        }
+        p.text-place {
+            width: 100%;
+            max-height: 24.5px;
+
+            transition-property: max-height;
+            transition-duration: 500ms;
+        }
+        .place-block-more p.text-place {
+            max-height: 1000px
+        }
+        .text-more {
+            width: calc(100% - 90px);
+            max-height: 50px;
+
+            transition-property: max-height;
+            transition-duration: 500ms;
+        }
+        .place-block-more .text-more {
+            max-height: 1000px
+        }
+        .place-block a {
+            height: 0;
+            width: 44px;
+            text-align: center;
+            border-radius: 50%;
+            transform: scale(0);
+            opacity: 0;
+
+            transition-property: opacity, transform, height;
+            transition-duration: 500ms;
+        }
+        .place-block-more a {
+            height: 44px;
+            transform: scale(1);
+            opacity: 1;
+        }
+        .place-block .left-col {
+            height: 50px;
+        }
+        .place-block-more .left-col {
+            height: auto;
+        }
+        .slides h3, .slides h5 {
+            text-shadow: 1px 1px 1px black;
+        }
+        nav {
+            width: initial!important;
+            height: initial!important;
+            line-height: initial!important;
+        }
+        nav i {
+            height: initial!important;
+            line-height: inherit!important;
+            font-size: 1.3rem!important;
+        }
+        #search-body-back {
+            z-index: -50;
+            opacity: 0;
+            background: #ffffffee;
+            height: 100vh;
+            overflow-y: scroll;
+            top: 0;
+            left: 0;
+
+            transition-property: opacity, z-index;
+            transition-duration: 500ms;
+        }
+        .search-body-back-open {
+            z-index: 1000!important;
+            opacity: 1!important;
+        }
+        .main-title {
+            color: white;
+            font-weight: 100;
+            font-family: 'Montserrat', sans-serif;
+            padding: 0 10% 0 10%;
+
+            transition-property: opacity, transform;
+            transition-duration: 500ms;
+        }
+        header nav a::after, header nav button::after {
+            content: "";
+            height: 1px;
+            width: 0;
+            background: white;
+            display: block;
+            margin-top: -1px;
+            margin-left: auto;
+            margin-right: auto;
+
+            transition-property: width;
+            transition-duration: 300ms;
+        }
+        header nav a:hover::after, header nav button:hover::after {
+            width: 100%;
+        }
+        #nav-top {
+            top: 0;
+            left: 0;
+            z-index: 100;
+            background: transparent;
+            box-shadow: none;
+
+            transition-property: background, box-shadow;
+            transition-duration: 300ms;
+        }
+        .nav-top-scrolled {
+            background: #250e68!important;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2)!important;
+        }
+        #header-arrow {
+            display: block;
+            width: 40px;
+            height: 40px;
+            border-bottom: 2px solid #fff;
+            border-right: 2px solid #fff;
+            transform: rotate(45deg);
+            cursor: pointer;
+
+            transition-property: opacity, transform;
+            transition-duration: 500ms;
+        }
+        .hide-header-elems {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        #places-scroll-block div.scrollableArea *
+        {
+            position: relative;
+            display: block;
+            float: left;
+            margin: 0;
+            padding: 0;
+			user-select: none;
+        }
+        #places-scroll-block {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            margin: 0;
+            display:block;
+        }
+
+
+
+.c-card {
+  margin-bottom: 32px;
+  margin-top: 32px;
+}
+.c-card__wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background-color: #fff;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 300px;
+  -webkit-box-shadow: 0 16px 30px rgba(0, 0, 0, 0.3), 0 16px 12px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 16px 30px rgba(0, 0, 0, 0.3), 0 16px 12px rgba(0, 0, 0, 0.2);
+}
+.c-card__wrapper:hover .c-info li span {
+  opacity: 1;
+  -webkit-transform: translate(-50%, -10px);
+          transform: translate(-50%, -10px);
+}
+.c-card__wrapper:hover .c-card__body {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+    background: #00000099;
+}
+.c-card__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 1.5rem 1rem;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.c-card__body {
+  margin-top: auto;
+  color: #fff;
+  -webkit-transform: translateY(calc(96px + 3.2rem));
+          transform: translateY(calc(96px + 3.2rem));
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform, background 0.3s;
+  transition: transform, background 0.3s, -webkit-transform 0.3s;
+}
+.c-card__content {
+  padding: 1em;
+  position: relative;
+  z-index: 1;
+}
+.c-card__author {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.c-card__title {
+  font-weight: 300;
+  font-size: 26px;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.c-card__title a {
+  color: #fff;
+}
+.c-card__title a:hover {
+  text-decoration: none;
+}
+.c-card__desc {
+  height: 88px;
+  overflow: hidden;
+}
+.c-card__more {
+  display: inline-block;
+  margin: 1rem auto 0.5rem;
+  text-align: center;
+  color: #fff;
+  line-height: 1;
+  position: relative;
+  font-weight: 300;
+  cursor: pointer;
+}
+.c-card__more:hover {
+  color: #fff;
+  text-decoration: none;
+}
+.c-card__more:hover::after {
+  -webkit-transform: translate(20px, -50%);
+          transform: translate(20px, -50%);
+  opacity: 1;
+}
+.c-card__more::after {
+  content: '\2192';
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  -webkit-transition: all ease 0.3s;
+  transition: all ease 0.3s;
+}
+
+.c-date {
+  color: #fff;
+  font-size: 14px;
+}
+
+.c-info {
+  list-style: none;
+  margin: 0;
+}
+.c-info li {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  margin: 0 4px;
+}
+.c-info li a {
+  color: #ffffff;
+}
+.c-info li a:hover {
+  text-decoration: none;
+}
+.c-info li span {
+  font-size: 14px;
+  position: absolute;
+  left: 50%;
+  top: -4px;
+  opacity: 0;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  -webkit-transition: all ease 0.25s;
+  transition: all ease 0.25s;
+}
+
+
+.slider-container {
+  position: relative;
+  height: 100vh;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: all-scroll;
+}
+
+.slider-control {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  width: 12%;
+  height: 100%;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+  will-change: opacity;
+  opacity: 0;
+}
+.slider-control.inactive:hover {
+  cursor: auto;
+}
+.slider-control:not(.inactive):hover {
+  opacity: 1;
+  cursor: pointer;
+}
+.slider-control.left {
+  left: 0;
+  background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0) 100%);
+}
+.slider-control.right {
+  right: 0;
+  background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.18) 100%);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.18) 100%);
+}
+
+.slider-pagi {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: 2rem;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  font-size: 0;
+  list-style-type: none;
+}
+.slider-pagi__elem {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 2rem;
+  height: 2rem;
+  margin: 0 0.5rem;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  cursor: pointer;
+}
+.slider-pagi__elem:before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1.2rem;
+  height: 1.2rem;
+  background: #fff;
+  border-radius: 50%;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
+  -webkit-transform: translate(-50%, -50%) scale(0);
+          transform: translate(-50%, -50%) scale(0);
+}
+.slider-pagi__elem.active:before, .slider-pagi__elem:hover:before {
+  -webkit-transform: translate(-50%, -50%) scale(1);
+          transform: translate(-50%, -50%) scale(1);
+}
+
+.slider {
+  z-index: 1;
+  position: relative;
+  height: 100%;
+}
+.slider.animating {
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+  transition: transform 0.5s, -webkit-transform 0.5s;
+  will-change: transform;
+}
+.slider.animating .slide__bg {
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+  transition: transform 0.5s, -webkit-transform 0.5s;
+  will-change: transform;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+.slide.active .slide__overlay,
+.slide.active .slide__text {
+  opacity: 1;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+}
+.slide__bg {
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 100%;
+  height: 100%;
+  background: no-repeat center / cover;
+  will-change: transform;
+}
+.slide:nth-child(1) {
+  left: 0;
+}
+.slide:nth-child(1) .slide__bg {
+  left: 0;
+}
+.slide:nth-child(1) .slide__overlay-path {
+  fill: #e99c7e;
+}
+@media (max-width: 991px) {
+  .slide:nth-child(1) .slide__text {
+    background-color: rgba(233, 156, 126, 0.8);
+  }
+}
+.slide:nth-child(2) {
+  left: 100%;
+}
+.slide:nth-child(2) .slide__bg {
+  left: -50%;
+}
+.slide:nth-child(2) .slide__overlay-path {
+  fill: #e1ccae;
+}
+@media (max-width: 991px) {
+  .slide:nth-child(2) .slide__text {
+    background-color: rgba(225, 204, 174, 0.8);
+  }
+}
+.slide:nth-child(3) {
+  left: 200%;
+}
+.slide:nth-child(3) .slide__bg {
+  left: -100%;
+}
+.slide:nth-child(3) .slide__overlay-path {
+  fill: #adc5cd;
+}
+@media (max-width: 991px) {
+  .slide:nth-child(3) .slide__text {
+    background-color: rgba(173, 197, 205, 0.8);
+  }
+}
+.slide:nth-child(4) {
+  left: 300%;
+}
+.slide:nth-child(4) .slide__bg {
+  left: -150%;
+}
+.slide:nth-child(4) .slide__overlay-path {
+  fill: #cbc6c3;
+}
+@media (max-width: 991px) {
+  .slide:nth-child(4) .slide__text {
+    background-color: rgba(203, 198, 195, 0.8);
+  }
+}
+.slide__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.slide__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  min-height: 810px;
+  -webkit-transition: opacity 0.2s 0.5s, -webkit-transform 0.5s 0.5s;
+  transition: opacity 0.2s 0.5s, -webkit-transform 0.5s 0.5s;
+  transition: transform 0.5s 0.5s, opacity 0.2s 0.5s;
+  transition: transform 0.5s 0.5s, opacity 0.2s 0.5s, -webkit-transform 0.5s 0.5s;
+  will-change: transform, opacity;
+  -webkit-transform: translate3d(-20%, 0, 0);
+          transform: translate3d(-20%, 0, 0);
+  opacity: 0;
+}
+@media (max-width: 991px) {
+  .slide__overlay {
+    display: none;
+  }
+}
+.slide__overlay path {
+  opacity: 0.8;
+}
+.slide__text {
+  position: absolute;
+  width: 25%;
+  bottom: 15%;
+  left: 12%;
+  color: #fff;
+  -webkit-transition: opacity 0.5s 0.8s, -webkit-transform 0.5s 0.8s;
+  transition: opacity 0.5s 0.8s, -webkit-transform 0.5s 0.8s;
+  transition: transform 0.5s 0.8s, opacity 0.5s 0.8s;
+  transition: transform 0.5s 0.8s, opacity 0.5s 0.8s, -webkit-transform 0.5s 0.8s;
+  will-change: transform, opacity;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  opacity: 0;
+}
+@media (max-width: 991px) {
+  .slide__text {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 20rem;
+    text-align: center;
+    -webkit-transform: translateY(50%);
+            transform: translateY(50%);
+    -webkit-transition: opacity 0.5s 0.5s, -webkit-transform 0.5s 0.5s;
+    transition: opacity 0.5s 0.5s, -webkit-transform 0.5s 0.5s;
+    transition: transform 0.5s 0.5s, opacity 0.5s 0.5s;
+    transition: transform 0.5s 0.5s, opacity 0.5s 0.5s, -webkit-transform 0.5s 0.5s;
+    padding: 0 1rem;
+  }
+}
+.slide__text-heading {
+  font-family: 'Exo 2', Helvetica, Arial, sans-serif;
+  font-size: 5rem;
+  margin-bottom: 2rem;
+}
+@media (max-width: 991px) {
+  .slide__text-heading {
+    line-height: 20rem;
+    font-size: 3.5rem;
+  }
+}
+.slide__text-desc {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 991px) {
+  .slide__text-desc {
+    display: none;
+  }
+}
+.slide__text-link {
+  z-index: 5;
+  display: inline-block;
+  position: relative;
+  padding: 0.5rem;
+  cursor: pointer;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 2.3rem;
+  -webkit-perspective: 1000px;
+          perspective: 1000px;
+}
+@media (max-width: 991px) {
+  .slide__text-link {
+    display: none;
+  }
+}
+.slide__text-link:before {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  -webkit-transform-origin: 50% 100%;
+          transform-origin: 50% 100%;
+  -webkit-transform: rotateX(-85deg);
+          transform: rotateX(-85deg);
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
+  will-change: transform;
+}
+.slide__text-link:hover:before {
+  -webkit-transform: rotateX(0);
+          transform: rotateX(0);
+}
+
+.image-effect-future{
+			overflow: hidden;
+			margin: 0 auto;
+			box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+		}
+
+		.image-effect-future .share-layer{
+			height: 200px;
+            text-align: center;
+			border-color: rgba(255,255,255,0.5);
+			background-color: rgba(255,255,255,0.3);
+			border: 1px solid transparent;
+			z-index: 10;
+		}
+
+
+		.image-effect-future .share-button{
+			display: inline-block;
+			text-decoration: none;
+			font-size: 13px;
+			color: #ffffff;
+			padding: 12px;
+			border-radius: 2px;
+			margin: 80px 10px;
+		}
+
+		.share-via-vk{
+			background-color:#3b5998;
+		}
+
+		.share-via-android{
+			background-color:green;
+		}
+
+        #ckLine {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        h2.funny-title{
+            border-top:5px solid #E0DBDE;
+            border-bottom:5px solid #E0DBDE;
+            font-size:58px;
+            text-align:center;margin-top:40px;
+            margin-bottom:5px;
+            text-transform:uppercase;
+            font-weight:600;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing:8px;
+            padding: 12px;
+        }
+        @-webkit-keyframes move-background {
+        0%{background-position:-300px 0}
+        100%{background-position:300px 0}
+        }
+        @-moz-keyframes move-background {
+        0%{background-position:-300px 0}
+        100%{background-position:300px 0}
+        }
+        @keyframes move-background {
+        0%{background-position:-300px 0}
+        100%{background-position:300px 0}
+        }
+        .section-title{
+            -webkit-animation-play-state:running;
+            -moz-animation-play-state:running;
+            animation-play-state:running;
+            color:transparent;
+            background:url(https://obninsksite.ru/assets/theme/images/blog/square.svg) no-repeat #ECE7EA;
+            background-size:cover;
+            -webkit-text-fill-color:transparent;
+            -moz-text-fill-color:transparent;
+            -webkit-background-clip:text;
+            -moz-background-clip:text;
+            background-clip:text;
+            /*-webkit-animation:move-background 60s infinite linear alternate;
+            -moz-animation:move-background 60s infinite linear alternate;
+            animation:move-background 60s infinite linear alternate*/
+        }
+        ul.indicators {
+            display: none!important;
+        }
+        .slider, .slides {
+            height: calc(100vh - 65px)!important;
+        }
+        main, header {
+            z-index: 0;
+        }
+    </style>
+
+<script type="text/javascript">
+    function ChangeRegion() {
+        var elem = document.getElementById("modal-input-region");
+        var instance = M.Modal.getInstance(elem);
+        instance.open();
+    }
+
+    var More = (el) => {
+        $(el).toggleClass('place-block-more');
+    }
+
+    Vue.component('place-block', {
+        props: ['place'],
+        template: `<div class="c-card col-lg-3 col-md-4 col-sm-6 col-12">
+                <div class="c-card__wrapper" :style="'background-image: url(' + place.avatar + ')'">
+                    <div class="c-card__header">
+                    <!-- begin c-date -->
+                        <!--div class="c-date">
+                            <span class="c-date__day">24</span>
+                            <span class="c-date__month">Января</span>
+                            <span class="c-date__year">2018</span>
+                        </div-->
+                    <!-- end c-date -->
+                    <!-- begin c-info -->
+                        <!--ul class="c-info">
+                            <li><a href="#" class="far fa-bookmark"></a></li>
+                            <li><a href="#" class="far fa-heart"><span>24</span></a></li>
+                            <li><a href="#" class="far fa-comment"><span>4</span></a></li>
+                        </ul-->
+                    <!-- end c-info -->
+                    </div>
+                    <div class="c-card__body">
+                        <div class="c-card__content">
+                            <!--div class="c-card__author">Александр Иванов</div-->
+                            <h3 class="c-card__title">
+                                <a href="#">{{place.title}}</a>
+                            </h3>
+                            <div class="c-card__desc">
+                                {{place.description}}
+                            </div>
+                            <a class="c-card__more" @click="ToLocations">Перейти</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`,
+        computed: {
+            src_image: function() {
+                return {backgroundImage: `url(${this.place.avatar})`};
+            }
+        },
+        methods: {
+            ToLocations: function() {
+                localStorage.setItem('coord_x', this.place.latitude);
+                localStorage.setItem('coord_y', this.place.longitude);
+
+                location.href = "/map";
+            }
+        }
+    });
+
+    Vue.component('event-block', {
+        props: ['event'],
+        template: `<div class="c-card col-lg-3 col-md-4 col-sm-6 col-12">
+                <div class="c-card__wrapper" :style="'background-image: url(' + event.photo_200 + ')'">
+                    <div class="c-card__header">
+                    <!-- begin c-date -->
+                        <!--div class="c-date">
+                            <span class="c-date__day">24</span>
+                            <span class="c-date__month">Января</span>
+                            <span class="c-date__year">2018</span>
+                        </div-->
+                    <!-- end c-date -->
+                    <!-- begin c-info -->
+                        <!--ul class="c-info">
+                            <li><a href="#" class="far fa-bookmark"></a></li>
+                            <li><a href="#" class="far fa-heart"><span>24</span></a></li>
+                            <li><a href="#" class="far fa-comment"><span>4</span></a></li>
+                        </ul-->
+                    <!-- end c-info -->
+                    </div>
+                    <div class="c-card__body">
+                        <div class="c-card__content">
+                            <!--div class="c-card__author">Александр Иванов</div-->
+                            <h3 class="c-card__title">
+                                <a href="#">{{event.name}}</a>
+                            </h3>
+                            <div class="c-card__desc">
+                                {{event.description}}
+                            </div>
+                            <a :href="'https://vk.com/' + event.screen_name" class="c-card__more" target="_blank">Узнать больше</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`,
+        computed: {
+            src_image: function() {
+                return {backgroundImage: `url(${this.place.avatar})`};
+            }
+        },
+        methods: {
+            ToLocations: function() {
+                localStorage.setItem('coord_x', this.place.latitude);
+                localStorage.setItem('coord_y', this.place.longitude);
+
+                location.href = "/map";
+            }
+        }
+    });
+
+    Vue.component('search-block', {
+        props: ['place'],
+        template: `<div class="col-12 col-md-6">
+            <div class="card mt-0">
+                <div class="card-image" style="height: 160px; background: no-repeat center / cover;" :style="src_image">
+                    <span class="card-title p-2 mb-0" style="line-height: 26px;">{{place.title}}</span>
+                </div>
+                <div class="card-content p-2">
+                    <p style="line-height: 16px;
+                        height: 96px;
+                        overflow-y: hidden;">{{place.description}}</p>
+                </div>
+                <div class="card-action">
+                    <a @click="ToLocations" style="cursor: pointer;">Перейти</a>
+                </div>
+            </div>
+        </div>`,
+        computed: {
+            src_image: function() {
+                return {backgroundImage: `url(${this.place.avatar})`};
+            }
+        },
+        methods: {
+            ToLocations: function() {
+                localStorage.setItem('coord_x', this.place.latitude);
+                localStorage.setItem('coord_y', this.place.longitude);
+
+                location.href = "/map";
+            }
+        }
+    });
+
+    var ShowChat = (to_show) => {
+        if(to_show) {
+            $('#messager').css('opacity', 1);
+            $('#messager').css('zIndex', 50);
+            $('#messager').css('display', 'block');
+        } else {
+            $('#messager').css('opacity', 0);
+            setTimeout(function() {
+                $('#messager').css('zIndex', -10);
+                $('#messager').css('display', 'none');
+            }, 150);
+        }
+    }
+
+    const onslide = (to_where) => {
+        let elem = document.getElementById("news-slider");
+        var instance = M.Slider.getInstance(elem);
+        if(to_where == "right") {
+            instance.next();
+        } else {
+            instance.prev();
+        }
+    }
+</script>
+</head>
+<body>
+
+<div id="SeaplApp" style="width: 100%;">
+
+<header>
+    <nav class="position-fixed w-100 py-3" id="nav-top">
+        <div class="container p-0">
+            <a class="waves-effect waves-light btn-flat text-white" href="/map">
+                <span class="d-none d-lg-inline">Карта</span><i class="material-icons right">map</i>
+            </a>
+            <a class="waves-effect waves-light btn-flat text-white" href="/add-place">
+                <span class="d-none d-lg-inline">Добавить место</span><i class="material-icons right">add</i>
+            </a>
+            <a v-if="!welcome" class="waves-effect waves-light btn-flat text-white" href="/regist">
+                <span class="d-none d-lg-inline">Войти</span><i class="material-icons right">input</i>
+            </a>
+            <a v-else class="waves-effect waves-light btn-flat text-white" href="/my-page">
+                <span class="d-none d-lg-inline">Кабинет</span><i class="material-icons right">account_balance</i>
+            </a>
+
+            <button class="waves-effect waves-light btn-flat text-white right" @click="SearchToggle">
+                <i class="material-icons left">search</i><span class="d-none d-lg-inline">Поиск</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="w-100 parallax-container" style="height: 100vh; padding-top: 200px;">
+        <div class="parallax"><img src="site-images/head-image.jpg" style="background: white;"></div>
+        <svg id="ckLine" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"></svg>
+
+        <h1 class="text-center main-title m-0 display-2 hide-header-elems">Admire</h1>
+        <h2 class="text-center main-title m-0 display-4 hide-header-elems fade show" id="ad-welcome-text">
+            {{!!welcome ? welcome : adWelcome}}
+        </h2>
+
+        <div class="w-100 text-center" style="padding-top: 100px;">
+            <div class="d-inline-block mx-auto" style="transform: scaleX(2)">
+                <div id="header-arrow" class="hide-header-elems"></div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="grey lighten-5" style="box-shadow: 0px 4px 5px 0px #0000006e;">
+    <article>
+        <section class="container-fluid p-0">
+            <h2 class="funny-title section-title mt-0">О нашем сервисе</h2>
+
+            <div class="container p-0">
+                <div class="row my-5">
+                    <div class="col-12 col-md-4">
+                        <div class="p-4">
+                            <img src="site-images/main_places_ad.png" class="w-100">
+                        </div>
+                        <h3 class="text-center lead">Находите новые интересные места по всей планете и рядом с вами, о которых вы раньше и не подозревали</h3>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="p-4">
+                            <img src="site-images/main_events_ad.png" class="w-100">
+                        </div>
+                        <h3 class="text-center lead">Будьте в центре самых интересных мероприятий и событий, которые происходят постоянно</h3>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="p-4">
+                            <img src="site-images/main_map_ad.png" class="w-100">
+                        </div>
+                        <h3 class="text-center lead">Окунитесь во все это разнообразие времяпрепровождения с богатым функционалом карты нашего сервиса</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container-fluid p-0">
+            <h2 v-if="(filtred_places.length != 0)" class="funny-title section-title mt-0">Интересные места</h2>
+
+            <div id="places-scroll-block-dis_1" class="row m-0" style="
+                    overflow-x: auto;
+                    flex-wrap: nowrap;">
+                <place-block v-for="(place, index) in filtred_places" v-if="(index < 10)" :key="index"
+                        :place="place"></place-block>
+            </div>
+
+            <h2 v-if="(events_data.length != 0)" class="funny-title section-title">События рядом</h2>
+
+            <div id="places-scroll-block-dis_2" class="row m-0" style="
+                    overflow-x: auto;
+                    flex-wrap: nowrap;">
+                <event-block v-for="(event, index) in events_data" v-if="(index < 10)" :key="index"
+                        :event="event"></event-block>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="funny-title section-title h1">Присоединяйся</h2>
+
+            <div style="background: url(site-images/head-image-vk.jpg) no-repeat center / cover;">
+                <div class="image-effect-future row" style="max-width: 100%;">
+
+                    <div class="col-12 col-md-4 d-none d-md-block"></div>
+
+                    <div class="col-12 col-md-4 p-5">
+                        <div class="share-layer">
+                            <a href="https://vk.com/vk_admire" class="share-button share-via-vk" target="_blank">
+                                <!--i class="fa fa-vk"></i-->
+                                Группа VK
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4 p-5">
+                        <div class="share-layer">
+                            <a href="https://play.google.com/store/apps/details?id=social.admire.admire&hl=ru"
+                                    class="share-button share-via-android" target="_blank">
+                                <!--i class="fa fa-vk"></i-->
+                                Приложение Android
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="position-fixed grey lighten-5 p-3 rounded fade show" id="messager"
+            style="bottom: 45px; right: 24px; z-index: -10; opacity: 0; display: none;">
+            <h5>Нам важен именно Ваш отзыв</h5>
+            <div class="input-field">
+                <input id="people" type="text" class="validate" v-model="your_name">
+                <label for="people">Как к Вам обращаться</label>
+            </div>
+            <div class="input-field">
+                <input id="contact" type="text" class="validate" v-model="your_contact">
+                <label for="contact">Как отправить Вам ответ</label>
+            </div>
+            <div class="input-field">
+                <textarea id="message" class="materialize-textarea" v-model="your_message"></textarea>
+                <label for="message">Расскажите Ваше мнение</label>
+            </div>
+            <div class="container-fluid p-0">
+                <div class="row m-0">
+                    <div class="col-6 p-0">
+                        <button class="waves-effect waves-light btn deep-purple darken-3 w-100" style="color: white;" onclick="ShowChat(false);">
+                            <i class="material-icons left">clear</i>
+                            Отмена
+                        </button>
+                    </div>
+                    <div class="col-6 p-0">
+                        <button class="waves-effect waves-light btn deep-purple darken-3 w-100" style="color: white;" @click="SendMessage">
+                            Отправить
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="fixed-action-btn fade show" style="bottom: 45px; right: 24px; z-index: 20; opacity: 0;">
+            <button class="btn-floating btn-large waves-effect waves-light deep-purple darken-3" style="z-index: 20;" onclick="ShowChat(true);">
+                <i class="material-icons" style="color: white;">chat</i>
+            </button>
+        </div>
+
+        <div id="modal-input-region" class="modal">
+            <div class="modal-content">
+                <h4>Ваше местоположение</h4>
+                <p class="lead">Admire - это сервис для поиска интересных мест и мероприятий рядом с вами. Укажите ваш город, чтобы мы нашли самое интересное рядом с вами.</p>
+                <div class="input-field">
+                    <input id="input-city" type="text" class="validate" v-model="city">
+                    <label for="input-city">Город</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-close waves-effect waves-green btn-flat" @click="SaveRegion">Сохранить</a>
+            </div>
+        </div>
+
+        <div id="modal-get-relax" class="modal">
+            <div class="modal-content">
+                <h4>Где вы хотите отдохнуть?</h4>
+                <div class="input-field">
+                    <input id="input-place-relax" type="text" class="validate" v-model="place_relax">
+                    <label for="input-place-relax">Адрес</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-close waves-effect waves-green btn-flat" @click="GetRelax">Отдохнуть</a>
+            </div>
+        </div>
+    </article>
+
+    <section id="search-body-back" class="position-fixed w-100">
+        <div class="container">
+            <div class="row my-4">
+                <div class="col-auto p-0">
+                    <button class="btn-floating waves-effect waves-light deep-purple darken-3" @click="SearchToggle">
+                        <i class="material-icons" style="color: white;">arrow_back</i>
+                    </button>
+                </div>
+                <div class="col input-field m-0" style="width: calc(100% - 80px);">
+                    <input placeholder="Что найти?" type="text" class="validate border-0" v-model="search_text"
+                        style="box-shadow: none;
+                            background: #eee;
+                            border-radius: 24px;
+                            padding-left: 18px;
+                            width: calc(100% - 18px);" @keyup.enter="SearchPlaces">
+                </div>
+                <div class="col-auto p-0">
+                    <button class="btn-floating waves-effect waves-light deep-purple darken-3" @click="SearchPlaces">
+                        <i class="material-icons" style="color: white;">search</i>
+                    </button>
+                </div>
+            </div>
+            <div class="row" v-if="(!search_text && searching_places.length == 0)">
+                <span class="lead w-100 text-center">Введите, что желаете найти</span>
+            </div>
+            <div class="row">
+                <search-block v-for="(place, index) in searching_places" v-if="(index < 50)" :key="index" :place="place"></search-block>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="page-footer deep-purple darken-3 w-100" style="opacity: 0; z-index: -100;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3">
+                <h5 class="white-text">Admire</h5>
+                <p class="grey-text text-lighten-4">Admire the world for social with admire.social</p>
+            </div>
+            <div class="col-3">
+                <h5 class="white-text">Карта сайта</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#SeaplApp">Главная</a></li>
+                    <li><a class="grey-text text-lighten-3" href="map">Карта</a></li>
+                    <li><a class="grey-text text-lighten-3" href="add-place">Добавить место</a></li>
+                    <li><a class="grey-text text-lighten-3" href="regist">Регистрация</a></li>
+                </ul>
+            </div>
+            <div class="col-3">
+                <h5 class="white-text">Контакты</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="mailto:alexbidenko1998@gmail.com">Почта</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://vk.com/alexbidenko">ВК</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://wa.me/79528313364">WhatsApp</a></li>
+                </ul>
+            </div>
+            <div class="col-3">
+                <h5 class="white-text">Наши партнеры</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="https://www.here.com">Here</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://7winds.mobi">7winds</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://sitemade.pro">SiteMade.pro</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://fur-chins.ru">ABFC</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://web-umemo-ru">UMemo</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright deep-purple darken-4">
+        <div class="container-fluid">
+            Admire
+            <!--a class="grey-text text-lighten-4 right" href="#!">More Links</a-->
+        </div>
+    </div>
+</div>
+
+<footer class="page-footer deep-purple darken-3 w-100 position-fixed" style="bottom: 0; z-index: -10;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3">
+                <h5 class="white-text">Admire</h5>
+                <p class="grey-text text-lighten-4">Admire the world for social with admire.social</p>
+            </div>
+            <div class="col-3">
+                <h5 class="white-text">Карта сайта</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#SeaplApp">Главная</a></li>
+                    <li><a class="grey-text text-lighten-3" href="map">Карта</a></li>
+                    <li><a class="grey-text text-lighten-3" href="add-place">Добавить место</a></li>
+                    <li><a class="grey-text text-lighten-3" href="regist">Регистрация</a></li>
+                </ul>
+            </div>
+            <div class="col-3">
+                <h5 class="white-text">Контакты</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="mailto:alexbidenko1998@gmail.com">Почта</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://vk.com/alexbidenko">ВК</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://wa.me/79528313364">WhatsApp</a></li>
+                </ul>
+            </div>
+            <div class="col-3">
+                <h5 class="white-text">Наши партнеры</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="https://www.here.com">Here</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://7winds.mobi">7winds</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://sitemade.pro">SiteMade.pro</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://fur-chins.ru">ABFC</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://web-umemo-ru">UMemo</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright deep-purple darken-4">
+        <div class="container-fluid">
+            Admire
+            <!--a class="grey-text text-lighten-4 right" href="#!">More Links</a-->
+        </div>
+    </div>
+</footer>
+
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<script src="components/device.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.slider');
+    var instances = M.Slider.init(elems, {
+        interval: 15000
+    });
+
+    $('.parallax').parallax();
+
+    $('.hide-header-elems').removeClass('hide-header-elems');
+
+    $('#header-arrow').on('click', function() {
+        $('html,body').animate({ scrollTop: $('main').offset().top - $('nav').height() - 50 }, 500);
+    });
+
+    if(device.desktop()) {
+        $('#ckLine').ckLine({
+            leftRight: false,
+            strokeColor: 'rgba(255,255,255,0.5)',
+            interval: 2000,
+            animateTime: 1600,
+            animationTimeRange: [800, 1600]
+        });
+    }
+});
+
+var platform = new H.service.Platform({
+    app_id  : 'UdRH6PlISTlADYsW6mzl',
+    app_code: 'lfrrTheP9nBedeJyy1NtIA',
+    useHTTPS: true
+});
+
+window.onscroll = function() {
+    var scrolled = window.pageYOffset || document.documentElement.scrollTop;
+    if(scrolled == 0) {
+        $('#nav-top').removeClass('nav-top-scrolled');
+        $('#header-arrow').removeClass('hide-header-elems');
+        $('.fixed-action-btn').css('opacity', 0);
+    } else {
+        $('#nav-top').addClass('nav-top-scrolled');
+        $('#header-arrow').addClass('hide-header-elems');
+        $('.fixed-action-btn').css('opacity', 1);
+    }
+}
+
+var onError = () => {}
+
+function geocodeRelax(platform, search_text) {
+    var geocoder            = platform.getGeocodingService(),
+        geocodingParameters = {
+            searchtext    : search_text,
+            jsonattributes: 1
+        };
+
+    geocoder.geocode(
+        geocodingParameters,
+        onSearchRelaxSuccess,
+        onError
+    );
+}
+
+function onSearchRelaxSuccess(result) {
+    if (!!result.response.view[0]) {
+        var locations = result.response.view[0].result;
+
+        localStorage.setItem('get_relax', JSON.stringify(locations));
+        location.href = "/map";
+    }
+}
+
+function geocode(platform) {
+    if(!!localStorage.getItem('city')) {
+        var geocoder            = platform.getGeocodingService(),
+            geocodingParameters = {
+                city          : localStorage.getItem('city'),
+                country       : 'russia',
+                jsonattributes: 1
+            };
+
+        geocoder.geocode(
+            geocodingParameters,
+            onSearchSuccess,
+            onError
+        );
+    } else {
+        getPlaces("");
+    }
+}
+
+var position = {};
+
+var filtred_places;
+
+function onSearchSuccess(result) {
+    if (!!result.response.view[0]) {
+        var locations = result.response.view[0].result;
+
+        position = [
+            locations[0].location.displayPosition.latitude,
+            locations[0].location.displayPosition.longitude
+        ];
+
+        getPlaces(`?latitude=${position[0]}&longitude=${position[1]}`);
+
+        var geocoder = platform.getGeocodingService(),
+            geocodingParameters = {
+                prox      : position[0] + ',' + position[1] + ',100',
+                mode      : 'retrieveAddresses',
+                maxresults: 1
+            };
+
+                        geocoder.reverseGeocode(
+                            geocodingParameters,
+                            function(result) {
+                                if (!!result.Response.View[0]) {
+                                    var location = result.Response.View[0].Result[0];
+
+                                    let city = location.Location.Address.City;
+
+                                    fetch(`back-py/get-events.py?city=${city}`).then(res => {
+                                        return res.text();
+                                    }).then(text => {
+                                        SeaplApp.events_data = JSON.parse(text.split('<body>')[1].split('</body>')[0]);
+                                    });
+                                }
+                            },
+                            onError
+                        );
+    }
+}
+
+function onError(error) {}
+
+    $(document).ready(function(){
+        $('.modal').modal();
+
+        if(!localStorage.getItem('city') && localStorage.getItem("apply_geolocation") != "true") {
+            ChangeRegion();
+        }
+
+        if(!localStorage.getItem('user_id')) {
+            localStorage.setItem('user_id', ((new Date()).getTime() + "" + Math.round(Math.random() * (9999 - 1000) + 1000)).substring(6));
+        }
+
+        $('.collapsible').collapsible();
+
+        $('.sidenav').sidenav();
+
+        if(localStorage.getItem("add-place-resut") == "ready") {
+            alert("Благодарим за добавление нового интересного места. Добавленная Вами локация находится на проверке.");
+            localStorage.removeItem("add-place-resut");
+        }
+    });
+
+    function getPlaces(text_coord) {
+            $.ajax({
+                url: 'back/get-places-by-coord.php' + text_coord,
+                type: 'POST',
+                success: function(data) {
+                    data = JSON.parse(data);
+                    for (let i in data) {
+                        data[i].images = JSON.parse(data[i].images);
+                        data[i].tags = JSON.parse(data[i].tags.replace(new RegExp('u0','g'),'\\u0'));
+                        data[i].count_rating = JSON.parse(data[i].count_rating);
+                        data[i].route = JSON.parse(data[i].route);
+                    }
+                    filtred_places = data;
+
+                    SeaplApp.places = data;
+
+                    SeaplApp.filtred_places = filtred_places.sort(function(a, b) {
+                        if (+a.rating > +b.rating) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    });
+
+                    /*setTimeout(function() {
+                        $("div#places-scroll-block").smoothDivScroll({
+                            mousewheelScrolling: "allDirections",
+                            manualContinuousScrolling: false,
+                            touchScrolling:true
+                        });
+                    }, 1000)*/
+                }
+            });
+    }
+
+const initAdWelcome = () => {
+    let adWelcomes = [
+        "Активная жизнь начинается здесь!",
+        "Мы найдем красивые места рядом",
+        "Предложем интересные мероприятия",
+        "Покажем точно на карте"
+    ];
+    let adWelcomeCounter = 0;
+    setInterval(function() {
+        adWelcomeCounter++;
+        if(adWelcomeCounter === adWelcomes.length) {
+            adWelcomeCounter = 0;
+        }
+        $("#ad-welcome-text").removeClass("show");
+        setTimeout(function() {
+            SeaplApp.adWelcome = adWelcomes[adWelcomeCounter];
+            $("#ad-welcome-text").addClass("show");
+        }, 600);
+    }, 6000);
+}
+
+    var SeaplApp = new Vue({
+        el: '#SeaplApp',
+        data: {
+            city: (!!localStorage.getItem('city'))?localStorage.getItem('city'):"",
+            places: [],
+            filtred_places: [],
+            random_place: {},
+
+            events_data: [],
+
+            login: localStorage.getItem('login'),
+            welcome: "",
+
+            place_relax: "",
+
+            your_name: "",
+            your_contact: "",
+            your_message: "",
+
+            is_search: false,
+            search_text: "",
+            searching_places: [],
+
+            adWelcome: "Активная жизнь начинается здесь"
+        },
+        created() {
+            geocode(platform);
+
+            if(!!this.login) {
+                $.ajax({
+                    url: 'back/get-user.php',
+                    type: 'POST',
+                    data: {login: this.login},
+                    success: function(data) {
+                        let user = JSON.parse(data);
+                        SeaplApp.welcome = "Добро пожаловать к нам, " + user['first_name'];
+                    }
+                });
+            } else {
+                initAdWelcome();
+            }
+        },
+        methods: {
+            SaveRegion: function() {
+                localStorage.setItem('city', this.city);
+                //$('#button-change-region').text(this.city);
+
+                geocode(platform);
+            },
+            SendMessage: function() {
+                $.ajax({
+                    url: 'back/send-back-message.php',
+                    type: 'POST',
+                    data: {name: this.your_name, contact: this.your_contact, message: this.your_message},
+                    success: function(data) {
+                        if(data == "well") {
+                            alert("Спасибо за Ваш ценный отзыв, мы ответим Вам в ближайшее время о принятых мерах ;)");
+
+                            SeaplApp.your_name = "";
+                            SeaplApp.your_contact = "";
+                            SeaplApp.your_message = "";
+
+                            ShowChat(false);
+                        }
+                    }
+                });
+            },
+            VKEnter: function() {
+                localStorage.setItem('vk_enter', 'true');
+                location.href = "/regist";
+            },
+            GetRelax: function() {
+                geocodeRelax(platform, this.place_relax);
+            },
+            RandomPlace: function() {
+                let rand = Math.random();
+                rand *= this.filtred_places.length;
+                rand = Math.round(rand - 0.5);
+
+                this.random_place = this.filtred_places[rand];
+
+                $('#random-place').removeClass("d-none");
+            },
+            ToLocations: function() {
+                localStorage.setItem('coord_x', this.random_place.route[0][0]);
+                localStorage.setItem('coord_y', this.random_place.route[0][1]);
+
+                location.href = "/map";
+            },
+            SearchToggle: function() {
+                $('#search-body-back').toggleClass("search-body-back-open");
+                this.is_search = !this.is_search;
+                if(this.is_search) {
+                    $('body').css("overflow-y", "hidden");
+                } else {
+                    $('body').css("overflow-y", "scroll");
+                }
+            },
+            SearchPlaces: function() {
+                $.ajax({
+                    url: 'back/seacher.php',
+                    type: 'POST',
+                    data: {search_words: this.search_text.split(" ")},
+                    success: function(data) {
+                        data = JSON.parse(data);
+                        console.log(data);
+                        SeaplApp.searching_places = data.sort(function(a, b) {
+                            if (+a.rating > +b.rating) {
+                                return -1;
+                            } else {
+                                return 1;
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+    "vk": {
+        "src" : "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/VK.com-logo.svg/768px-VK.com-logo.svg.png",
+        "text": "ВКонтакте"
+    },
+    "instagram": {
+        "src" : "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/1024px-Instagram_logo_2016.svg.png",
+        "text": "Instagram"
+    },
+    "facebook": {
+        "src" : "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/F_icon.svg/1024px-F_icon.svg.png",
+        "text": "Facebook"
+    },
+    "whatsapp": {
+        "src" : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/WhatsApp_logo-color-vertical.svg/1024px-WhatsApp_logo-color-vertical.svg.png",
+        "text": "WhatsApp"
+    },
+    "twitter": {
+        "src" : "https://upload.wikimedia.org/wikipedia/ru/thumb/9/9f/Twitter_bird_logo_2012.svg/1261px-Twitter_bird_logo_2012.svg.png",
+        "text": "Twitter"
+    },
+    "ok": {
+        "src" : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Odnoklassniki.svg/1029px-Odnoklassniki.svg.png",
+        "text": "Одноклассники"
+    },
+    "web": {
+        "src" : "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Emblem-web.svg/1024px-Emblem-web.svg.png",
+        "text": "Web-сайт"
+    },
+    "skype": {
+        "src" : "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Skype.svg/2000px-Skype.svg.png",
+        "text": "Skype"
+    },
+    "telegram": {
+        "src" : "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/1200px-Telegram_logo.svg.png",
+        "text": "Telegram"
+    },
+    "youtube": {
+        "src" : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/YouTube_social_white_squircle_%282017%29.svg/2000px-YouTube_social_white_squircle_%282017%29.svg.png",
+        "text": "YouTube"
+    }
+}

@@ -1,0 +1,414 @@
+<!doctype html>
+<html>
+<head>
+    <title>Admire - С каждым местом мир лучше</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138158685-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-138158685-1');
+    </script>
+    <link rel="shortcut icon" href="site-images/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Карта, интересные места, провести время, куда сходить, добавить место">
+    <meta name="description" content="Сайт даст возможность и информацию для любого желающего узнать, куда можно сходить, как провести время и с кем провести время, добавляйте и свои места">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, shrink-to-fit=no" />
+    <link rel="stylesheet" type="text/css" href="//js.api.here.com/v3/3.0/mapsjs-ui.css?dp-version=1549984893" />
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="//js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
+    
+    <link rel="stylesheet" href="css/add-place.css">
+    <style type="text/css">
+        nav a:hover {
+            text-decoration: none;
+        }
+        nav li a:hover {
+            color: white;
+        }
+        .modal {
+            bottom: initial;
+        }
+        .modal-content {
+            background-color: initial;
+            border: 0;
+            border-radius: 0;
+            display: block;
+        }
+        
+    .img-thumbnail {
+        transition-property: border, transform;
+        transition-duration: 200ms;
+    }
+    .avatar {
+        border: 3px solid gold!important;
+        transform: scale(1.04);
+    }
+    .rating {
+        float:left;
+    }
+
+    /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
+    follow these rules. Every browser that supports :checked also supports :not(), so
+    it doesn’t make the test unnecessarily selective */
+    .rating:not(:checked) > input {
+        position:absolute;
+        top:-9999px;
+        clip:rect(0,0,0,0);
+    }
+
+    .rating:not(:checked) > label {
+        float:right;
+        width:1em;
+        padding:0 .1em;
+        overflow:hidden;
+        white-space:nowrap;
+        cursor:pointer;
+        font-size:200%;
+        line-height:1.2;
+        color:#ddd;
+        text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+    }
+
+    .rating:not(:checked) > label:before {
+        content: '★ ';
+    }
+
+    .rating > input:checked ~ label {
+        color: #f70;
+        text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
+    }
+
+    .rating:not(:checked) > label:hover,
+    .rating:not(:checked) > label:hover ~ label {
+        color: gold;
+        text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+    }
+
+    .rating > input:checked + label:hover,
+    .rating > input:checked + label:hover ~ label,
+    .rating > input:checked ~ label:hover,
+    .rating > input:checked ~ label:hover ~ label,
+    .rating > label:hover ~ input:checked ~ label {
+        color: #ea0;
+        text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+    }
+
+    .rating > label:active {
+        position:relative;
+        top:2px;
+        left:2px;
+    }
+    #map-container {
+        top: 0;
+    }
+        .btn-flat:hover {
+            text-decoration: none;
+        }
+        textarea:focus, input.validate:focus, .chips.focus {
+            border-color: #424242 !important;
+        }
+        textarea:focus+label, .character-counter, label.active, .prefix.active {
+            color: #424242 !important;
+        }
+        .chip {
+            background-color: #ff0!important;
+        }
+        .dropdown-content {
+            width: 180px!important;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .dropdown-content span {
+            width: 164px;
+            color: black;
+        }
+        .dropdown-content span::after {
+            background-color: #ff0!important;
+            border-color: #ff0!important;
+        }
+        .dropdown-content li {
+            min-height: initial;
+            padding: 8px;
+        }
+        [type="checkbox"]:checked+span:not(.lever):before {
+            border-right-color: #4527a0!important;
+            border-bottom-color: #4527a0!important;
+        }
+        .delete-image {
+            background: transparent; 
+            z-index: 1;
+            box-shadow: none;
+
+            transition-property: background, margin, box-shadow;
+            transition-duration: 300ms;
+        }
+        .delete-image-i {
+            color: white;
+
+            transition-property: color;
+            transition-duration: 300ms;
+        }
+        .delete-image:hover {
+            background: #4527a0;
+            margin: 12px 12px 0 0;
+            box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12), 0px 1px 5px 0px rgba(0,0,0,0.2);
+        }
+        .delete-image:hover .delete-image-i {
+            color: white;
+        }
+        delete-image-fore {
+            height: 100%; 
+            opacity: 0;
+            margin-top: -50px;
+
+            transition-property: opacity;
+            transition-duration: 300ms;
+        }
+        div:has(.delete-image:hover) + .delete-image-fore {
+            opacity: 0.3;
+        }
+    </style>
+<script type="text/javascript">
+var DeleteImage = (image) => {
+    if(SeaplApp.avatar == image) {
+        SeaplApp.avatar = "";
+    }
+    for(let i in SeaplApp.images) {
+        if(SeaplApp.images[i] == image) {
+            SeaplApp.images.splice(i, 1);
+        }
+    }
+}
+Vue.component('placeimage', {
+    props: ['image', 'isavatar'],
+    template: `<div class="col-lg-3 col-md-4 col-sm-6 col-12">
+        <div class="w-100 img-thumbnail" :class="{'avatar': isavatar}" @click="$emit('click', image)">
+            <div style="background: no-repeat center / cover; height: 300px;" :style="src_image">
+                <div class="text-right" style="height: 50px;">
+                    <button class="delete-image btn-floating waves-effect position-relative" @click.prevent="DeleteImage">
+                        <i class="delete-image-i material-icons">clear</i>
+                    </button>
+                </div>
+                <div class="delete-image-fore w-100 black"></div>
+            </div>
+        </div>
+    </div>`,
+    computed: {
+        src_image: function() {
+            return {backgroundImage: `url(../cash-images/${this.image})`};
+        }
+    },
+    methods: {
+        DeleteImage: function() {
+            let image = this.image;
+            $.ajax({
+                url    : "back/delete-image.php",
+                type   : "POST",
+                data   : {image: this.image},
+                success: function(data) {
+                    DeleteImage(image);
+                }
+            });
+        }
+    }
+});
+</script>
+</head>
+<body>
+    
+<div id="SeaplApp">
+    
+<div class="position-fixed d-inline z-depth-2" style="top: 0; left: 0; z-index: 50; 
+        border-bottom-right-radius: 16px; background: #666;">
+    <a class="waves-effect waves-light btn-flat text-white" href="/">
+        <i class="material-icons left">arrow_back</i><span class="d-none d-lg-inline">Главная</span>
+    </a>
+</div>
+
+<section id="input-card" class="position-absolute container-fluid mt-4" style="z-index: 30;">
+    <div class="container card-panel mx-auto grey lighten-5 p-0 z-depth-2" style="border-radius: 16px;">
+        <div class="w-100 p-4">
+            <h2 class="m-0 h3" style="font-weight: 200;">Основная информация</h2>
+            <div class="input-field">
+                <input id="name-place" type="text" class="validate" data-length="40" v-model="title">
+                <label for="name-place">Название места</label>
+            </div>
+            <div class="input-field">
+                <i class="material-icons prefix" style="color: #e0e0e0">mode_edit</i>
+                <textarea id="description" class="materialize-textarea" v-model="description" style="min-height: 108px;"></textarea>
+                <label for="description">Описание</label>
+            </div>
+        </div>
+        <hr class="white m-0" />
+        <div class="w-100 p-4">
+            <h2 class="m-0 h3" style="font-weight: 200;">Оценка и теги</h2>
+            <div class="input-field" style="height: 34px;">
+                <div class="rating pr-4 position-relative" style="height: 30px; matgin-top: -14px; z-index: 10;">
+                    <input type="radio" id="star5" name="rating" value="5" v-model="rating"/>
+                        <label for="star5" title="Отлично">5 stars</label>
+                    <input type="radio" id="star4" name="rating" value="4" v-model="rating"/>
+                        <label for="star4" title="Хорошо">4 stars</label>
+                    <input type="radio" id="star3" name="rating" value="3" v-model="rating"/>
+                        <label for="star3" title="Нормально">3 stars</label>
+                    <input type="radio" id="star2" name="rating" value="2" v-model="rating"/>
+                        <label for="star2" title="Плохо">2 stars</label>
+                    <input type="radio" id="star1" name="rating" value="1" v-model="rating"/>
+                        <label for="star1" title="Ужасно">1 star</label>
+                </div>
+            </div>
+
+            <div id="place-tags" class="chips chips-placeholder chips-autocomplete"></div>
+        </div>
+
+        <hr class="white m-0" />
+
+        <div class="w-100 p-4">
+            <h2 class="m-0 h3" style="font-weight: 200;">Отметить себя</h2>
+            <div v-if="(social.length == 0)" class="row m-0">
+                <p class="col-auto m-0 d-inline p-0 pt-2">
+                    {{!login ? 'Доступно только зарегистрированным пользователям' : 'Вы не добавили свои контакты'}}
+                </p>
+                <button class="waves-effect waves-light btn-flat col-auto" style="color: black;" @click="ToRegistOrCabinet">
+                    {{!login ? 'Войти' : 'Добавить'}}
+                    <i class="material-icons right">{{!login ? 'exit_to_app' : 'insert_link'}}</i>
+                </button>
+            </div>
+            <div class="row m-0">
+                <div v-for="(sn, index) in social" :key="index" class="col-lg-3 col-md-4 col-sm-6 col-12 px-0 pt-4">
+                    <label>
+                        <input type="checkbox" v-model="social[index].input" />
+                        <span class="cb-done">{{social[index].text}}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <hr class="white m-0" />
+
+        <div class="w-100 p-4">
+            <h2 class="m-0 h3 mb-2" style="font-weight: 200;">Дополнительная информация</h2>
+
+            <div class="row m-0">
+                <div class="col-3 p-0">
+                    <img src="" class="img-fluid">
+                </div>
+            </div>
+
+            <div class="row m-0">
+                <placeimage v-for="(image, index) in images" :key="image" :image="image" 
+                    :isavatar="(image == avatar.substring(10))" @click="ChangeAvatar($event)"></placeimage>
+            </div>
+
+            <div v-show="is_wait" id="wait" class="progress">
+                <div class="indeterminate"></div>
+            </div>
+            <div class="file-field input-field">
+                <div class="btn-floating waves-effect waves-light deep-purple darken-3" style="float: right; position: initial;">
+                    <i class="material-icons" style="color: white;">camera_alt</i>
+                    <input id="upload-images" type="file" accept="image/jpeg,image/png,image/jpg" multiple @change="UploadImages">
+                </div>
+                <div class="file-path-wrapper p-0 pr-2">
+                    <input class="file-path validate" type="text" placeholder="Добавьте изображения">
+                </div>
+            </div>
+            <div class="row m-0">
+                <div class="input-field col m-0 pl-0">
+                    <input id="search-place" type="text" class="validate" v-model="search_text">
+                    <label for="search-place" style="left: 0;">Найти место</label>
+                </div>
+                <button class="waves-effect waves-light btn inline col-auto deep-purple darken-3" style="color: white;" @click="SearchPlace">
+                    Искать
+                    <i class="material-icons right">search</i>
+                </button>
+            </div>
+            <div class="row m-0 d-none" v-show="!!coord_x">
+                <button class="waves-effect waves-light btn inline col-12 col-md-auto deep-purple darken-3" style="color: white;" @click="is_redact_route=true">
+                    Добавить маршрут
+                    <i class="material-icons right">swap_calls</i>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div v-show="!!TextError" class="container alert mx-auto deep-purple darken-3 z-depth-2 position-fixed" 
+    style="border-radius: 16px; color: white; bottom: 24px; z-index: 40; left: 50%; transform: translate(-50%, 0);">
+    {{TextError}}
+</div>
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;" v-show="!TextError">
+    <button class="btn-floating btn-large waves-effect waves-light deep-purple darken-3 pulse" @click="AddNewPlace">
+        <i class="material-icons" style="color: white;">done</i>
+    </button>
+</div>
+
+<div v-show="is_redact_route" class="d-none container alert mx-auto deep-purple darken-3 z-depth-2 position-fixed p-0 pl-4" 
+    style="border-radius: 16px; color: white; top: 40px; line-height: 34px; z-index: 30; left: 50%; transform: translate(-50%,0);">
+    Режим редактирования маршрута
+    <a href="#" class="waves-effect waves-light btn inline col-auto deep-purple darken-3 right dropdown-trigger p-0 text-center" 
+            style="color: white; border-radius: 16px; width: 36px;" data-target='route-dropdown'>
+        <i class="material-icons">more_vert</i>
+    </a>
+
+    <ul id='route-dropdown' class='dropdown-content grey lighten-5'>
+        <li class="p-0"><a @click="ClearPoliline(1)" style="padding: 8px;">
+            Отмена
+            <i class="material-icons right m-0">undo</i>
+        </a></li>
+        <li class="p-0"><a @click="ClearPoliline(0)" style="padding: 8px;">
+            Очистить
+            <i class="material-icons right m-0">delete</i>
+        </a></li>
+        <li class="p-0"><a @click="is_redact_route=false" style="padding: 8px;">
+            Сохранить
+            <i class="material-icons right m-0">done</i>
+        </a></li>
+    </ul>
+</div>
+    
+</div>
+
+<div class="position-fixed" id="map-container" style="width: 100%; height: 100%;"></div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="js/add-place-1-0-1.js"></script>
+   
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.modal').modal();
+        
+        $('input#name-place').characterCounter();
+        
+        M.textareaAutoResize($('#description'));
+
+        $('body').css('height', 'calc(' + $('#input-card').height() + 'px + 85vh)');
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.dropdown-trigger');
+        var dropdown_inst = M.Dropdown.init(elems, {
+            closeOnClick: false
+        });
+
+        setInterval(function () {
+            localStorage.setItem('add_place_data', JSON.stringify(SeaplApp.$data));
+        }, 2000);
+    });
+</script>
+</body>
+</html>
