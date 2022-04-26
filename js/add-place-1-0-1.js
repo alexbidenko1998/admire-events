@@ -429,8 +429,21 @@ var instances;
                         });
                     }
                 }
-
+                
                 $.ajax({
+                    url    : "back/add_place.php",
+                    type   : "POST",
+                    data   : SeaplApp.$data,
+                    success: function(data) {
+                        if(data == "well") {
+                            localStorage.removeItem('add_place_data');
+                            localStorage.setItem("add-place-resut", "ready");
+                            location.href = "/";
+                        }
+                    }
+                });
+
+                /*$.ajax({
                     url    : "images-creator/start-creator.php",
                     type   : "POST",
                     data   : {avatar: this.avatar},
@@ -447,19 +460,6 @@ var instances;
                                     data   : {avatar: SeaplApp.avatar},
                                     success: function(data) {
                 
-                                        $.ajax({
-                                            url    : "back/add_place.php",
-                                            type   : "POST",
-                                            data   : SeaplApp.$data,
-                                            success: function(data) {
-                                                if(data == "well") {
-                                                    localStorage.removeItem('add_place_data');
-                                                    localStorage.setItem("add-place-resut", "ready");
-                                                    location.href = "/";
-                                                }
-                                            }
-                                        });
-                
                                     }
                                 });
 
@@ -467,7 +467,7 @@ var instances;
                         });
 
                     }
-                });
+                });*/
             },
             ClearPoliline: function (code) {
                 if(code == 0) {

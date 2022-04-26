@@ -130,7 +130,7 @@ $(function() {
     });
 
     $.ajax({
-        url: "components/socialnets.json",
+        url: "/components/socialnets.json",
         type: "GET",
         success: function(data) {
             SeaplApp.snd = JSON.parse(data);

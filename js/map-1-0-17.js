@@ -1,3 +1,5 @@
+console.log('Start script');
+
 var app_id = 'UdRH6PlISTlADYsW6mzl';
     app_code = 'lfrrTheP9nBedeJyy1NtIA';
 
@@ -603,9 +605,13 @@ function calculateRouteFromAtoB (platform) {
     );
 }
 
+let nloytRoute;
+
 function onRouteSuccess(result) {
     if(!!result.response) {
         var route = result.response.route[0];
+        nloytRoute = route;
+        console.log(nloytRoute);
     } else {
         alert("Выбранным способом передвижения маршрут не найден :(");
     }
@@ -728,7 +734,7 @@ var find_position  = false;
             G.LocationMarker.setPosition(G.CurrentPosition);
         } else {
             let me_icon = `<div style="width: 1px; height: 1px;">
-                <img src="/site-images/I.png" style="width: 40px; height: 40px; margin: -36px 0 0 -20px; z-index: 10;">
+                <img src="site-images/I.png" style="width: 40px; height: 40px; margin: -36px 0 0 -20px; z-index: 10;">
             </div>`;
                 
             G.LocationMarker = new H.map.DomMarker(G.CurrentPosition, {icon: new H.map.DomIcon(me_icon)});
@@ -944,6 +950,7 @@ var SeaplApp = new Vue({
         is_from_a_to_b: 0
     },
     created() {
+      	console.log('created');
         old_zoom_update = map.getZoom();
 
         if(!!localStorage.getItem('get_relax')) {
@@ -951,6 +958,16 @@ var SeaplApp = new Vue({
 
             GetRelax(get_relax);
         }
+
+                map.addEventListener('mapviewchange', function() {
+      				console.log('mapviewchange');
+                    clearTimeout(update_timeout);
+                    update_timeout = setTimeout(SeaplApp.GetNewData(), 1000);
+                    
+                    $('#weather-widget').removeClass('weather-widget-hover');
+                });
+
+                SeaplApp.GetNewData();
 
         $.ajax({
             url    : `back/map_prepare.json`,
@@ -963,15 +980,6 @@ var SeaplApp = new Vue({
                         data[i].longitude]});
                 }
                 SeaplApp.prepare_places = data;
-
-                map.addEventListener('mapviewchange', function() {
-                    clearTimeout(update_timeout);
-                    update_timeout = setTimeout(SeaplApp.GetNewData(), 1000);
-                    
-                    $('#weather-widget').removeClass('weather-widget-hover');
-                });
-
-                SeaplApp.GetNewData();
             }
         });
 
@@ -1014,6 +1022,7 @@ var SeaplApp = new Vue({
     },
     methods: {
         GetNewData: function() {
+          	console.log('GetNewData');
             if(map.getZoom() > 10) {
                 if(!old_places_updata || getDistance(old_places_updata, map.getCenter()) > 1500) {
                     old_places_updata = map.getCenter();
@@ -1057,10 +1066,10 @@ var SeaplApp = new Vue({
                                     let city = location.Location.Address.City;
                                     if(old_city_updata != city) {
                                         old_city_updata = city;
-                                        fetch(`back-py/get-events.py?city=${city}`).then(res => {
-                                            return res.text();
-                                        }).then(text => {
-                                            SeaplApp.events_data = JSON.parse(text.split('<body>')[1].split('</body>')[0]);
+                                        fetch(`/api/event/vk?city=${city}`).then(res => {
+                                            return res.json();
+                                        }).then(events => {
+                                            SeaplApp.events_data = events;
                                             console.log(SeaplApp.events_data);
                                             SeaplApp.DrawMap();
                                         });
@@ -1124,7 +1133,7 @@ var SeaplApp = new Vue({
                             for(let i in prepear_place_data) {
                                 if((Math.pow(prepear_place_data[i].pos[0] - targetPosition.left, 2) + 
                                     Math.pow(prepear_place_data[i].pos[1] - targetPosition.top, 2)) < 3200 &&
-                                    !find && map.getZoom() < 20) {
+                                    !find && map.getZoom() < 19) {
 
                                     prepear_place_data[i].count     += 1;
                                     prepear_place_data[i].pos   [0]  = (prepear_place_data[i].pos[0] + targetPosition.left) / 2;
@@ -1386,7 +1395,7 @@ var SeaplApp = new Vue({
             }
         },
         CopyTextToClipboard: function() {
-            let copy = 'admire.social/link.php?p=' + this.choose_place.id;
+            let copy = 'https://events.admire.social/link.php?p=' + this.choose_place.id;
             if (!!navigator.clipboard) {
                 navigator.clipboard.writeText(copy).then(function() {
                     console.log('Async: Copying to clipboard was successful!');
