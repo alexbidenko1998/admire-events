@@ -1382,23 +1382,23 @@ function onSearchSuccess(result) {
                 maxresults: 1
             };
 
-                        geocoder.reverseGeocode(
-                            geocodingParameters,
-                            function(result) {
-                                if (!!result.Response.View[0]) {
-                                    var location = result.Response.View[0].Result[0];
+        geocoder.reverseGeocode(
+            geocodingParameters,
+            (result) => {
+                if (!!result.Response.View[0]) {
+                    var location = result.Response.View[0].Result[0];
 
-                                    let city = location.Location.Address.City;
+                    let city = location.Location.Address.City;
 
-                                    fetch(`back-py/get-events.py?city=${city}`).then(res => {
-                                        return res.text();
-                                    }).then(text => {
-                                        SeaplApp.events_data = JSON.parse(text.split('<body>')[1].split('</body>')[0]);
-                                    });
-                                }
-                            },
-                            onError
-                        );
+                    fetch(`/back/get-events.php?city=${city}`).then(res => {
+                        return res.text();
+                    }).then(text => {
+                        SeaplApp.events_data = JSON.parse(text.split('<body>')[1].split('</body>')[0]);
+                    });
+                }
+            },
+            onError
+        );
     }
 }
 

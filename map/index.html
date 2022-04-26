@@ -752,7 +752,7 @@
             </div>
             <div class="w-100 mb-4" v-if="(choose_place.social.length != 0)">
                 <p class="m-0 btn-flat p-0" style="color: white; cursor: initial;">Добавлено: </p>
-                <a v-for="(sn, index) in choose_place.social" :href="'link.php?i=' + sn.value + '&t=' + sn.type" target="_blank"
+                <a v-for="(sn, index) in choose_place.social" :href="'/link.php?i=' + sn.value + '&t=' + sn.type" target="_blank"
                     class="waves-effect waves-light btn-flat p-0 mx-3" style="color: white; font-size: 0;">
                     <img :src="snd[sn.type].src" style="width: 36px;">
                 </a>

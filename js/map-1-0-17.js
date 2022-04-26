@@ -1053,7 +1053,7 @@ var SeaplApp = new Vue({
                                     let city = location.Location.Address.City;
                                     if(old_city_updata !== city) {
                                         old_city_updata = city;
-                                        fetch(`/api/event/vk?city=${city}`).then(res => {
+                                        fetch(`/back/get-events.php?city=${city}`).then(res => {
                                             return res.json();
                                         }).then(events => {
                                             this.events_data = events;
