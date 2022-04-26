@@ -972,7 +972,7 @@ var SeaplApp = new Vue({
         });
 
         $.ajax({
-            url    : "components/socialnets.json",
+            url    : "/components/socialnets.json",
             type   : "GET",
             success: (data) => {
                 this.snd = data;

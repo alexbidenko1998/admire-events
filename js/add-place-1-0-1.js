@@ -480,9 +480,9 @@ var instances;
                 localStorage.setItem('add_place_data', JSON.stringify(this.$data));
                 if(!this.login) {
                     localStorage.setItem('old_page', 'add-place');
-                    location.href = "regist";
+                    location.href = "/regist";
                 } else {
-                    location.href = "my-page";
+                    location.href = "/my-page";
                 }
             }
         },
