@@ -9,6 +9,7 @@ services:
       - database
     volumes:
       - images-avatar-small:/var/www/html/images_avatar_small
+      - images:/var/www/html/images
       - avatars:/var/www/html/avatars
     stdin_open: true
     tty: true
@@ -29,6 +30,7 @@ services:
 
 volumes:
   images-avatar-small:
+  images:
   avatars:
 
 networks:

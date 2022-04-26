@@ -408,7 +408,7 @@ var instances;
                 $('.file-path').val("");
             },
             ChangeAvatar: function(image) {
-                this.avatar = '../images/' + image;
+                this.avatar = '/images/' + image;
             },
             AddNewPlace: function() {
                 for(let i in this.tags) {
