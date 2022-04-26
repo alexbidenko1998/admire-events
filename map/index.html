@@ -351,7 +351,7 @@
                 } else if(!this.comment.avatar && this.comment.sex == "famale") {
                     return "https://iconfree.net/uploads/icon/2017/7/5/avatar-user-profile-icon-3763-512x512.png";
                 } else {
-                    return 'avatars/' + this.comment.avatar;
+                    return '/avatars/' + this.comment.avatar;
                 }
             }
         }
@@ -460,12 +460,12 @@
                     <i class="material-icons">arrow_back</i>
                 </a>
                 <div v-if="!!login" style="height: 144px;">
-                    <a href="my-page"><img class="circle" :src="person.avatar"></a>
+                    <a href="/my-page"><img class="circle" :src="person.avatar"></a>
                     <a><span class="white-text name">{{person.last_name + " " + person.first_name}}</span></a>
                     <a><span class="white-text email">{{person.city}}</span></a>
                 </div>
                 <div v-if="!login">
-                    <a href="regist">
+                    <a href="/regist">
                         <span class="white-text name pb-4" style="margin-top: 99px;">Вход / Регистрация</span>
                     </a>
                 </div>

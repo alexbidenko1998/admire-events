@@ -331,8 +331,6 @@
                                 url: `https://api.vk.com/method/users.get?user_ids=${user_id}&fields=sex,city&v=5.95&access_token=cdea1de80818855c4b304deed782e4b470adac74377ae145788fe219b8fdffc1505f1012ea377b4213330`
                             },
                             success: function (data) {
-                                console.log(JSON.parse(data));
-
                                 let user_ans = JSON.parse(data).response[0];
 
                                 SeaplApp.first_name = user_ans.first_name;

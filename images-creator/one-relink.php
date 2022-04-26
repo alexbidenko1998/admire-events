@@ -79,14 +79,12 @@ $.ajax({
         for(let pl in data) {
             images.push({ avatar: data[pl].avatar, id: data[pl].id,  status: data[pl].status });
             /*if(+data[pl].id > 2150 && +data[pl].id > 2160) {
-                //console.log(data[pl].images);
                 let imgs = JSON.parse(data[pl].images);
                 for(let i in imgs) {
                     images.push(imgs[i]);
                 }
             }*/
         }
-        //console.log(images);
         relinkImage();
     }
 });

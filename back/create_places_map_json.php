@@ -95,7 +95,6 @@ for (let k in ans) {
         }
     }
 
-console.log(prepear_place_data);
             }
 });
 */

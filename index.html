@@ -1175,9 +1175,9 @@
                 <h5 class="white-text">Карта сайта</h5>
                 <ul>
                     <li><a class="grey-text text-lighten-3" href="#SeaplApp">Главная</a></li>
-                    <li><a class="grey-text text-lighten-3" href="map">Карта</a></li>
-                    <li><a class="grey-text text-lighten-3" href="add-place">Добавить место</a></li>
-                    <li><a class="grey-text text-lighten-3" href="regist">Регистрация</a></li>
+                    <li><a class="grey-text text-lighten-3" href="/map">Карта</a></li>
+                    <li><a class="grey-text text-lighten-3" href="/add-place">Добавить место</a></li>
+                    <li><a class="grey-text text-lighten-3" href="/regist">Регистрация</a></li>
                 </ul>
             </div>
             <div class="col-3">
@@ -1219,9 +1219,9 @@
                 <h5 class="white-text">Карта сайта</h5>
                 <ul>
                     <li><a class="grey-text text-lighten-3" href="#SeaplApp">Главная</a></li>
-                    <li><a class="grey-text text-lighten-3" href="map">Карта</a></li>
-                    <li><a class="grey-text text-lighten-3" href="add-place">Добавить место</a></li>
-                    <li><a class="grey-text text-lighten-3" href="regist">Регистрация</a></li>
+                    <li><a class="grey-text text-lighten-3" href="/map">Карта</a></li>
+                    <li><a class="grey-text text-lighten-3" href="/add-place">Добавить место</a></li>
+                    <li><a class="grey-text text-lighten-3" href="/regist">Регистрация</a></li>
                 </ul>
             </div>
             <div class="col-3">
@@ -1574,7 +1574,6 @@ const initAdWelcome = () => {
                     data: {search_words: this.search_text.split(" ")},
                     success: function(data) {
                         data = JSON.parse(data);
-                        console.log(data);
                         SeaplApp.searching_places = data.sort(function(a, b) {
                             if (+a.rating > +b.rating) {
                                 return -1;

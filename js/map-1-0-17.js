@@ -1,5 +1,3 @@
-console.log('Start script');
-
 var app_id = 'UdRH6PlISTlADYsW6mzl';
     app_code = 'lfrrTheP9nBedeJyy1NtIA';
 
@@ -180,8 +178,6 @@ map.addEventListener('tap', function (evt) {
     let coord = map.screenToGeo(evt.currentPointer.viewportX,
         evt.currentPointer.viewportY);
 
-    console.log(coord);
-
     if(SeaplApp.is_from_a_to_b == 1) {
         if(from_a_to_b_relax_points.length < 2) {
             from_a_to_b_relax_points.push(coord);
@@ -271,7 +267,6 @@ map.addEventListener('tap', function (evt) {
                 for(let i = 1; i < waypoints.length; i++) {
                     length_route += getDistance(waypoints[i - 1], waypoints[i]);
                 }
-                console.log(length_route);
                 do {
                     ready = true;
                     for(let i = 2; i < waypoints.length - 1; i++) {
@@ -287,7 +282,6 @@ map.addEventListener('tap', function (evt) {
                         }
 
                         if(new_length_route < length_route) {
-                            console.log(new_length_route);
                             ready = false;
                             cash  = waypoints[i];
 
@@ -611,7 +605,6 @@ function onRouteSuccess(result) {
     if(!!result.response) {
         var route = result.response.route[0];
         nloytRoute = route;
-        console.log(nloytRoute);
     } else {
         alert("Выбранным способом передвижения маршрут не найден :(");
     }
@@ -711,8 +704,6 @@ let G = {
 G.StartTrackPosition = () => {
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(G.ShowPosition, onError);
-    } else {
-        console.log("Geolocation is not supported by this browser.");
     }
 }
 
@@ -950,7 +941,6 @@ var SeaplApp = new Vue({
         is_from_a_to_b: 0
     },
     created() {
-      	console.log('created');
         old_zoom_update = map.getZoom();
 
         if(!!localStorage.getItem('get_relax')) {
@@ -960,7 +950,6 @@ var SeaplApp = new Vue({
         }
 
                 map.addEventListener('mapviewchange', function() {
-      				console.log('mapviewchange');
                     clearTimeout(update_timeout);
                     update_timeout = setTimeout(SeaplApp.GetNewData(), 1000);
 
@@ -973,7 +962,6 @@ var SeaplApp = new Vue({
             url    : `/back/map_prepare.json`,
             type   : 'GET',
             success: function(data) {
-                data = JSON.parse(data);
                 for (let i in data) {
                     prepare_demo_place_group.push({count: data[i].count,
                         coord: [data[i].latitude,
@@ -987,7 +975,7 @@ var SeaplApp = new Vue({
             url    : "components/socialnets.json",
             type   : "GET",
             success: function(data) {
-                SeaplApp.snd = JSON.parse(data);
+                SeaplApp.snd = data;
             }
         });
 
@@ -1003,12 +991,12 @@ var SeaplApp = new Vue({
 
                     person.first_name = data.first_name;
                     person.last_name  = data.last_name;
-                    if(!data.avatar && data.sex == "male") {
+                    if(!data.avatar && data.sex === "male") {
                         person.avatar = "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1";
-                    } else if(!data.avatar && data.sex == "famale") {
+                    } else if(!data.avatar && data.sex === "famale") {
                         person.avatar = "https://iconfree.net/uploads/icon/2017/7/5/avatar-user-profile-icon-3763-512x512.png";
                     } else {
-                        person.avatar = 'avatars/' + data.avatar;
+                        person.avatar = '/avatars/' + data.avatar;
                     }
                     person.email   = data.email;
                     person.country = data.country;
@@ -1022,7 +1010,6 @@ var SeaplApp = new Vue({
     },
     methods: {
         GetNewData: function() {
-          	console.log('GetNewData');
             if(map.getZoom() > 10) {
                 if(!old_places_updata || getDistance(old_places_updata, map.getCenter()) > 1500) {
                     old_places_updata = map.getCenter();
@@ -1070,7 +1057,6 @@ var SeaplApp = new Vue({
                                             return res.json();
                                         }).then(events => {
                                             SeaplApp.events_data = events;
-                                            console.log(SeaplApp.events_data);
                                             SeaplApp.DrawMap();
                                         });
                                     }
@@ -1397,9 +1383,7 @@ var SeaplApp = new Vue({
         CopyTextToClipboard: function() {
             let copy = 'https://events.admire.social/link.php?p=' + this.choose_place.id;
             if (!!navigator.clipboard) {
-                navigator.clipboard.writeText(copy).then(function() {
-                    console.log('Async: Copying to clipboard was successful!');
-                }, function(err) {
+                navigator.clipboard.writeText(copy).then(function() {}, function(err) {
                     var textArea                  = document.createElement("textarea");
                         textArea.style.position   = 'fixed';
                         textArea.style.top        = 0;
@@ -1418,7 +1402,6 @@ var SeaplApp = new Vue({
                     textArea.select();
 
                     var successful = document.execCommand('copy');
-                    console.log(successful);
 
                     document.body.removeChild(textArea);
                 });

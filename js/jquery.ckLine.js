@@ -81,7 +81,6 @@
             var time = settings.animationTime;
             if (settings.animationTimeRange) {
                 time = Math.floor(Math.random() * (settings.animationTimeRange[1] - settings.animationTimeRange[0] + 1) + settings.animationTimeRange[0])
-                //console.log(time);
             }
             jQuery('.line.off').each(function () {
                 jQuery(this).addClass('on').removeClass('off');
@@ -96,9 +95,9 @@
                 }, settings.lifeTime)
             });
         }
-        
-        
-        
+
+
+
         interval = setInterval(function () {
             creatLine(settings.width, settings.height);
             animate();

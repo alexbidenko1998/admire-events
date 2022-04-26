@@ -70,7 +70,7 @@
 Vue.component('comment', {
         props: ['comment'],
         template: `<div class="w-100 row m-0">
-            <div class="col-auto alert border mb-1 p-0" :class="{'ml-auto': comment.login == me}" style="background: #555;">
+            <div class="col-auto alert border mb-1 p-0" :class="{'ml-auto': comment.login === me}" style="background: #555;">
                 <div class="row m-0">
                     <div class="col-auto p-0">
                         <div class="m-1" :style="'backgroundImage: url(' + avatar + ');'" style="background: no-repeat center / cover;
@@ -94,12 +94,12 @@ Vue.component('comment', {
                 return SeaplApp.login;
             },
             avatar: function() {
-                if(!this.comment.avatar && this.comment.sex == "male") {
+                if(!this.comment.avatar && this.comment.sex === "male") {
                     return "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1";
-                } else if(!this.comment.avatar && this.comment.sex == "famale") {
+                } else if(!this.comment.avatar && this.comment.sex === "famale") {
                     return "https://iconfree.net/uploads/icon/2017/7/5/avatar-user-profile-icon-3763-512x512.png";
                 } else {
-                    return '../avatars/' + this.comment.avatar;
+                    return '/avatars/' + this.comment.avatar;
                 }
             }
         }
@@ -285,9 +285,7 @@ Vue.component('comment', {
             CopyTextToClipboard: function() {
                 let copy = 'admire.social/link.php?p=' + this.id;
                 if (!!navigator.clipboard) {
-                    navigator.clipboard.writeText(copy).then(function() {
-                        console.log('Async: Copying to clipboard was successful!');
-                    }, function(err) {
+                    navigator.clipboard.writeText(copy).then(function() {}, function(err) {
                         var textArea                  = document.createElement("textarea");
                             textArea.style.position   = 'fixed';
                             textArea.style.top        = 0;
@@ -306,7 +304,6 @@ Vue.component('comment', {
                         textArea.select();
 
                         var successful = document.execCommand('copy');
-                        console.log(successful);
 
                         document.body.removeChild(textArea);
                     });

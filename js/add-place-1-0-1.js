@@ -37,13 +37,7 @@ var instances;
                             url     : 'https://api.instagram.com/v1/tags/' + metka + '/media/recent',
                             dataType: 'jsonp',
                             type    : 'GET',
-                            data    : {access_token: tok, count: kolichestvo},
-                            success : function(result){
-                                console.log(result);
-                            },
-                            error: function(result){
-                                console.log(result);
-                            }
+                            data    : {access_token: tok, count: kolichestvo}
                         });
                     },
                     onChipSelect: function() {
@@ -359,7 +353,7 @@ var instances;
                     url    : "components/socialnets.json",
                     type   : "GET",
                     success: function(data) {
-                        SeaplApp.snd = JSON.parse(data);
+                        SeaplApp.snd = data;
                     }
                 });
 

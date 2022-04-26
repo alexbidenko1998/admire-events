@@ -199,25 +199,25 @@
       // Random particle speed, within min and max values
       this.speed = {}
       switch (options.directionX) {
-        case 'left': 
+        case 'left':
           this.speed.x = +(-options.maxSpeedX + (Math.random() * options.maxSpeedX) - options.minSpeedX).toFixed(2);
           break;
-        case 'right': 
+        case 'right':
           this.speed.x = +((Math.random() * options.maxSpeedX) + options.minSpeedX).toFixed(2);
           break;
-        default: 
+        default:
           this.speed.x  = +((-options.maxSpeedX / 2) + (Math.random() * options.maxSpeedX)).toFixed(2);
           this.speed.x += this.speed.x > 0 ? options.minSpeedX : -options.minSpeedX;
           break;
       }
       switch (options.directionY) {
-        case 'up': 
+        case 'up':
           this.speed.y = +(-options.maxSpeedY + (Math.random() * options.maxSpeedY) - options.minSpeedY).toFixed(2);
           break;
-        case 'down': 
+        case 'down':
           this.speed.y = +((Math.random() * options.maxSpeedY) + options.minSpeedY).toFixed(2);
           break;
-        default: 
+        default:
           this.speed.y  = +((-options.maxSpeedY / 2) + (Math.random() * options.maxSpeedY)).toFixed(2);
           this.speed.x += this.speed.y > 0 ? options.minSpeedY : -options.minSpeedY;
           break;
@@ -286,17 +286,17 @@
       var elHeight = element.offsetHeight;
 
       switch (options.directionX) {
-        case 'left': 
+        case 'left':
           if (this.position.x + this.speed.x + this.parallaxOffsetX < 0) {
             this.position.x = elWidth - this.parallaxOffsetX;
           }
           break;
-        case 'right': 
+        case 'right':
           if (this.position.x + this.speed.x + this.parallaxOffsetX > elWidth) {
             this.position.x = 0 - this.parallaxOffsetX;
           }
           break;
-        default: 
+        default:
           // If particle has reached edge of canvas, reverse its direction
           if (this.position.x + this.speed.x + this.parallaxOffsetX > elWidth || this.position.x + this.speed.x + this.parallaxOffsetX < 0) {
             this.speed.x = -this.speed.x;
@@ -305,17 +305,17 @@
       }
 
       switch (options.directionY) {
-        case 'up': 
+        case 'up':
           if (this.position.y + this.speed.y + this.parallaxOffsetY < 0) {
             this.position.y = elHeight - this.parallaxOffsetY;
           }
           break;
-        case 'down': 
+        case 'down':
           if (this.position.y + this.speed.y + this.parallaxOffsetY > elHeight) {
             this.position.y = 0 - this.parallaxOffsetY;
           }
           break;
-        default: 
+        default:
           // If particle has reached edge of canvas, reverse its direction
           if (this.position.y + this.speed.y + this.parallaxOffsetY > elHeight || this.position.y + this.speed.y + this.parallaxOffsetY < 0) {
             this.speed.y = -this.speed.y;
@@ -344,7 +344,6 @@
     }
 
     function destroy() {
-      console.log('destroy');
       canvas.parentNode.removeChild(canvas);
       hook('onDestroy');
       if ($) {
