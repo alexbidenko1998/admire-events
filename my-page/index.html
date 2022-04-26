@@ -171,7 +171,7 @@ var SeaplApp = new Vue({
             }
         })*/
         $.ajax({
-            url: "back/get-user.php",
+            url: "/back/get-user.php",
             type: "POST",
             data: {login: this.login, password: this.password},
             success: function(data) {
@@ -208,7 +208,7 @@ var SeaplApp = new Vue({
             fd.append('password', this.password);
 
             $.ajax({
-                url: "back/add-avatar.php",
+                url: "/back/add-avatar.php",
                 type: "POST",
                 data: fd,
                 processData: false,
@@ -224,7 +224,7 @@ var SeaplApp = new Vue({
         Disabled: function(el) {
             if(cash_social != $('#profile-' + el).val()) {
                 $.ajax({
-                    url: "back/change-user.php",
+                    url: "/back/change-user.php",
                     type: "POST",
                     data: {login: this.login, password: this.password, data: "social", s_type: el, s_value: $('#profile-' + el).val()},
                     success: function(data) {

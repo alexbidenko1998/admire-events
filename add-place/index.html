@@ -216,7 +216,7 @@ Vue.component('placeimage', {
         DeleteImage: function() {
             let image = this.image;
             $.ajax({
-                url    : "back/delete-image.php",
+                url    : "/back/delete-image.php",
                 type   : "POST",
                 data   : {image: this.image},
                 success: function(data) {

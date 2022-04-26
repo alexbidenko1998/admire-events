@@ -273,7 +273,7 @@
                 }
                 if(ready) {
                     $.ajax({
-                        url: this.form_regime == 0 ? "back/login.php" : "back/regist.php",
+                        url: this.form_regime == 0 ? "/back/login.php" : "/back/regist.php",
                         type: "POST",
                         data: this.$data,
                         success: function(data) {
@@ -315,7 +315,7 @@
             vk: function(val) {
                 let prev_id = val.split("/")[val.split("/").length - 1];
                 $.ajax({
-                    url: 'back/get-weather.php',
+                    url: '/back/get-weather.php',
                     type: "POST",
                     data: {
                         url: `https://api.vk.com/method/utils.resolveScreenName?screen_name=${prev_id}&v=5.95&access_token=cdea1de80818855c4b304deed782e4b470adac74377ae145788fe219b8fdffc1505f1012ea377b4213330`
@@ -325,7 +325,7 @@
                         let user_id = ans.response.object_id;
 
                         $.ajax({
-                            url: 'back/get-weather.php',
+                            url: '/back/get-weather.php',
                             type: "POST",
                             data: {
                                 url: `https://api.vk.com/method/users.get?user_ids=${user_id}&fields=sex,city&v=5.95&access_token=cdea1de80818855c4b304deed782e4b470adac74377ae145788fe219b8fdffc1505f1012ea377b4213330`

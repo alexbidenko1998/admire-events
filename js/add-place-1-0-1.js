@@ -2,7 +2,7 @@ var instances;
 
     document.addEventListener('DOMContentLoaded', function() {
         $.ajax({
-            url    : 'back/get-places.php?type=tags',
+            url    : '/back/get-places.php?type=tags',
             type   : 'POST',
             success: function(data) {
                 let all_palce  = JSON.parse(data);
@@ -32,7 +32,7 @@ var instances;
                         var tok         = '12092748983.4aaa0e4.afbd304166fc480c9710d1c17345d686',
                             metka       = 'wordcamprussia2015',                                     // ну это тег, понятное дело, символ # ставить не нужно
                             kolichestvo = 4;
-                        
+
                         $.ajax({
                             url     : 'https://api.instagram.com/v1/tags/' + metka + '/media/recent',
                             dataType: 'jsonp',
@@ -64,10 +64,10 @@ var instances;
             }
         });
     });
-    
+
     function geocode(platform, search_text = "") {
         if (navigator.geolocation) {
-    
+
         var geocoder            = platform.getGeocodingService(),
             geocodingParameters = {
                 city          : (!!search_text) ? "": localStorage.getItem('city'),
@@ -75,23 +75,23 @@ var instances;
                 country       : 'russia',
                 jsonattributes: 1
             };
-      
+
         geocoder.geocode(
             geocodingParameters,
             onSuccess,
             onError
         );
-        
+
         }
     }
-    
+
     function onSuccess(result) {
         if (!!result.response.view[0]) {
             var locations = result.response.view[0].result;
-           
+
             if (document.readyState === "complete") {
                 addLocationsToMap(locations);
-                
+
                 map.setViewBounds(searched_group.getBounds());
             } else {
                 map.setCenter({
@@ -104,15 +104,15 @@ var instances;
             alert("Извините, по вашему запросу ничего не найдено :(");
         }
     }
-    
+
     function onError(error) {}
-  
+
     var platform = new H.service.Platform({
         app_id  : 'UdRH6PlISTlADYsW6mzl',
         app_code: 'lfrrTheP9nBedeJyy1NtIA',
         useHTTPS: true
     });
-    
+
     var pixelRatio    = window.devicePixelRatio || 1;
     var defaultLayers = platform.createDefaultLayers({
         lg      : 'rus',
@@ -127,11 +127,11 @@ var instances;
         {
           zoom  : 11,
           center: { lat: 44.73, lng: 37.76 }
-        }, 
+        },
         {
             pixelRatio: pixelRatio
         });
-        
+
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
     var ui = H.ui.UI.createDefault(map, defaultLayers, 'ru-RU');
@@ -139,11 +139,11 @@ var instances;
     var mapSettings = ui.getControl('mapsettings');
     var zoom        = ui.getControl('zoom');
     var scalebar    = ui.getControl('scalebar');
-    
+
     mapSettings.setAlignment('bottom-right');
     zoom.setAlignment('bottom-right');
     scalebar.setAlignment('bottom-right');
-    
+
     var bubble;
 
     function openBubble(position, text){
@@ -158,16 +158,16 @@ var instances;
             bubble.open();
         }
     }
-    
+
     var searched_group = new H.map.Group();
     map.addObject(searched_group);
-    
+
     var is_focus = false;
-    
+
     function addLocationsToMap(locations){
         var position,
             i;
-        
+
         for (i = 0;  i < locations.length; i += 1) {
             position = {
                 lat: locations[i].location.displayPosition.latitude,
@@ -177,22 +177,22 @@ var instances;
             marker.label = locations[i].location.address.label;
             searched_group.addObject(marker);
         }
-        
+
         searched_group.addEventListener('tap', function (evt) {
             map.setCenter(evt.target.getPosition());
             openBubble(
             evt.target.getPosition(), evt.target.label);
-            
+
             is_focus = true;
         }, false);
-        
+
         // Add the locations group to the map
     }
-    
+
     if (!!localStorage.getItem('city')) {
         geocode(platform);
     }
-    
+
     var ChangePlaceMarker,
         lineString,
         polyline = null;
@@ -200,16 +200,16 @@ var instances;
     function AddPlacePoint(position) {
         ChangePlaceMarker = new H.map.Marker(position);
         searched_group.addObject(ChangePlaceMarker);
-        
+
         searched_group.addEventListener('tap', function (evt) {
             map.setCenter(evt.target.getPosition());
             openBubble(
             evt.target.getPosition(), evt.target.label);
-            
+
             is_focus = true;
         }, false);
     }
-    
+
     map.addEventListener('tap', function (evt) {
         var coord = map.screenToGeo(evt.currentPointer.viewportX,
                         evt.currentPointer.viewportY);
@@ -219,19 +219,19 @@ var instances;
                 if(!!bubble) {
                     bubble.close();
                 }
-                
+
                 SeaplApp.coord_x = coord.lat;
                 SeaplApp.coord_y = coord.lng;
-                    
+
                 geocodeByCoord(platform, coord.lat, coord.lng);
-                    
+
                 searched_group.removeAll();
                 position = {
                     lat: coord.lat,
                     lng: coord.lng
                 };
                 AddPlacePoint(position);
-                
+
                 // Добавление старт позиции для маршрутизации
                 if(SeaplApp.route.length == 0) {
                     SeaplApp.route.push([coord.lat, coord.lng]);
@@ -265,8 +265,8 @@ var instances;
 
         if(SeaplApp.route.length > 1) {
             polyline = new H.map.Polyline(
-                lineString, { 
-                    style: { 
+                lineString, {
+                    style: {
                         lineWidth  : 4,
                         strokeColor: '#ffff00'
                     }
@@ -276,34 +276,34 @@ var instances;
             map.addObject(polyline);
         }
     }
-    
+
     function geocodeByCoord(platform, lat, lng) {
         if (navigator.geolocation) {
-    
+
         var geocoder            = platform.getGeocodingService(),
             geocodingParameters = {
                 prox      : lat + ',' + lng + ',1',
                 mode      : 'retrieveAddresses',
                 maxresults: 1
             };
-      
+
         geocoder.reverseGeocode(
             geocodingParameters,
             onSuccessByCoord,
             onError
         );
-        
+
         }
     }
-    
+
     function onSuccessByCoord(result) {
         if (!!result.Response.View[0]) {
             var location = result.Response.View[0].Result[0];
-            
+
             ChangePlaceMarker.label = location.Location.Address.Label;
         }
     }
-        
+
     var SeaplApp = new Vue({
         el  : '#SeaplApp',
         data: {
@@ -325,7 +325,7 @@ var instances;
             route: [],
 
             is_wait: false,
-            
+
             login      : null,
             password   : null,
             user_social: {},
@@ -344,7 +344,7 @@ var instances;
                     });
                 }
                 UpdataPoliline ();
-            }*/ 
+            }*/
 
             this.login    = localStorage.getItem('login');
             this.password = localStorage.getItem('password');
@@ -364,12 +364,12 @@ var instances;
                 });
 
                 $.ajax({
-                    url    : "back/get-user.php",
+                    url    : "/back/get-user.php",
                     type   : "POST",
                     data   : {login: this.login, password: this.password},
                     success: function(data) {
                         data = JSON.parse(data);
-                        
+
                         var social = JSON.parse(data.social);
 
                         for(let i in social) {
@@ -384,19 +384,19 @@ var instances;
         methods: {
             SearchPlace: function() {
                 searched_group.removeAll();
-                
+
                 geocode(platform, this.search_text);
             },
             UploadImages: function(el) {
                 var files = $('#upload-images').get(0).files;
                 for (let i = 0; i < files.length; i++) {
                     var fd = new FormData;
-                
+
                     fd.append('files', files[i]);
-        
+
                     this.isWait = true;
                     $.ajax({
-                        url        : 'back/add-image.php',
+                        url        : '/back/add-image.php',
                         type       : 'POST',
                         data       : fd,
                         processData: false,
@@ -429,9 +429,9 @@ var instances;
                         });
                     }
                 }
-                
+
                 $.ajax({
-                    url    : "back/add_place.php",
+                    url    : "/back/add_place.php",
                     type   : "POST",
                     data   : SeaplApp.$data,
                     success: function(data) {
@@ -459,7 +459,7 @@ var instances;
                                     type   : "POST",
                                     data   : {avatar: SeaplApp.avatar},
                                     success: function(data) {
-                
+
                                     }
                                 });
 

@@ -254,7 +254,7 @@ Vue.component('comment', {
         },
         created() {
             $.ajax({
-                url    : '../back/get_comment.php',
+                url    : '/back/get_comment.php',
                 type   : 'POST',
                 data   : {place_id: this.id},
                 success: function(data) {
@@ -271,7 +271,7 @@ Vue.component('comment', {
                     this.count_rating.push(localStorage.getItem('user_id'));
 
                     $.ajax({
-                        url    : '../back/change-place.php',
+                        url    : '/back/change-place.php',
                         type   : 'POST',
                         data   : {data: "rating", id: this.id, rating: this.rating, count_rating: this.count_rating},
                         success: function(data) {
@@ -325,7 +325,7 @@ Vue.component('comment', {
                     this.comments.push(new_comment);
                     this.text_comment = "";
                     $.ajax({
-                        url    : '../back/add_comment.php',
+                        url    : '/back/add_comment.php',
                         type   : 'POST',
                         data   : {new_comment: new_comment},
                         success: function(data) {}

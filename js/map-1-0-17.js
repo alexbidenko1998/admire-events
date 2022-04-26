@@ -20,7 +20,7 @@ function geocode(platform, search_text = "") {
             country       : 'russia',
             jsonattributes: 1
         };
-  
+
     geocoder.geocode(
         geocodingParameters,
         onSearchSuccess,
@@ -55,11 +55,11 @@ var map = new H.Map(
     {
       zoom  : 8,
       center: { lat: 44.73, lng: 37.76 }
-    }, 
+    },
     {
         pixelRatio: pixelRatio
     });
-    
+
 var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
 var ui = H.ui.UI.createDefault(map, defaultLayers, 'ru-RU');
@@ -106,7 +106,7 @@ map.addObject(from_a_to_b_relax_group);
 map.addObject(events_group);
 
 place_group.addEventListener('tap', function (evt) {
-    
+
     let coords = evt.target.getPosition();
     map.setCenter(coords);
 
@@ -132,7 +132,7 @@ place_group.addEventListener('tap', function (evt) {
         }, 500);
     } else {
         $.ajax({
-            url    : `back/get-places-by-coord.php?latitude=${coords.lat}&longitude=${coords.lng}&type=more`,
+            url    : `/back/get-places-by-coord.php?latitude=${coords.lat}&longitude=${coords.lng}&type=more`,
             type   : 'GET',
             success: function(data) {
                 data = JSON.parse(data);
@@ -147,7 +147,7 @@ place_group.addEventListener('tap', function (evt) {
                     else return 1;
                 })
                 SeaplApp.places_by_group = data;
-                
+
                 let elem     = document.getElementById('from-group-places-sidenav');
                 let instance = M.Sidenav.getInstance(elem);
                 instance.open();
@@ -158,11 +158,11 @@ place_group.addEventListener('tap', function (evt) {
 
 function getDistance(a, b) {
 	let distance = 6371 * 1000 * Math.acos(
-        Math.sin(a.lat * Math.PI / 180) * Math.sin(b.lat * Math.PI / 180) + 
-        Math.cos(a.lat * Math.PI / 180) * Math.cos(b.lat * Math.PI / 180) * 
+        Math.sin(a.lat * Math.PI / 180) * Math.sin(b.lat * Math.PI / 180) +
+        Math.cos(a.lat * Math.PI / 180) * Math.cos(b.lat * Math.PI / 180) *
         Math.cos(a.lng * Math.PI / 180 - b.lng * Math.PI / 180)
     )
-    
+
 //getDistance({lat: 44.72106609686848, lng: 37.77188259610804}, {lat: 44.67630772298249, lng: 37.794939420453176})
 
 //getDistance({lat: 44.72106609686848, lng: 37.77188259610804}, {lat: 44.68391095013581, lng: 37.73140340418081})
@@ -177,7 +177,7 @@ window.addEventListener('resize', () => {
 })
 
 map.addEventListener('tap', function (evt) {
-    let coord = map.screenToGeo(evt.currentPointer.viewportX, 
+    let coord = map.screenToGeo(evt.currentPointer.viewportX,
         evt.currentPointer.viewportY);
 
     console.log(coord);
@@ -185,10 +185,10 @@ map.addEventListener('tap', function (evt) {
     if(SeaplApp.is_from_a_to_b == 1) {
         if(from_a_to_b_relax_points.length < 2) {
             from_a_to_b_relax_points.push(coord);
-        } 
+        }
         if(from_a_to_b_relax_points.length == 2) {
             SeaplApp.is_from_a_to_b = 2;
-                                                                                                
+
             let distance = getDistance(from_a_to_b_relax_points[0], from_a_to_b_relax_points[1]);
 
             /*let fromAToBRequestParams = {
@@ -198,7 +198,7 @@ map.addEventListener('tap', function (evt) {
                 routeattributes   : 'waypoints,summary,shape,legs',
                 maneuverattributes: 'direction,action'
             }
-            
+
             let count = 0;
 
             let waypoints = [];
@@ -207,9 +207,9 @@ map.addEventListener('tap', function (evt) {
             for(let i in demo_place_group) {
                 let pl    = demo_place_group[i].place;
                 let coord = {lat: pl.latitude, lng: pl.longitude};
-                if(getDistance(from_a_to_b_relax_points[0], coord) < distance && 
-                        getDistance(from_a_to_b_relax_points[1], coord) < distance && 
-                        getDistance(from_a_to_b_relax_points[0], coord) + 
+                if(getDistance(from_a_to_b_relax_points[0], coord) < distance &&
+                        getDistance(from_a_to_b_relax_points[1], coord) < distance &&
+                        getDistance(from_a_to_b_relax_points[0], coord) +
                         getDistance(from_a_to_b_relax_points[1], coord) < distance * 1.3) {
                     //fromAToBRequestParams[`waypoint${count}`] = `${coord.lat},${coord.lng}`;
                     waypoints.push(coord);
@@ -218,12 +218,12 @@ map.addEventListener('tap', function (evt) {
             }
 
             waypoints.sort(function(a, b) {
-                if(getDistance(from_a_to_b_relax_points[0], a) < 
+                if(getDistance(from_a_to_b_relax_points[0], a) <
                         getDistance(from_a_to_b_relax_points[0], b)) {
                     return -1;
                 } else return 1;
             });
-            
+
             waypoints.push(from_a_to_b_relax_points[1]);
 
             for(let i = 0; i < waypoints.length; i++) {
@@ -246,23 +246,23 @@ map.addEventListener('tap', function (evt) {
             for(let i in demo_place_group) {
                 let pl    = demo_place_group[i].place;
                 let coord = {lat: pl.latitude, lng: pl.longitude};
-                if(getDistance(from_a_to_b_relax_points[0], coord) < distance && 
-                        getDistance(from_a_to_b_relax_points[1], coord) < distance && 
-                        getDistance(from_a_to_b_relax_points[0], coord) + 
+                if(getDistance(from_a_to_b_relax_points[0], coord) < distance &&
+                        getDistance(from_a_to_b_relax_points[1], coord) < distance &&
+                        getDistance(from_a_to_b_relax_points[0], coord) +
                         getDistance(from_a_to_b_relax_points[1], coord) < distance * 1.3) {
                     waypoints.push(coord);
                 }
             }
 
             waypoints.sort(function(a, b) {
-                if(getDistance(from_a_to_b_relax_points[0], a) < 
+                if(getDistance(from_a_to_b_relax_points[0], a) <
                         getDistance(from_a_to_b_relax_points[0], b)) {
                     return -1;
                 } else return 1;
             });
 
             waypoints.unshift(from_a_to_b_relax_points[0]);
-            
+
             waypoints.push(from_a_to_b_relax_points[1]);
 
             /*if(waypoints.length > 3) {
@@ -301,7 +301,7 @@ map.addEventListener('tap', function (evt) {
             }*/
 
             for(let i = 1; i < waypoints.length; i++) {
-                
+
                 let url  = 'https://route.api.here.com/routing/7.2/calculateroute.json';
                     url += `?waypoint0=${waypoints[i - 1].lat},${waypoints[i - 1].lng}`;
                     url += `&waypoint1=${waypoints[i].lat},${waypoints[i].lng}`;
@@ -315,17 +315,17 @@ map.addEventListener('tap', function (evt) {
                     },
                     success: function(data) {
                         data = JSON.parse(data);
-    
+
                         var lineString = new H.geo.LineString();
-    
+
                         let l = data.response.route[0];
                         l.leg.forEach(function(m) {
                             m.maneuver.forEach(function(pos) {
-                                lineString.pushLatLngAlt(pos.position.latitude, 
+                                lineString.pushLatLngAlt(pos.position.latitude,
                                     pos.position.longitude);
                             });
                         });
-                        
+
                         let polyline_route = new H.map.Polyline(lineString, {
                             style: {
                                 lineWidth  : 4,
@@ -343,9 +343,9 @@ map.addEventListener('tap', function (evt) {
 
                         for (let i = 0;  i < l.leg.length; i++) {
                             for (let j = 0;  j < l.leg[i].maneuver.length; j++) {
-                                
+
                                 maneuver = l.leg[i].maneuver[j];
-                                
+
                                 var marker =  new H.map.Marker({
                                     lat: maneuver.position.latitude,
                                     lng: maneuver.position.longitude},
@@ -402,7 +402,7 @@ const openEvent = event => {
 }
 
 events_group.addEventListener('tap', function (evt) {
-    
+
     let coords = evt.target.getPosition();
     map.setCenter(coords);
 
@@ -413,14 +413,14 @@ events_group.addEventListener('tap', function (evt) {
 
 const onSuccessFromAToBRelax = data => {
     var lineString = new H.geo.LineString();
-    
+
     let l = data.response.route[0];
     l.leg.forEach(function(m) {
         m.maneuver.forEach(function(pos) {
             lineString.pushLatLngAlt(pos.position.latitude, pos.position.longitude);
         });
     });
-    
+
     let polyline_route = new H.map.Polyline(lineString, {
         style: {
             lineWidth  : 4,
@@ -438,9 +438,9 @@ const onSuccessFromAToBRelax = data => {
 
     for (let i = 0;  i < l.leg.length; i++) {
         for (let j = 0;  j < l.leg[i].maneuver.length; j++) {
-            
+
             maneuver = l.leg[i].maneuver[j];
-            
+
             var marker =  new H.map.Marker({
                 lat: maneuver.position.latitude,
                 lng: maneuver.position.longitude},
@@ -461,7 +461,7 @@ from_a_to_b_relax_group.addEventListener('tap', function (evt) {
 
 function addLocationsToMap(locations){
     var position, i;
-    
+
     if(!!SeaplApp.search_text) {
         for (i = 0;  i < locations.length; i += 1) {
             position = {
@@ -472,13 +472,13 @@ function addLocationsToMap(locations){
             marker.label = locations[i].location.address.label;
             searched_group.addObject(marker);
         }
-        
+
         searched_group.addEventListener('tap', function (evt) {
             map.setCenter(evt.target.getPosition());
             openBubble(
             evt.target.getPosition(), evt.target.label);
         }, false);
-    
+
         map.setViewBounds(searched_group.getBounds());
     } else {
         position = {
@@ -596,8 +596,8 @@ function calculateRouteFromAtoB (platform) {
             maneuverattributes: 'direction,action',
             language          : 'ru-ru'
         };
-  
-  
+
+
     router.calculateRoute(
         routeRequestParams,
         onRouteSuccess,
@@ -639,7 +639,7 @@ var group = null;
 function addRouteShapeToMap(route){
     var lineString = new H.geo.LineString(),
         routeShape = route.shape;
-  
+
     routeShape.forEach(function(point) {
         var parts = point.split(',');
         lineString.pushLatLngAlt(parts[0], parts[1]);
@@ -676,12 +676,12 @@ function addManueversToMap(route){
     }
 
     group = new H.map.Group()
-  
+
     for (i = 0;  i < route.leg.length; i += 1) {
         for (j = 0;  j < route.leg[i].maneuver.length; j += 1) {
-            
+
             maneuver = route.leg[i].maneuver[j];
-            
+
             var marker =  new H.map.Marker({
             lat: maneuver.position.latitude,
             lng: maneuver.position.longitude},
@@ -690,20 +690,20 @@ function addManueversToMap(route){
             group.addObject(marker);
         }
     }
-  
+
     group.addEventListener('tap', function (evt) {
         map.setCenter(evt.target.getPosition());
         openSearchBubble(
             evt.target.getPosition(), evt.target.instruction);
     }, false);
-  
+
     map.addObject(group);
 }
 
 let G = {
     StartTrackPosition: {},   // Функция отслеживания местоположения
     ShowPosition      : {},   // Функция отображения местоположения пользователя на карте
-    ShowError         : {},   // Обработчик ошибки - например пользователь не дал доступ к трекингу геолокации 
+    ShowError         : {},   // Обработчик ошибки - например пользователь не дал доступ к трекингу геолокации
     CurrentPosition   : {},   // Координаты текущего местоположения
     LocationMarker    : {},   // Маркер с текущим местоположением
 }
@@ -719,16 +719,16 @@ G.StartTrackPosition = () => {
 var find_position  = false;
     G.ShowPosition = position => {
         // Сохранение координат текущего местоположения
-        G.CurrentPosition = { 
+        G.CurrentPosition = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
         }
-        
+
         if(!find_position) {
             map.setCenter(G.CurrentPosition);
             find_position = true;
         }
-        
+
         // Если объект маркера уже существует, обновляем значение координат на текущее
         if (G.LocationMarker instanceof H.map.Marker) {
             G.LocationMarker.setPosition(G.CurrentPosition);
@@ -736,10 +736,10 @@ var find_position  = false;
             let me_icon = `<div style="width: 1px; height: 1px;">
                 <img src="site-images/I.png" style="width: 40px; height: 40px; margin: -36px 0 0 -20px; z-index: 10;">
             </div>`;
-                
+
             G.LocationMarker = new H.map.DomMarker(G.CurrentPosition, {icon: new H.map.DomIcon(me_icon)});
             map.addObject(G.LocationMarker);
-        }       
+        }
     }
 
 var OnPermissionsToast = (apply) => {
@@ -775,7 +775,7 @@ if(!device.desktop() && localStorage.getItem("apply_geolocation") != "true") {
 
 let onHerePlacesResult = result => {
     here_place_group.removeAll();
-    
+
     result.results.items.forEach( point => {
         let here_point = new H.map.Marker({ lat: point.position[0], lng: point.position[1]}, {icon: new H.map.Icon(point.icon)});
 
@@ -785,13 +785,13 @@ let onHerePlacesResult = result => {
         } else {
             text = point.title + " | " + point.category.title
         }
-        
+
         here_point.setData({'text': text}).addEventListener('tap', e => {
             M.toast({html: e.target.getData().text});
         })
 
         here_place_group.addObject(here_point);
-    }) 
+    })
 }
 
 var relax_area;
@@ -865,14 +865,14 @@ function checkTags(tags) {
 }
 
 var update_timeout;
-var old_here_updata, 
-    old_weather_updata, 
-    old_places_updata, 
-    old_groups_updata, 
+var old_here_updata,
+    old_weather_updata,
+    old_places_updata,
+    old_groups_updata,
     old_events_updata,
     old_city_updata,
     old_zoom_update;
-    
+
 var SeaplApp = new Vue({
     el  : '#SeaplApp',
     data: {
@@ -916,7 +916,7 @@ var SeaplApp = new Vue({
 
         comments    : [],
         text_comment: "",
-        
+
         snd: {},
 
         here_cats: {
@@ -963,20 +963,20 @@ var SeaplApp = new Vue({
       				console.log('mapviewchange');
                     clearTimeout(update_timeout);
                     update_timeout = setTimeout(SeaplApp.GetNewData(), 1000);
-                    
+
                     $('#weather-widget').removeClass('weather-widget-hover');
                 });
 
                 SeaplApp.GetNewData();
 
         $.ajax({
-            url    : `back/map_prepare.json`,
+            url    : `/back/map_prepare.json`,
             type   : 'GET',
             success: function(data) {
                 data = JSON.parse(data);
                 for (let i in data) {
-                    prepare_demo_place_group.push({count: data[i].count, 
-                        coord: [data[i].latitude, 
+                    prepare_demo_place_group.push({count: data[i].count,
+                        coord: [data[i].latitude,
                         data[i].longitude]});
                 }
                 SeaplApp.prepare_places = data;
@@ -993,7 +993,7 @@ var SeaplApp = new Vue({
 
         if(this.login != null) {
             $.ajax({
-                url    : "back/get-user.php",
+                url    : "/back/get-user.php",
                 type   : "POST",
                 data   : {login: this.login, password: this.password},
                 success: function(data) {
@@ -1027,7 +1027,7 @@ var SeaplApp = new Vue({
                 if(!old_places_updata || getDistance(old_places_updata, map.getCenter()) > 1500) {
                     old_places_updata = map.getCenter();
                     $.ajax({
-                        url    : `back/get-places-by-coord.php?latitude=${map.getCenter().lat}&longitude=${map.getCenter().lng}`,
+                        url    : `/back/get-places-by-coord.php?latitude=${map.getCenter().lat}&longitude=${map.getCenter().lng}`,
                         type   : 'GET',
                         success: function(data) {
                             demo_place_group = [];
@@ -1049,20 +1049,20 @@ var SeaplApp = new Vue({
                 }
                 if(!old_events_updata || getDistance(old_events_updata, map.getCenter()) > 10000) {
                     old_events_updata = map.getCenter();
-                    
+
                     var geocoder            = platform.getGeocodingService(),
                         geocodingParameters = {
                                 prox      : old_events_updata.lat + ',' + old_events_updata.lng + ',100',
                                 mode      : 'retrieveAddresses',
                                 maxresults: 1
                             };
-                      
+
                         geocoder.reverseGeocode(
                             geocodingParameters,
                             function(result) {
                                 if (!!result.Response.View[0]) {
                                     var location = result.Response.View[0].Result[0];
-                                    
+
                                     let city = location.Location.Address.City;
                                     if(old_city_updata != city) {
                                         old_city_updata = city;
@@ -1083,7 +1083,7 @@ var SeaplApp = new Vue({
                 if(!old_groups_updata || getDistance(old_groups_updata, map.getCenter()) > 15000) {
                     old_groups_updata = map.getCenter();
                     $.ajax({
-                        url    : `back/get-map-groups.php?latitude=${map.getCenter().lat}&longitude=${map.getCenter().lng}`,
+                        url    : `/back/get-map-groups.php?latitude=${map.getCenter().lat}&longitude=${map.getCenter().lng}`,
                         type   : 'GET',
                         success: function(data) {
                             data = JSON.parse(data);
@@ -1091,8 +1091,8 @@ var SeaplApp = new Vue({
                             prepare_demo_groups_group = [];
 
                             for (let i in data) {
-                                prepare_demo_groups_group.push({count: data[i].count, 
-                                    coord: [data[i].latitude, 
+                                prepare_demo_groups_group.push({count: data[i].count,
+                                    coord: [data[i].latitude,
                                     data[i].longitude]});
                             }
 
@@ -1131,7 +1131,7 @@ var SeaplApp = new Vue({
 
                             let find = false;
                             for(let i in prepear_place_data) {
-                                if((Math.pow(prepear_place_data[i].pos[0] - targetPosition.left, 2) + 
+                                if((Math.pow(prepear_place_data[i].pos[0] - targetPosition.left, 2) +
                                     Math.pow(prepear_place_data[i].pos[1] - targetPosition.top, 2)) < 3200 &&
                                     !find && map.getZoom() < 19) {
 
@@ -1198,7 +1198,7 @@ var SeaplApp = new Vue({
 
                         let find = false;
                         for(let i in prepear_place_data) {
-                            if((Math.pow(prepear_place_data[i].pos[0] - targetPosition.left, 2) + 
+                            if((Math.pow(prepear_place_data[i].pos[0] - targetPosition.left, 2) +
                                 Math.pow(prepear_place_data[i].pos[1] - targetPosition.top, 2)) < 3200 && !find) {
 
                                 prepear_place_data[i].count += +pl_data.count;
@@ -1224,7 +1224,7 @@ var SeaplApp = new Vue({
                     }
                 }
             }
-            
+
             place_group.removeAll();
 
             for(let pl of prepear_place_data) {
@@ -1238,11 +1238,11 @@ var SeaplApp = new Vue({
                     addGlobalGroupPlaceToMap(pl.count, pl.coord, pl.num);
                 }
             }
-            
+
             prepare_demo_place_group = [];
             for (let i in SeaplApp.prepare_places) {
-                prepare_demo_place_group.push({count: SeaplApp.prepare_places[i].count, 
-                    coord: [SeaplApp.prepare_places[i].latitude, 
+                prepare_demo_place_group.push({count: SeaplApp.prepare_places[i].count,
+                    coord: [SeaplApp.prepare_places[i].latitude,
                     SeaplApp.prepare_places[i].longitude]});
             }
 
@@ -1270,14 +1270,14 @@ var SeaplApp = new Vue({
                     if(!old_here_updata || (new H.map.Marker(old_here_updata, {})).getPosition().distance((new H.map.Marker(map.getCenter(), {})).getPosition()) > 1000) {
                         old_here_updata = map.getCenter();
                         cat             = cat.substring(1);
-                        
+
                         let explore = {
                             'in' : `${map.getCenter().lat},${map.getCenter().lng};r=20000`,
                             'cat': cat
                         }
 
                         platform.getPlacesService().explore(
-                            explore,                    
+                            explore,
                             result => onHerePlacesResult(result),
                             error  => onError(error)
                         );
@@ -1285,7 +1285,7 @@ var SeaplApp = new Vue({
                 } else {
                     here_place_group.removeObjects(here_place_group.getObjects());
                 }
-            
+
             if(!old_weather_updata || (new H.map.Marker(old_weather_updata, {})).getPosition()
                     .distance((new H.map.Marker(map.getCenter(), {})).getPosition()) > 8000) {
                 old_weather_updata = map.getCenter();
@@ -1317,9 +1317,9 @@ var SeaplApp = new Vue({
                     }
                     if (!bool) {
                         $('.place-icon-block').eq(place.label).css('display', 'none');
-                    }                    
+                    }
                 });
-                
+
                 geocode(platform, this.search_text);
             }
         },
@@ -1339,7 +1339,7 @@ var SeaplApp = new Vue({
                 this.choose_place.count_rating.push(localStorage.getItem('user_id'));
 
                 $.ajax({
-                    url    : 'back/change-place.php',
+                    url    : '/back/change-place.php',
                     type   : 'POST',
                     data   : {data: "rating", id: this.choose_place.id, rating: this.choose_place.rating, count_rating: this.choose_place.count_rating},
                     success: function(data) {
@@ -1368,7 +1368,7 @@ var SeaplApp = new Vue({
         },
         OpenComment: function(place_id) {
             $.ajax({
-                url    : 'back/get_comment.php',
+                url    : '/back/get_comment.php',
                 type   : 'POST',
                 data   : {place_id: place_id},
                 success: function(data) {
@@ -1387,7 +1387,7 @@ var SeaplApp = new Vue({
                 this.comments.push(new_comment);
                 this.text_comment = "";
                 $.ajax({
-                    url    : 'back/add_comment.php',
+                    url    : '/back/add_comment.php',
                     type   : 'POST',
                     data   : new_comment,
                     success: function(data) {}
@@ -1412,18 +1412,18 @@ var SeaplApp = new Vue({
                         textArea.style.boxShadow  = 'none';
                         textArea.style.background = 'transparent';
                         textArea.value            = copy;
-        
+
                     document.body.appendChild(textArea);
                     textArea.focus();
                     textArea.select();
-        
+
                     var successful = document.execCommand('copy');
                     console.log(successful);
 
                     document.body.removeChild(textArea);
                 });
             }
-            
+
             M.toast({html: `Ссылка скопирована в буфер обмена`, classes: 'rounded'});
         },
         ScrollWB: function(lr) {
@@ -1444,7 +1444,7 @@ var SeaplApp = new Vue({
         },
         FromAtoBRelax: function() {
             this.is_from_a_to_b = 1;
-            
+
             from_a_to_b_relax_points = [];
             from_a_to_b_relax_group.removeAll();
 

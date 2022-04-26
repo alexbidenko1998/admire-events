@@ -1415,7 +1415,7 @@ function onError(error) {}
 
     function getPlaces(text_coord) {
             $.ajax({
-                url: 'back/get-places-by-coord.php' + text_coord,
+                url: '/back/get-places-by-coord.php' + text_coord,
                 type: 'POST',
                 success: function(data) {
                     data = JSON.parse(data);
@@ -1499,7 +1499,7 @@ const initAdWelcome = () => {
 
             if(!!this.login) {
                 $.ajax({
-                    url: 'back/get-user.php',
+                    url: '/back/get-user.php',
                     type: 'POST',
                     data: {login: this.login},
                     success: function(data) {
@@ -1520,7 +1520,7 @@ const initAdWelcome = () => {
             },
             SendMessage: function() {
                 $.ajax({
-                    url: 'back/send-back-message.php',
+                    url: '/back/send-back-message.php',
                     type: 'POST',
                     data: {name: this.your_name, contact: this.your_contact, message: this.your_message},
                     success: function(data) {
@@ -1569,7 +1569,7 @@ const initAdWelcome = () => {
             },
             SearchPlaces: function() {
                 $.ajax({
-                    url: 'back/seacher.php',
+                    url: '/back/seacher.php',
                     type: 'POST',
                     data: {search_words: this.search_text.split(" ")},
                     success: function(data) {

@@ -8,13 +8,13 @@ $result = $mysqli->query("SELECT id, latitude, longitude FROM seapl_place_table 
 $ans = array();
 
 while($row = $result->fetch_assoc()) {
-    array_push($ans, $row); 
+    array_push($ans, $row);
 }
 
 $result = $mysqli->query("SELECT id, latitude, longitude FROM seapl_other_place_table WHERE (status = 2 OR status = 3);");
 
 while($row = $result->fetch_assoc()) {
-    array_push($ans, $row); 
+    array_push($ans, $row);
 }
 
 echo json_encode($ans);
@@ -63,7 +63,7 @@ echo json_encode($prepear_place_data);*/
     JS
 
 $.ajax({
-            url    : "back/create_places_map_json.php",
+            url    : "/back/create_places_map_json.php",
             type   : "GET",
             success: function(data) {
 let ans = JSON.parse(data);
@@ -75,7 +75,7 @@ for (let k in ans) {
     let find = false;
     for(let i = 0; i < prepear_place_data.length; i++) {
         data = prepear_place_data[i];
-            let distance = getDistance({lat: pl['latitude'], lng: pl['longitude']}, 
+            let distance = getDistance({lat: pl['latitude'], lng: pl['longitude']},
 					{lat: data['latitude'], lng: data['longitude']});
 
             if(distance < 5 && !find) {
