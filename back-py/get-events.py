@@ -37,9 +37,9 @@ cities = getjson("https://api.vk.com/method/database.getCities", {
         'need_all' : 1,
         'access_token' : access_token,
         'count' : 10,
-        'v' : '5.61'
+        'v' : '5.131'
         })
-        
+
 #print(ascii(cities))
 s = cities.find('id') + 4
 ss = cities[s:len(cities)].find('title') + s - 2
@@ -53,9 +53,9 @@ events = getjson("https://api.vk.com/method/groups.search", {
         'future' : 1,
         'access_token' : access_token,
         'count' : 10,
-        'v' : '5.61'
+        'v' : '5.131'
         })
-        
+
 s = events.find('id')
 while s > -1:
 	ids = ids + ","
@@ -69,7 +69,7 @@ event = getjson("https://api.vk.com/method/groups.getById", {
      		'group_ids' : ids[1:len(ids)],
        		'fields' : "city,country,place,description,start_date,finish_date,site,members_count",
        		'access_token' : access_token,
-   			'v' : '5.61'
+   			'v' : '5.131'
        		})
 
 eventdict = eval(event)
